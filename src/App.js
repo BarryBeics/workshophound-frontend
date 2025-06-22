@@ -46,6 +46,7 @@ import LiquidityChart from "./views/liquidityTrendChart";
 
 // View - Reports
 import TradeOutcomes from "./views/tradeOutcomes";
+import MarketStats from "./views/marketStatsTable";
 
 function App() {
   const [theme, colourMode] = useMode();
@@ -124,6 +125,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <TradeOutcomes />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/marketStats"
+              element={
+                <ProtectedRoute>
+                  <MarketStats />
                 </ProtectedRoute>
               }
             />
