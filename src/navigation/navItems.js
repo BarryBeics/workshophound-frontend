@@ -38,6 +38,7 @@ export const navItems = [
     /* ---------- Charts (needs login) ---------- */
   { section: "Reports" },
   { text: "Trade Outcomes", icon: <TimelineOutlinedIcon />, path: "/tradeOutcomes", roles: ["interested", "member", "admin"], adminOnly: false },
+  { text: "Market Stats", icon: <TimelineOutlinedIcon />, path: "/marketStats", roles: ["interested", "member", "admin"], adminOnly: false },
 
   /* ---------- Admin (hidden unless admin) ---------- */
   { section: "Admin", adminOnly: true },
