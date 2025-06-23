@@ -121,7 +121,7 @@ const LandingPage = () => {
       variant="contained"
       color="secondary"
       size="large"
-      href="/register"
+      href="/joinThePack"
     >
       Join the Pack
     </Button>

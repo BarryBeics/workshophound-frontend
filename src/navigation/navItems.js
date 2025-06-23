@@ -24,7 +24,7 @@ export const navItems = [
   { section: "Public" },
   { text: "Landing",   icon: <HomeOutlinedIcon />, path: "/",          roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "FAQ",       icon: <HelpOutlineOutlinedIcon />, path: "/faq", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
-  { text: "Register",  icon: <PersonOutlinedIcon />, path: "/register", roles: ["guest"], adminOnly: false },
+  { text: "Join The Pack",  icon: <PersonOutlinedIcon />, path: "/joinThePack", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
   /* ---------- Strategy (needs login) ---------- */
   { section: "Strategy" },

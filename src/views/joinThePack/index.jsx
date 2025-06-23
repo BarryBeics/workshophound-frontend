@@ -6,7 +6,11 @@ import {
   Typography,
   MenuItem,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
+import PetsIcon from "@mui/icons-material/Pets";
+
+import { tokens } from "../../theme";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Header from "../../components/Header";
@@ -25,9 +29,12 @@ const CREATE_USER_MUTATION = gql`
   }
 `;
 
-const Register = () => {
+const JoinThePack = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleFormSubmit = async (values, { resetForm }) => {
     const client = new GraphQLClient(graphqlEndpoint);
@@ -62,19 +69,22 @@ const Register = () => {
         subtitle="Add your details to be first in line for exclusive updates, early results, and priority access."
       />
 
-      <Typography variant="h4" gutterBottom>Join the Pack</Typography>
+      <Typography variant="h4" gutterBottom>
+        Join the Pack
+      </Typography>
       <Typography variant="body1" gutterBottom>
         Be part of building the trading platform you wish existed.
       </Typography>
       <Typography variant="body1" mb={3}>
-        Registered members get:
+        Pack members get:
         <ul>
           <li>Private dev logs and progress updates</li>
           <li>Early access to strategy builder + paper trading features</li>
           <li>Invites to the private Forum community</li>
           <li>Voting rights to help shape the roadmap</li>
         </ul>
-        This isn't about signals or shortcuts — it's about building tools that actually work. Together.
+        This isn't about signals or shortcuts — it's about building tools that
+        actually work. Together.
       </Typography>
       <Typography variant="body2" color="textSecondary" gutterBottom>
         We respect your inbox. No spam. Just real progress, shared openly.
@@ -82,14 +92,29 @@ const Register = () => {
 
       {formSubmitted ? (
         <Box mt={4} textAlign="center">
-          <Typography variant="h4" gutterBottom>
-            Welcome to the Pack 🐾
+          <Typography
+            variant="h4"
+            gutterBottom
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <PetsIcon
+              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+            />
+            Welcome to the Pack
+            <PetsIcon
+              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+            />
           </Typography>
+
           <Typography variant="body1" mb={2}>
-            Thanks for registering. We’ll be in touch soon with updates, invites, and early access links.
+            Thanks for joining the pack. We’ll be in touch soon with updates,
+            invites, and early access links.
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            In the meantime, follow our build journey on Twitter or keep exploring the site.
+            In the meantime, follow our build journey on Twitter or keep
+            exploring the site.
           </Typography>
           <Button variant="outlined" color="secondary" href="/" sx={{ mt: 3 }}>
             Return Home
@@ -99,7 +124,7 @@ const Register = () => {
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValues}
-          validationSchema={registerSchema}
+          validationSchema={joinThePackSchema}
         >
           {({
             values,
@@ -235,12 +260,15 @@ const Register = () => {
 };
 
 // Validation Schema
-const registerSchema = yup.object().shape({
+const joinThePackSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   interestReason: yup.string().required("Tell us why you're interested"),
-  experienceLevel: yup.string().oneOf(["BEGINNER", "TRADER", "BUILDER", "OTHER"]).required("Select your experience level"),
+  experienceLevel: yup
+    .string()
+    .oneOf(["BEGINNER", "TRADER", "BUILDER", "OTHER"])
+    .required("Select your experience level"),
   twitterHandle: yup.string(),
   referralSource: yup.string(),
 });
@@ -256,4 +284,4 @@ const initialValues = {
   referralSource: "",
 };
 
-export default Register;
+export default JoinThePack;

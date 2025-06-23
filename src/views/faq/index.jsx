@@ -131,7 +131,7 @@ const FAQ = () => {
     <Typography variant="h5" gutterBottom>
       This isn’t just a platform — it’s a Pack.
     </Typography>
-    <Button variant="contained" color="secondary" size="large" href="/register">
+    <Button variant="contained" color="secondary" size="large" href="/joinThePack">
       Join the Pack
     </Button>
   </Box>
