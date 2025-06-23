@@ -42,14 +42,12 @@ export const tokens = (mode) => {
       200: "#f5c5c5",
       300: "#ef9f9f",
       400: "#e97a7a",
-      500: "#e35454",  // primary red
+      500: "#e35454", // primary red
       600: "#b34646",
       700: "#843838",
       800: "#542929",
-      900: "#251b1b"
+      900: "#251b1b",
     },
-    
-
   };
 
   const light = {
@@ -138,6 +136,14 @@ export const themeSettings = (mode) => {
       h6: {
         fontSize: 14,
         fontWeight: 500,
+        color: colors.text.secondary,
+      },
+      body1: {
+        fontSize: "1.125rem", // ~18px
+        color: colors.text.primary,
+      },
+      body2: {
+        fontSize: "1rem", // ~16px
         color: colors.text.secondary,
       },
     },
