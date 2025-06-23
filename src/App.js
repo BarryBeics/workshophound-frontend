@@ -19,7 +19,7 @@ import EditUserForm from "./views/manageUsers/EditUserForm";
 import Login from "./auth/LoginPanel";
 import LandingPage from "./views/landingPage";
 import FAQ from "./views/faq";
-import Register from "./views/register";
+import JoinThePack from "./views/joinThePack";
 
 // Views - Strategy
 import Dashboard from "./views/dashboard";
@@ -65,7 +65,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/faq" element={<FAQ />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/joinThePack" element={<JoinThePack />} />
           </Route>
 
           {/* Protected pages wrapped in layout */}
