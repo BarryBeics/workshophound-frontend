@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -26,6 +27,7 @@ const CREATE_USER_MUTATION = gql`
 
 const Register = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleFormSubmit = async (values, { resetForm }) => {
     const client = new GraphQLClient(graphqlEndpoint);
@@ -34,21 +36,22 @@ const Register = () => {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      password: "ballot-temp-password", // Placeholder, or you could randomize & never expose
-      mobileNumber: values.mobileNumber,
-      role: "interested",
+      password: "ballot-temp-password",
+      role: "INTERESTED",
       invitedBy: null,
-      preferredContactMethod: values.preferredContactMethod,
+      interestReason: values.interestReason,
+      experienceLevel: values.experienceLevel,
+      twitterHandle: values.twitterHandle,
+      referralSource: values.referralSource,
     };
 
     try {
       const data = await client.request(CREATE_USER_MUTATION, { input });
       console.log("Registration successful:", data.createUser);
       resetForm();
-      // Show success banner/snackbar here
+      setFormSubmitted(true);
     } catch (error) {
       console.error("Registration error", error);
-      // Show error banner/snackbar here
     }
   };
 
@@ -59,141 +62,174 @@ const Register = () => {
         subtitle="Add your details to be first in line for exclusive updates, early results, and priority access."
       />
 
+      <Typography variant="h4" gutterBottom>Join the Pack</Typography>
+      <Typography variant="body1" gutterBottom>
+        Be part of building the trading platform you wish existed.
+      </Typography>
+      <Typography variant="body1" mb={3}>
+        Registered members get:
+        <ul>
+          <li>Private dev logs and progress updates</li>
+          <li>Early access to strategy builder + paper trading features</li>
+          <li>Invites to the private Forum community</li>
+          <li>Voting rights to help shape the roadmap</li>
+        </ul>
+        This isn't about signals or shortcuts — it's about building tools that actually work. Together.
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom>
+        We respect your inbox. No spam. Just real progress, shared openly.
+      </Typography>
 
-<Typography variant="h4" gutterBottom>
-  Hear More. See More.
-</Typography>
-<Typography variant="body1" gutterBottom>
-  This public page is just the tip of the iceberg. Add your details below to unlock:
-</Typography>
-<ul>
-  <li>Private updates on bot performance</li>
-  <li>Insights into the system’s inner workings</li>
-  <li>First access to the trading dashboard</li>
-  <li>Early seat allocation notifications</li>
-</ul>
-<Typography variant="body2" color="textSecondary" gutterBottom>
-  Only registered users get to see the real signals and summaries that drive the system forward.
-</Typography>
-<Button variant="contained" color="primary">
-  Register to See More
-</Button>
-
-
-
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={registerSchema}
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <form onSubmit={handleSubmit}>
-            <Box
-              display="grid"
-              gap="30px"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
-              <TextField
-                fullWidth
-                variant="filled"
-                label="First Name"
-                name="firstName"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.firstName}
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
-                sx={{ gridColumn: "span 2" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                label="Last Name"
-                name="lastName"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastName}
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
-                sx={{ gridColumn: "span 2" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                label="Email"
-                name="email"
-                type="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
-                error={!!touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                fullWidth
-                variant="filled"
-                label="Mobile Number"
-                name="mobileNumber"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.mobileNumber}
-                error={!!touched.mobileNumber && !!errors.mobileNumber}
-                helperText={touched.mobileNumber && errors.mobileNumber}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <TextField
-                select
-                fullWidth
-                variant="filled"
-                label="Preferred Contact Method"
-                name="preferredContactMethod"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.preferredContactMethod}
-                error={
-                  !!touched.preferredContactMethod &&
-                  !!errors.preferredContactMethod
-                }
-                helperText={
-                  touched.preferredContactMethod &&
-                  errors.preferredContactMethod
-                }
-                sx={{ gridColumn: "span 4" }}
+      {formSubmitted ? (
+        <Box mt={4} textAlign="center">
+          <Typography variant="h4" gutterBottom>
+            Welcome to the Pack 🐾
+          </Typography>
+          <Typography variant="body1" mb={2}>
+            Thanks for registering. We’ll be in touch soon with updates, invites, and early access links.
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            In the meantime, follow our build journey on Twitter or keep exploring the site.
+          </Typography>
+          <Button variant="outlined" color="secondary" href="/" sx={{ mt: 3 }}>
+            Return Home
+          </Button>
+        </Box>
+      ) : (
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={initialValues}
+          validationSchema={registerSchema}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Box
+                display="grid"
+                gap="30px"
+                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+                sx={{
+                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                }}
               >
-                <MenuItem value="email">Email</MenuItem>
-                <MenuItem value="whatsapp">WhatsApp</MenuItem>
-              </TextField>
-            </Box>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="First Name"
+                  name="firstName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.firstName}
+                  error={!!touched.firstName && !!errors.firstName}
+                  helperText={touched.firstName && errors.firstName}
+                  sx={{ gridColumn: "span 2" }}
+                />
 
-            <Box display="flex" justifyContent="end" mt="20px">
-              <Button
-                type="submit"
-                color="secondary"
-                variant="contained"
-                disabled={isSubmitting}
-              >
-                Submit Application
-              </Button>
-            </Box>
-          </form>
-        )}
-      </Formik>
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="Last Name"
+                  name="lastName"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.lastName}
+                  error={!!touched.lastName && !!errors.lastName}
+                  helperText={touched.lastName && errors.lastName}
+                  sx={{ gridColumn: "span 2" }}
+                />
+
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="Email"
+                  name="email"
+                  type="email"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.email}
+                  error={!!touched.email && !!errors.email}
+                  helperText={touched.email && errors.email}
+                  sx={{ gridColumn: "span 4" }}
+                />
+
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="What interests you about Scalpel Hound?"
+                  name="interestReason"
+                  multiline
+                  minRows={3}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.interestReason}
+                  error={!!touched.interestReason && !!errors.interestReason}
+                  helperText={touched.interestReason && errors.interestReason}
+                  sx={{ gridColumn: "span 4" }}
+                />
+
+                <TextField
+                  select
+                  fullWidth
+                  variant="filled"
+                  label="Your experience level"
+                  name="experienceLevel"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.experienceLevel}
+                  error={!!touched.experienceLevel && !!errors.experienceLevel}
+                  helperText={touched.experienceLevel && errors.experienceLevel}
+                  sx={{ gridColumn: "span 4" }}
+                >
+                  <MenuItem value="BEGINNER">Beginner</MenuItem>
+                  <MenuItem value="TRADER">Trader</MenuItem>
+                  <MenuItem value="BUILDER">Builder / Developer</MenuItem>
+                  <MenuItem value="OTHER">Other</MenuItem>
+                </TextField>
+
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="Twitter Handle (optional)"
+                  name="twitterHandle"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.twitterHandle}
+                  sx={{ gridColumn: "span 4" }}
+                />
+
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  label="How did you hear about us? (optional)"
+                  name="referralSource"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.referralSource}
+                  sx={{ gridColumn: "span 4" }}
+                />
+              </Box>
+
+              <Box display="flex" justifyContent="end" mt="20px">
+                <Button
+                  type="submit"
+                  color="secondary"
+                  variant="contained"
+                  disabled={isSubmitting}
+                >
+                  Get Early Access
+                </Button>
+              </Box>
+            </form>
+          )}
+        </Formik>
+      )}
     </Box>
   );
 };
@@ -203,13 +239,10 @@ const registerSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  mobileNumber: yup.string()
-    .required("Mobile number is required")
-    .matches(/^[+0-9 ]+$/, "Must be a valid phone number"),
-  preferredContactMethod: yup
-    .string()
-    .oneOf(["email", "whatsapp"])
-    .required("Preferred contact method is required"),
+  interestReason: yup.string().required("Tell us why you're interested"),
+  experienceLevel: yup.string().oneOf(["BEGINNER", "TRADER", "BUILDER", "OTHER"]).required("Select your experience level"),
+  twitterHandle: yup.string(),
+  referralSource: yup.string(),
 });
 
 // Default Form Values
@@ -217,8 +250,10 @@ const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
-  mobileNumber: "",
-  preferredContactMethod: "email",
+  interestReason: "",
+  experienceLevel: "",
+  twitterHandle: "",
+  referralSource: "",
 };
 
 export default Register;

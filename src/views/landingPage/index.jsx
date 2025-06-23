@@ -14,207 +14,133 @@ const LandingPage = () => {
 
   return (
     <Box m="20px">
-      <Header
-        title="SCALPEL HOUND LTD"
-        subtitle="Taking cuts from the market with surgeon-like precision"
-      />
+  <Header
+    title="SCALPEL HOUND LTD"
+    subtitle="Built in public. Sharpened by the Pack."
+  />
 
-      <Section>
-        <Typography variant="h5" gutterBottom>
-          This isn’t a course, a dashboard, or a coaching gig.
-        </Typography>
-        <Typography variant="body1" mb={3}>
-          It’s a focused solo venture — a founder-led project in search of
-          something real.
-          <br />
-          A trading system that adapts, improves, and trades with edge.
-          <br />
-          Built by a single full-stack developer with a passion for markets and
-          code.
-          <br />
-          Already pulling live market data, running analytics, and charting
-          insights.
-          <br />
-          Now entering the next phase: automated execution and risk management.
-          <br />
-          <br />
-          Seats are limited. Entry is final.
-        </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          href="/register"
-        >
-          Apply for a Seat
-        </Button>
-      </Section>
+  <Section>
+    <Typography variant="h5" gutterBottom>
+      My Journey — and Why This Matters
+    </Typography>
+    <Typography variant="body1" mb={3}>
+      Five years ago, I discovered crypto — and I was hooked. I read everything I could.  
+      Eventually, I started trading. It was chaotic, messy, and addictive.
+      <br /><br />
+      That experience sparked a question that changed my life:
+      <br />
+      <em>“What if I could build a bot to trade for me — logically, consistently, without emotion?”</em>
+      <br /><br />
+      That question led me to quit my job and commit to becoming a developer.
+      Today, I lead the backend/microservices team at a company building its own patented database system.
+      <br /><br />
+      And through all that, my personal trading project — <strong>Scalpel Hound</strong> — has evolved from late-night experiments to a fully formed, consistent, daily commitment.
+    </Typography>
+  </Section>
 
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          The Problem
-        </Typography>
-        <Typography variant="body1">
-          The market is noisy. Most offerings are courses, newsletters, or
-          coaching funnels. But if someone’s truly making money trading — why
-          are they selling you access?
-          <br />
-          This isn’t that.
-          <br />
-          Scalpel Hound is not about theory. It's about action.
-          <br />
-          No promises — just transparency, logic, and results that speak for
-          themselves.
-        </Typography>
-      </Section>
+  <Section>
+    <Typography variant="h4" gutterBottom>
+      This Is No Longer a Side Project
+    </Typography>
+    <Typography variant="body1">
+      Since March 2025, I’ve committed code to Scalpel Hound every weekend.
+      In April, I levelled up: near-daily progress.
+      <br />
+      To keep myself accountable I registered as a limited company. I designed the logo. I drew a line in the sand — this is real now.
+      <br /><br />
+      I’ve had a 37-day GitHub streak (and counting) — more consistent than anything I’ve built personally.
+      <br />
+      Why? Because this isn’t just a trading tool. It’s my long-term goal.
+      <br />
+      To one day trade consistently with my own system. Maybe do it *together*.
+    </Typography>
+  </Section>
 
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          The Offer
-        </Typography>
-        <Typography variant="body1">
-          This is different.
-          <br />
-          <br />
-          You’re not buying a course or learning a strategy. If you win in the
-          ballot you will get a chance to add your API access to your Binance
-          account — and the system handles the rest!
-          <br />
-          The system does the rest — scanning markets 24/7, identifying
-          high-probability trades, and executing with no emotion or distraction.
-          <br />
-          <br />
-          This system will trade in a way no person could trade alone, it
-          hasnesses the power and speed of the computer to work 24/7 You're not
-          a student. And your probably too busy to trade anyway. You're gaining
-          early access to a trading system with teeth.
-          <br />
-          You’re not learning to trade. You’re accessing a system designed to do
-          it better. All custom-built: Go backend No 3rd-party black boxes Tight
-          control Real-time analytics Risk-first design
-        </Typography>
-      </Section>
+  <Section>
+    <Typography variant="h4" gutterBottom>
+      Why I’m Opening It Up
+    </Typography>
+    <Typography variant="body1">
+      A close friend and former engineer saw what I’d built and said:
+      <br />
+      <em>“You should open this up. People would love to shape this — warts and all. It’s real.”</em>
+      <br /><br />
+      That hit me. There’s enough guru noise in this space.
+      <br />
+      But what if there was a place for crypto dreamers, thinkers, and traders who want honest tools, not promises?
+      <br /><br />
+      To share this now feels right, particulary because I believe in this Welsh quote:
+      <br />
+      <strong>“Gorau Chwarae Cyd Chwarae” — best played when played together.</strong>
+      <br />
+      That’s what I want for Scalpel Hound. A real Pack.
+    </Typography>
+  </Section>
 
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          The Commitment
-        </Typography>
-        <Typography variant="body1">
-          This isn’t a side hustle.
-          <br />
-          Scalpel Hound has been in development for 4+ years — after hours,
-          weekends, holidays.
-          <br />
-          <br />
-          It’s my passion.
-          <br />
-          Built from scratch. Powered by data. Refined with AI. Protected by
-          design.
-          <br />
-          I’m not playing at this. I’m building it to win.
-        </Typography>
-      </Section>
+  <Section>
+    <Typography variant="h4" gutterBottom>
+      What I’m Building — And How You Can Shape It
+    </Typography>
+    <Typography variant="body1">
+      Scalpel Hound is:
+      <List>
+      {[
+        "A strategy builder and paper trading engine",
+        "Real-time data from live crypto markets ",
+        "Transparent logs and dev updates",
+        "A community shaping what comes next",
+      ].map((item) => (
+        <ListItem key={item} disableGutters dense>
+          <ListItemText primary={item} />
+        </ListItem>
+      ))}
+    </List>
+      It could be it like <em>Strava for Traders</em> — a way to log strategies, track performance, and share progress with the Pack.
+    </Typography>
+  </Section>
 
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          Why I’m Opening It Up
-        </Typography>
-        <Typography variant="body1">
-        If I had the capital, I’d keep this closed.
-          <br />
-          <br />
-          But time is money — and paid pack members buys me time to build this right. 
-          <br />
-          This is live and progressing either way. The train is leaving the station.
-          <br />
-          <br />
-          If you're sharp enough to see the asymmetry — you bring capital, I
-          bring commitment — there's a seat with your name on it.
-        </Typography>
-      </Section>
+  <Section>
+    <Typography variant="h4" gutterBottom>
+      Join the Pack
+    </Typography>
+    <Typography variant="body1">
+      Founding Members get:
+    </Typography>
+    <List>
+      {[
+        "Early access to tools: paper trading, strategy builder, dashboards",
+        "A seat in the private Discord: shape features and vote on the roadmap",
+        "Founder log + dev updates — building in public, the real way",
+      ].map((item) => (
+        <ListItem key={item} disableGutters dense>
+          <ListItemText primary={item} />
+        </ListItem>
+      ))}
+    </List>
+    <Button
+      variant="contained"
+      color="secondary"
+      size="large"
+      href="/register"
+    >
+      Join the Pack
+    </Button>
+    <Typography variant="caption" display="block" mt={2}>
+      Community-first. Code-led. No ads. No hype.
+    </Typography>
+  </Section>
 
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          The Tiers
-        </Typography>
-        <Typography variant="body1">
-          Details coming soon
-        </Typography>
-      </Section>
+  <Box mt={8} textAlign="center">
+    <Typography variant="body2">
+      Barry Marples — Founder of Scalpel Hound Ltd
+    </Typography>
+    <Typography variant="caption" display="block" mt={2}>
+      Information provided is not financial advice. Trading involves risk.
+    </Typography>
+  </Box>
+</Box>
 
-      <Section>
-  <Typography variant="h4" gutterBottom>
-    Why It’s Fair
-  </Typography>
 
-  <List>
-  {[
-    "No commissions",
-    "No subscriptions",
-    "No affiliate deals",
-    "I can’t touch your funds — only trade on your behalf",
-    "Disconnect at any time",
-    "You control your account",
-    "I only win if you win.",
-  ].map((item) => (
-    <ListItem key={item} disableGutters dense>
-      <ListItemText primary={item} />
-    </ListItem>
-  ))}
-</List>
-
-</Section>
-
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          Early Backers Say...
-        </Typography>
-        <Typography variant="body1" mb={2}>
-          “I saw the potential and took the leap. Being a Founding Seat Holder
-          feels like being part of something real.”
-          <br />— Alex R., London
-        </Typography>
-        <Typography variant="body1" mb={2}>
-          “The transparency and commitment are unmatched. It's rare to find such
-          integrity in this space.”
-          <br />— Jamie L., Chester
-        </Typography>
-        <Typography variant="body1">
-          “Even in its early stages, Scalpel Hound stands out. I'm excited to
-          see where it goes.”
-          <br />— Priya S., Madrid
-        </Typography>
-      </Section>
-
-      <Section>
-        <Typography variant="h4" gutterBottom>
-          The Table is Being Set
-        </Typography>
-        <Typography variant="body1" mb={3}>
-          Will you have a seat?
-        </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          href="/register"
-        >
-          Apply for a Seat
-        </Button>
-        <Typography variant="caption" display="block" mt={2}>
-          Limited seats. No ads. No push. Just those who see the value.
-        </Typography>
-      </Section>
-
-      <Box mt={8} textAlign="center">
-        <Typography variant="body2">
-          Barry Marples — Founder of Scalpel Hound Ltd
-        </Typography>
-        <Typography variant="caption" display="block" mt={2}>
-          Information provided is not financial advice. Trading involves risk.
-        </Typography>
-      </Box>
-    </Box>
   );
 };
 
