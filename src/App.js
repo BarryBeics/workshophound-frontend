@@ -48,6 +48,8 @@ import LiquidityChart from "./views/liquidityTrendChart";
 import TradeOutcomes from "./views/tradeOutcomes";
 import MarketStats from "./views/marketStatsTable";
 
+import { UserRole } from "./constants/userRoles.ts";
+
 function App() {
   const [theme, colourMode] = useMode();
 
@@ -136,11 +138,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
-          {/* Admin */}
+          {/* ADMIN */}
             <Route
               path="/createUser"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <CreateUser />
                 </ProtectedRoute>
               }
@@ -148,7 +150,7 @@ function App() {
             <Route
               path="/manageUsers"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <ManageUsers />
                 </ProtectedRoute>
               }
@@ -156,7 +158,7 @@ function App() {
             <Route
               path="/users/edit/:email"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <EditUserForm />
                 </ProtectedRoute>
               }
@@ -164,7 +166,7 @@ function App() {
             <Route
               path="/createTask"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <CreateTask />
                 </ProtectedRoute>
               }
@@ -172,7 +174,7 @@ function App() {
             <Route
               path="/manageTasks"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <ManageTasks />
                 </ProtectedRoute>
               }
@@ -180,7 +182,7 @@ function App() {
             <Route
               path="/tasks/edit/:id"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <EditTaskForm />
                 </ProtectedRoute>
               }
@@ -188,7 +190,7 @@ function App() {
             <Route
               path="/createProject"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <CreateProject />
                 </ProtectedRoute>
               }
@@ -196,7 +198,7 @@ function App() {
             <Route
               path="/manageProjects"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <ManageProjects />
                 </ProtectedRoute>
               }
@@ -204,7 +206,7 @@ function App() {
             <Route
               path="/projects/edit/:id"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <EditProjectForm />
                 </ProtectedRoute>
               }
@@ -212,7 +214,7 @@ function App() {
             <Route
               path="/manageSOPs"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <ManageSOPs />
                 </ProtectedRoute>
               }
@@ -220,7 +222,7 @@ function App() {
             <Route
               path="/sops/edit/:id"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <EditSOPForm />
                 </ProtectedRoute>
               }
@@ -228,7 +230,7 @@ function App() {
             <Route
               path="/kanban"
               element={
-                <ProtectedRoute role={["admin"]}>
+                <ProtectedRoute role={[UserRole.ADMIN]}>
                   <KanbanBoard />
                 </ProtectedRoute>
               }

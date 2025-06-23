@@ -10,12 +10,13 @@ import {
 } from "@mui/material";
 import { GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../config";
+import { UserRole } from "../constants/userRoles.ts";
 
 const client = new GraphQLClient(graphqlEndpoint);
 
 const READ_ADMINS = `
-  query {
-    readUsersByRole(role: "admin") {
+  query ReadUsersByRole($role: UserRole!) {
+    readUsersByRole(role: $role) {
       id
       firstName
       lastName
@@ -31,7 +32,7 @@ const AdminUserSelect = ({ selectedAdmin, setFieldValue, disabled = false }) => 
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
-        const data = await client.request(READ_ADMINS);
+        const data = await client.request(READ_ADMINS, { role: UserRole.ADMIN });
         setAdmins(data.readUsersByRole);
       } catch (err) {
         console.error("Failed to fetch admins", err);
@@ -73,13 +74,9 @@ const AdminUserSelect = ({ selectedAdmin, setFieldValue, disabled = false }) => 
           <em>Unassigned</em>
         </MenuItem>
         {admins.map((admin) => (
-          <MenuItem
-          key={admin.id}
-          value={`${admin.firstName} ${admin.lastName}`}
-        >
-          {admin.firstName} {admin.lastName}
-        </MenuItem>
-        
+          <MenuItem key={admin.id} value={`${admin.firstName} ${admin.lastName}`}>
+            {admin.firstName} {admin.lastName}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

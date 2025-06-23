@@ -15,36 +15,39 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import ArticleIcon from "@mui/icons-material/Article";
 import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
 
+import { UserRole } from "../constants/userRoles.ts";
+
+
 
 export const navItems = [
   /* ---------- Public section ---------- */
   { section: "Public" },
-  { text: "Landing",   icon: <HomeOutlinedIcon />, path: "/",          roles: ["guest", "interested", "member", "admin"], adminOnly: false },
-  { text: "FAQ",       icon: <HelpOutlineOutlinedIcon />, path: "/faq", roles: ["guest", "interested", "member", "admin"], adminOnly: false },
+  { text: "Landing",   icon: <HomeOutlinedIcon />, path: "/",          roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "FAQ",       icon: <HelpOutlineOutlinedIcon />, path: "/faq", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "Register",  icon: <PersonOutlinedIcon />, path: "/register", roles: ["guest"], adminOnly: false },
 
   /* ---------- Strategy (needs login) ---------- */
   { section: "Strategy" },
-  { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard", roles: ["interested", "member", "admin"], adminOnly: false },
-  { text: "Manage Bots", icon: <CodeOffOutlinedIcon />, path: "/bots", roles: ["member", "admin"], adminOnly: false },
+  { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "Manage Bots", icon: <CodeOffOutlinedIcon />, path: "/bots", roles: [UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
   /* ---------- Charts (needs login) ---------- */
   { section: "Charts" },
-  { text: "Pairs Chart", icon: <TimelineOutlinedIcon />, path: "/pairsChart", roles: ["interested", "member", "admin"], adminOnly: false },
-  { text: "SMA Chart", icon: <MultilineChartOutlinedIcon />, path: "/smaChart", roles: ["interested", "member", "admin"], adminOnly: false },
-  { text: "Avg Gain Chart", icon: <TrendingUpOutlinedIcon />, path: "/avgGainChart", roles: ["interested", "member", "admin"], adminOnly: false },
-  { text: "Liquidity Trend Chart", icon: <TrendingUpOutlinedIcon />, path: "/liquidityTrendChart", roles: ["interested", "member", "admin"], adminOnly: false },
+  { text: "Pairs Chart", icon: <TimelineOutlinedIcon />, path: "/pairsChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "SMA Chart", icon: <MultilineChartOutlinedIcon />, path: "/smaChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "Avg Gain Chart", icon: <TrendingUpOutlinedIcon />, path: "/avgGainChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "Liquidity Trend Chart", icon: <TrendingUpOutlinedIcon />, path: "/liquidityTrendChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
     /* ---------- Charts (needs login) ---------- */
   { section: "Reports" },
-  { text: "Trade Outcomes", icon: <TimelineOutlinedIcon />, path: "/tradeOutcomes", roles: ["interested", "member", "admin"], adminOnly: false },
-  { text: "Market Stats", icon: <TimelineOutlinedIcon />, path: "/marketStats", roles: ["interested", "member", "admin"], adminOnly: false },
+  { text: "Trade Outcomes", icon: <TimelineOutlinedIcon />, path: "/tradeOutcomes", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "Market Stats", icon: <TimelineOutlinedIcon />, path: "/marketStats", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
   /* ---------- Admin (hidden unless admin) ---------- */
   { section: "Admin", adminOnly: true },
-  { text: "Manage Users",    icon: <PeopleAltOutlinedIcon />,   path: "/manageUsers",    roles: ["admin"], adminOnly: true  },
-  { text: "Manage Tasks",    icon: <FormatListNumberedOutlinedIcon />, path: "/manageTasks", roles: ["admin"], adminOnly: true  },
-  { text: "Manage Projects", icon: <AccountTreeOutlinedIcon />, path: "/manageProjects", roles: ["admin"], adminOnly: true  },
-  { text: "Manage SOPs",     icon: <ArticleIcon />,             path: "/manageSOPs",     roles: ["admin"], adminOnly: true  },
-  { text: "Kanban Board",    icon: <ViewKanbanIcon />,          path: "/kanban",         roles: ["admin"], adminOnly: true },
+  { text: "Manage Users",    icon: <PeopleAltOutlinedIcon />,   path: "/manageUsers",    roles: [UserRole.ADMIN], adminOnly: true  },
+  { text: "Manage Tasks",    icon: <FormatListNumberedOutlinedIcon />, path: "/manageTasks", roles: [UserRole.ADMIN], adminOnly: true  },
+  { text: "Manage Projects", icon: <AccountTreeOutlinedIcon />, path: "/manageProjects", roles: [UserRole.ADMIN], adminOnly: true  },
+  { text: "Manage SOPs",     icon: <ArticleIcon />,             path: "/manageSOPs",     roles: [UserRole.ADMIN], adminOnly: true  },
+  { text: "Kanban Board",    icon: <ViewKanbanIcon />,          path: "/kanban",         roles: [UserRole.ADMIN], adminOnly: true },
 ];
