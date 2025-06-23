@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  useTheme,
-  Button,
-} from "@mui/material";
+import { Box, Typography, useTheme, Button } from "@mui/material";
 import { GraphQLClient } from "graphql-request";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
@@ -16,6 +11,8 @@ import TableActions from "../../components/TableActions";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
 import { tokens } from "../../theme";
+
+import { UserRole } from "../../constants/userRoles.ts";
 
 const client = new GraphQLClient(graphqlEndpoint);
 
@@ -37,7 +34,6 @@ const DELETE_USER_MUTATION = `
     deleteUser(email: $email)
   }
 `;
-
 
 const ManageUsers = () => {
   const theme = useTheme();
@@ -83,7 +79,7 @@ const ManageUsers = () => {
 
   const handleConfirmDelete = async () => {
     if (!selectedUser?.email) return;
-  
+
     try {
       await client.request(DELETE_USER_MUTATION, { email: selectedUser.email });
       await fetchUsers(); // Refresh list
@@ -92,16 +88,30 @@ const ManageUsers = () => {
       console.error("Failed to delete user:", err);
     }
   };
-  
+
+  const formatAccessLabel = (access) => {
+  switch (access) {
+    case UserRole.ADMIN: return "Admin";
+    case UserRole.MEMBER: return "Member";
+    case UserRole.INTERESTED: return "Interested";
+    case UserRole.GUEST:
+    default: return "Guest";
+  }
+};
+
 
   const handleEdit = (email) => {
     console.log(`Edit user with email ${email}`);
     navigate(`/users/edit/${email}`);
   };
-  
 
   const columns = [
-    { field: "name", headerName: "Name", flex: 1, cellClassName: "name-column--cell" },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
     { field: "phone", headerName: "Phone Number", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
     {
@@ -117,21 +127,23 @@ const ManageUsers = () => {
           alignItems="center"
           justifyContent="center"
           backgroundColor={
-            access === "admin"
+            access === UserRole.ADMIN
               ? colors.scalpelTeal[600]
-              : access === "member"
+              : access === UserRole.MEMBER
               ? colors.scalpelTeal[700]
               : colors.scalpelTeal[800]
           }
           borderRadius="4px"
           sx={{ maxHeight: "30px" }}
         >
-          {access === "admin" && <AdminPanelSettingsOutlinedIcon />}
-          {access === "member" && <SecurityOutlinedIcon />}
-          {access === "public" && <LockOpenOutlinedIcon />}
+          {access === UserRole.ADMIN && <AdminPanelSettingsOutlinedIcon />}
+          {access === UserRole.MEMBER && <SecurityOutlinedIcon />}
+          {access === UserRole.GUEST && <LockOpenOutlinedIcon />}
+
           <Typography color={colors.grey[100]} sx={{ ml: "5px" }}>
-            {access}
+            {formatAccessLabel(access)}
           </Typography>
+
         </Box>
       ),
     },
@@ -142,27 +154,27 @@ const ManageUsers = () => {
       sortable: false,
       renderCell: ({ row }) => (
         <TableActions
-        onEdit={() => handleEdit(row.email)}
-        onDelete={() => handleOpenDeleteModal(row)}
-        hideCreate={true} 
-      />
-  ),
-},
+          onEdit={() => handleEdit(row.email)}
+          onDelete={() => handleOpenDeleteModal(row)}
+          hideCreate={true}
+        />
+      ),
+    },
   ];
 
   return (
     <Box m="20px">
-  <Box display="flex" justifyContent="space-between" alignItems="center">
-    <Header title="USERS" subtitle="Managing the Users" />
-    <Button
-      variant="contained"
-      color="secondary"
-      onClick={() => navigate("/createUser")}
-    >
-      Create User
-    </Button>
-  </Box>
-  <ThemedDataGrid rows={users} columns={columns} />
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="USERS" subtitle="Managing the Users" />
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate("/createUser")}
+        >
+          Create User
+        </Button>
+      </Box>
+      <ThemedDataGrid rows={users} columns={columns} />
 
       {/* Delete Modal */}
       <DeleteUserModal
@@ -175,6 +187,4 @@ const ManageUsers = () => {
   );
 };
 
-
-  export default ManageUsers;
-  
+export default ManageUsers;

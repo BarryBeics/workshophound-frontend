@@ -22,6 +22,9 @@ import { useAuth } from "../auth/AuthContext";
 import LogoutButton from "../auth/LogoutButton";
 import MeetingModal from "../components/MeetingModal";
 
+import { UserRole } from "../constants/userRoles.ts";
+
+
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -47,7 +50,7 @@ const Topbar = () => {
   const role = user?.role;
   const isLoggedIn = !!user;
 
-  const showPrivateIcons = role === "member" || role === "admin";
+  const showPrivateIcons = role === UserRole.MEMBER || role === UserRole.ADMIN;
 
   useEffect(() => {
     console.log("Topbar re-rendered - role:", role, "| logged in:", isLoggedIn);
