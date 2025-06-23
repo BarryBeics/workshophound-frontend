@@ -11,133 +11,130 @@ const FAQ = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  return (
-    <Box m="20px">
-  <Header title="FAQ" subtitle="Frequently Asked Questions" />
+return (
+  <Box m="20px">
+    <Header title="FAQ" subtitle="Frequently Asked Questions" />
 
-  <Accordion defaultExpanded>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        What is Scalpel Hound?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        Scalpel Hound is a trading platform built in public — for traders and curious minds who want honest tools, not empty promises.
-        <br /><br />
-        It offers live market data, paper trading, strategy building, and eventually, shareable dashboards — all shaped by the community.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          What is Scalpel Hound?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Scalpel Hound is a trading project built in public — for indie traders who value transparency over hype.
+          <br /><br />
+          It’s a strategy builder, paper trading engine, and data hub — shaped by real users who help guide what gets built next.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion defaultExpanded>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        Is this a signal group or trading course?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        No. There are enough gurus selling "the secret."
-        <br /><br />
-        Scalpel Hound is a toolset — not a pitch. You configure, test, learn, and share. No signals. No shortcuts. Just tools, data and community.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          Is this a signal group or trading course?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          No. Scalpel Hound isn’t here to sell you a dream.
+          <br /><br />
+          It’s not signals. It’s not a course. It’s a real-time build — and a platform you can help shape. The tools are honest, the code is clean, and the journey is open.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion defaultExpanded>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        What do I get as a Founding Member?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        You get early access to:
-        <ul>
-          <li>Paper trading engine and strategy builder</li>
-          <li>Private Forum to help shape the roadmap</li>
-          <li>Dev logs, live updates, and early feature drops</li>
-        </ul>
-        This is your chance to help shape something real — not just use it.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          What do I get as a Founding Member?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Founding Members get early access to:
+          <ul>
+            <li>Paper trading engine + strategy builder</li>
+            <li>Private forum with roadmap voting + feature suggestions</li>
+            <li>Unfiltered dev logs and honest progress reports</li>
+          </ul>
+          You’re not just along for the ride — you help steer it.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion defaultExpanded>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        Is the platform live?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        Yes — development is active and consistent.
-        <br /><br />
-        It already pulls live market data, runs analytics, and supports paper trading logic. New features are shipped weekly — all in the open.
-        <br /><br />
-        If you want to help shape what gets built next, this is the time to get involved.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion defaultExpanded>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          Is the platform live?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Yes — development is active, and everything is built in public.
+          <br /><br />
+          Scalpel Hound already connects to live market data, handles basic strategy logic, and is expanding feature-by-feature. Weekly commits. Transparent roadmap.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        How much does it cost to join?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        There will be optional paid tiers in the future — but right now, early access is free to the early adopters.
-        <br /><br />
-        No recurring fees. No hidden upsells. Just support that helps drive development and rewards those who believe in the mission.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          How much does it cost to join?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Nothing for now.
+          <br /><br />
+          Early access is free while the project is being shaped. In the future, optional paid tiers may be introduced — but only to support deeper features and reward early supporters.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        Will I need to connect my Binance or other exchange account?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        Not yet. For now, everything runs in **paper trading mode** — simulating real trades using live data.
-        <br /><br />
-        Live trading integrations will be opt-in later, and you’ll always retain control of your funds and API permissions.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          Will I need to connect my Binance or other exchange account?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          Not yet. Currently, everything runs in paper trading mode using live market data.
+          <br /><br />
+          Live trading will be opt-in only — and you’ll always maintain full control of your API keys and exchange funds.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  <Accordion>
-    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-      <Typography color={colors.houndGold[500]} variant="h5">
-        Can I contribute ideas or request features?
-      </Typography>
-    </AccordionSummary>
-    <AccordionDetails>
-      <Typography>
-        Absolutely. That’s the whole point.
-        <br /><br />
-        Founding members help shape what gets built. You’ll have direct input through the roadmap, Forum, and voting feedback.
-      </Typography>
-    </AccordionDetails>
-  </Accordion>
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography color={colors.houndGold[500]} variant="h5">
+          Can I contribute ideas or request features?
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography>
+          100% yes. This is why Scalpel Hound exists.
+          <br /><br />
+          Founding Members can vote on the roadmap, request new tools, and help shape how the platform evolves. This is a Pack — not a product.
+        </Typography>
+      </AccordionDetails>
+    </Accordion>
 
-  {/* CTA Footer */}
-  <Box mt={6} textAlign="center">
-    <Typography variant="h5" gutterBottom>
-      This isn’t just a platform — it’s a Pack.
-    </Typography>
-    <Button variant="contained" color="secondary" size="large" href="/joinThePack">
-      Join the Pack
-    </Button>
+    {/* CTA Footer */}
+    <Box mt={6} textAlign="center">
+      <Typography variant="h5" gutterBottom>
+        This isn’t just a platform — it’s a Pack.
+      </Typography>
+      <Button variant="contained" color="secondary" size="large" href="/joinThePack">
+        Join the Pack
+      </Button>
+    </Box>
   </Box>
-</Box>
-
-  );
+);
 };
 
 export default FAQ;
