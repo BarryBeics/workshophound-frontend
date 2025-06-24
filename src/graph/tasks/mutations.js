@@ -16,3 +16,23 @@ export const CREATE_PROJECT_MUTATION = gql`
   }
 `;
 
+
+export const CREATE_TASK_MUTATION = gql`
+  mutation CreateTask($input: CreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      title
+      description
+      status
+      labels
+      assignedTo
+      dueDate
+      deferDate
+      department
+      projectId
+      duration
+      createdAt
+      updatedAt
+    }
+  }
+`;
