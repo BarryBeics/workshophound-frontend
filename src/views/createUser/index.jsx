@@ -12,28 +12,16 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import { GraphQLClient, gql } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
+import { UserRole } from "../../constants/userRoles.ts";
 
-// GraphQL client
-const client = new GraphQLClient(graphqlEndpoint);
-
-// Updated Mutation
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      firstName
-      lastName
-      email
-      role
-    }
-  }
-`;
+// Graph
+import { CREATE_USER_MUTATION } from "../../graph/users/mutations";
+import useGraphQLClient from "../../hooks/useGraphQLClient";
 
 const CreateUserForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
+  const client = useGraphQLClient();
 
   const handleFormSubmit = async (values, { resetForm }) => {
     try {
@@ -42,10 +30,12 @@ const CreateUserForm = () => {
         lastName: values.lastName,
         email: values.email,
         password: values.password,
-        mobileNumber: values.mobileNumber,
         role: values.role,
-        preferredContactMethod: values.preferredContactMethod,
         invitedBy: values.invitedBy || null,
+        interestReason: values.interestReason,
+        experienceLevel: values.experienceLevel,
+        twitterHandle: values.twitterHandle || null,
+        referralSource: values.referralSource || null,
       };
 
       await client.request(CREATE_USER_MUTATION, { input });
@@ -53,8 +43,9 @@ const CreateUserForm = () => {
       resetForm();
       navigate("/manageUsers");
     } catch (err) {
-      console.error("Error creating user:", err);
-      alert("Failed to create user.");
+      const message = err?.response?.errors?.[0]?.message || "Unexpected error";
+      console.error("GraphQL Error:", err);
+      alert(`Failed to create user: ${message}`);
     }
   };
 
@@ -80,7 +71,9 @@ const CreateUserForm = () => {
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
+              sx={{
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              }}
             >
               <TextField
                 fullWidth
@@ -124,33 +117,6 @@ const CreateUserForm = () => {
               <TextField
                 fullWidth
                 variant="filled"
-                label="Mobile Number"
-                name="mobileNumber"
-                value={values.mobileNumber}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={!!touched.mobileNumber && !!errors.mobileNumber}
-                helperText={touched.mobileNumber && errors.mobileNumber}
-                sx={{ gridColumn: "span 4" }}
-              />
-
-              <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 4" }}>
-                <InputLabel>Preferred Contact</InputLabel>
-                <Select
-                  name="preferredContactMethod"
-                  value={values.preferredContactMethod}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={!!touched.preferredContactMethod && !!errors.preferredContactMethod}
-                >
-                  <MenuItem value="email">Email</MenuItem>
-                  <MenuItem value="whatsapp">WhatsApp</MenuItem>
-                </Select>
-              </FormControl>
-
-              <TextField
-                fullWidth
-                variant="filled"
                 label="Invited By"
                 name="invitedBy"
                 value={values.invitedBy}
@@ -160,7 +126,11 @@ const CreateUserForm = () => {
                 sx={{ gridColumn: "span 4" }}
               />
 
-              <FormControl fullWidth variant="filled" sx={{ gridColumn: "span 4" }}>
+              <FormControl
+                fullWidth
+                variant="filled"
+                sx={{ gridColumn: "span 4" }}
+              >
                 <InputLabel>User Role</InputLabel>
                 <Select
                   name="role"
@@ -169,9 +139,9 @@ const CreateUserForm = () => {
                   onBlur={handleBlur}
                   error={!!touched.role && !!errors.role}
                 >
-                  <MenuItem value="interested">Interested</MenuItem>
-                  <MenuItem value="member">Member</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value={UserRole.INTERESTED}>Interested</MenuItem>
+                  <MenuItem value={UserRole.MEMBER}>Member</MenuItem>
+                  <MenuItem value={UserRole.ADMIN}>Admin</MenuItem>
                 </Select>
               </FormControl>
 
@@ -188,6 +158,41 @@ const CreateUserForm = () => {
                 helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 4" }}
               />
+
+              <TextField
+                fullWidth
+                variant="filled"
+                label="What interests you about Scalpel Hound?"
+                name="interestReason"
+                multiline
+                minRows={2}
+                value={values.interestReason}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={!!touched.interestReason && !!errors.interestReason}
+                helperText={touched.interestReason && errors.interestReason}
+                sx={{ gridColumn: "span 4" }}
+              />
+
+              <FormControl
+                fullWidth
+                variant="filled"
+                sx={{ gridColumn: "span 4" }}
+              >
+                <InputLabel>Experience Level</InputLabel>
+                <Select
+                  name="experienceLevel"
+                  value={values.experienceLevel}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={!!touched.experienceLevel && !!errors.experienceLevel}
+                >
+                  <MenuItem value="BEGINNER">Beginner</MenuItem>
+                  <MenuItem value="TRADER">Trader</MenuItem>
+                  <MenuItem value="BUILDER">Builder / Developer</MenuItem>
+                  <MenuItem value="OTHER">Other</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
 
             <Box display="flex" justifyContent="end" mt="20px">
@@ -202,35 +207,34 @@ const CreateUserForm = () => {
   );
 };
 
-// ✅ Validation
+// Validation
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("Required"),
   lastName: yup.string().required("Required"),
   email: yup.string().email("Invalid email").required("Required"),
-  mobileNumber: yup
-    .string()
-    .matches(/^[+0-9 ]+$/, "Must be a valid phone number")
-    .required("Required"),
-  preferredContactMethod: yup
-    .string()
-    .oneOf(["email", "whatsapp"])
-    .required("Required"),
   role: yup
     .string()
-    .oneOf(["interested", "member", "admin"])
+    .oneOf(["INTERESTED", "MEMBER", "ADMIN"])
     .required("Required"),
   password: yup.string().min(6).required("Required"),
+  interestReason: yup.string().required("Tell us why you're interested"),
+  experienceLevel: yup
+    .string()
+    .oneOf(["BEGINNER", "TRADER", "BUILDER", "OTHER"])
+    .required("Select your experience level"),
 });
 
 const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
-  mobileNumber: "",
-  preferredContactMethod: "email",
-  invitedBy: "",
-  role: "interested",
   password: "",
+  invitedBy: "",
+  role: UserRole.INTERESTED,
+  interestReason: "",
+  experienceLevel: "",
+  twitterHandle: "",
+  referralSource: "",
 };
 
 export default CreateUserForm;
