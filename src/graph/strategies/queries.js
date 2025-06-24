@@ -37,3 +37,21 @@ export const readAllStrategies = async () => {
     throw error;
   }
 };
+
+const GET_BOT_NAMES = gql`
+  query {
+    readAllStrategies {
+      BotInstanceName
+    }
+  }
+`;
+
+export const getBotNames = async () => {
+  try {
+    const res = await client.request(GET_BOT_NAMES);
+    return res.readAllStrategies.map((s) => s.BotInstanceName);
+  } catch (error) {
+    console.error("Failed to fetch bot names", error);
+    throw error;
+  }
+};

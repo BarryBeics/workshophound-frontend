@@ -8,7 +8,7 @@ import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { mean } from "lodash";
 
 // Graph
-import { getActivityReports } from "../../graph/reports/getActivityReports";
+import { getActivityReports } from "../../graph/reports/queries";
 
 // Theme
 import { tokens } from "../../theme";

@@ -48,7 +48,7 @@ export const readTickerStats = async () => {
 
     return allStats;
   } catch (error) {
-    console.error("❌ Failed to fetch ticker stats:", error.response?.errors || error.message);
+    console.error("Failed to fetch ticker stats:", error.response?.errors || error.message);
     throw error;
   }
 };

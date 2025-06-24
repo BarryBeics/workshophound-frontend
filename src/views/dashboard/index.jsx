@@ -17,7 +17,7 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";
-import { getActivityReports } from "../../graph/reports/getActivityReports";
+import { getActivityReports } from "../../graph/reports/queries";
 
 
 import { GraphQLClient, gql } from "graphql-request";
