@@ -107,43 +107,43 @@ export const themeSettings = (mode) => {
     },
     typography: {
       fontFamily: ["Source Sans 3", "sans-serif"].join(","),
-      fontSize: 12,
+      fontSize: 16,
       h1: {
-        fontSize: 40,
+        fontSize: "2.5rem",
         fontWeight: 700,
         color: colors.text.primary,
       },
       h2: {
-        fontSize: 32,
+        fontSize: "2rem",
         fontWeight: 600,
         color: colors.text.primary,
       },
       h3: {
-        fontSize: 24,
+        fontSize: "1.5rem",
         fontWeight: 600,
         color: colors.text.primary,
       },
       h4: {
-        fontSize: 20,
+        fontSize: "1.25rem",
         fontWeight: 600,
         color: colors.text.primary,
       },
       h5: {
-        fontSize: 16,
+        fontSize: "1rem",
         fontWeight: 500,
         color: colors.text.secondary,
       },
       h6: {
-        fontSize: 14,
+        fontSize: "0.875rem",
         fontWeight: 500,
         color: colors.text.secondary,
       },
       body1: {
-        fontSize: "1.125rem", // ~18px
+        fontSize: "1rem", // ~18px
         color: colors.text.primary,
       },
       body2: {
-        fontSize: "1rem", // ~16px
+        fontSize: "0.875rem", // ~16px
         color: colors.text.secondary,
       },
     },
