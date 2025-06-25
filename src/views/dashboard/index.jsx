@@ -5,10 +5,8 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
@@ -17,8 +15,7 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";
-import { getActivityReports } from "../../graph/reports/queries";
-
+import { useActivityReports } from "../../hooks/useActivityReports";
 
 import { GraphQLClient, gql } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
@@ -44,18 +41,13 @@ const Dashboard = () => {
 
   const [activityData, setActivityData] = useState([]);
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const data = await getActivityReports();
-        setActivityData(data);
-      } catch (err) {
-        console.error("Failed to fetch activity reports", err);
-      }
-    };
+  const { data: reports, isLoading, error } = useActivityReports();
 
-    fetchReports();
-  }, []);
+  useEffect(() => {
+    if (reports?.length) {
+      setActivityData(reports);
+    }
+  }, [reports]);
 
   return (
     <Box m="20px">

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Graph
-import { getBotNames } from "../graph/strategies/getBotNames";
+import { getBotNames } from "../graph/strategies/queries";
 
 // Static data
 import namesJson from "../data/names.json";

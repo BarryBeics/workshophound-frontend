@@ -1,19 +1,16 @@
+import { useMemo } from "react";
 import { GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../config";
-import { useAuth } from "../auth/AuthContext"; // optional: if you use token auth
+import { useAuth } from "../auth/AuthContext";
 
 const useGraphQLClient = () => {
-  const { token } = useAuth() || {}; // optional if you store auth token
+  const { token } = useAuth() || {};
 
-  const headers = token
-    ? {
-        Authorization: `Bearer ${token}`,
-      }
-    : {};
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-  const client = new GraphQLClient(graphqlEndpoint, {
-    headers,
-  });
+  const client = useMemo(() => {
+    return new GraphQLClient(graphqlEndpoint, { headers });
+  }, [token]); // only re-creates if token changes
 
   return client;
 };
