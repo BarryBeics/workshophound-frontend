@@ -17,17 +17,8 @@ import Header from "../../components/Header";
 import { GraphQLClient, gql } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
 
-const CREATE_USER_MUTATION = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      firstName
-      lastName
-      email
-      role
-    }
-  }
-`;
+// Graph
+import { CREATE_USER_MUTATION } from "../../graph/users/mutations";
 
 const JoinThePack = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
