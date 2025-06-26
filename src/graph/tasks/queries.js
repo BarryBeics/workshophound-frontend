@@ -25,7 +25,7 @@ export const READ_PROJECTS_FILTER_QUERY = gql`
   }
 `;  
 
-export const READ_ALL_TASKS = gql`
+export const READ_ALL_TASKS_QUERY = gql`
   query {
     readAllTasks {
       id
@@ -71,3 +71,4 @@ export const READ_PROJECT_QUERY = gql`
     }
   }
 `;
+

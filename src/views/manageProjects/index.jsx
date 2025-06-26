@@ -8,31 +8,10 @@ import TableActions from "../../components/TableActions";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
 
+import { READ_PROJECTS_FILTER_QUERY } from "../../graph/tasks/queries";
+import { DELETE_PROJECT_MUTATION } from "../../graph/tasks/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
-
-// GraphQL queries and mutations
-const READ_ALL_PROJECTS_QUERY = `
-  query ReadProjectsFilter {
-    readProjectsFilter(filter: { sop: false }) {
-      id
-      title
-      description
-      labels
-      assignedTo
-      dueDate
-      status
-      tasks {
-        id
-      }
-    }
-  }
-`;
-
-const DELETE_PROJECT_MUTATION = `
-  mutation DeleteProject($id: ID!) {
-    deleteProject(id: $id)
-  }
-`;
 
 const ManageProjects = () => {
   const navigate = useNavigate();
@@ -46,7 +25,7 @@ const ManageProjects = () => {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const data = await client.request(READ_ALL_PROJECTS_QUERY);
+      const data = await client.request(READ_PROJECTS_FILTER_QUERY);
       const formattedProjects = data.readProjectsFilter.map((project) => ({
         ...project,
         labels: project.labels?.join(", ") || "",

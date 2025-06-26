@@ -25,62 +25,12 @@ import DateInput from "../../components/DateInput";
 import Header from "../../components/Header";
 import AdminUserSelect from "../../components/AdminUserSelect";
 
+import { READ_PROJECT_QUERY } from "../../graph/tasks/queries";
+import { UPDATE_PROJECT_MUTATION } from "../../graph/tasks/mutations";
+import { DELETE_TASK_MUTATION } from "../../graph/tasks/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
 
-const READ_PROJECT_QUERY = `
-  query ReadSingleProjectById($id: ID!) {
-    readSingleProjectById(id: $id) {
-      id
-    title
-    sop
-    description
-    labels
-    assignedTo
-    dueDate
-    status
-    createdAt
-    updatedAt
-    tasks {
-id
-    title
-    description
-    status
-    labels
-    assignedTo
-    dueDate
-    deferDate
-    department
-    projectId
-    duration
-    createdAt
-    updatedAt
-      }
-    }
-  }
-`;
-
-
-
-const UPDATE_PROJECT_MUTATION = `
-  mutation UpdateProject($input: UpdateProjectInput!) {
-    updateProject(input: $input) {
-      id
-      title
-      description
-      labels
-      assignedTo
-      dueDate
-      status
-      sop
-    }
-  }
-`;
-
-const DELETE_TASK_MUTATION = `
-  mutation DeleteTask($id: ID!) {
-    deleteTask(id: $id)
-  }
-`;
 
 const validationSchema = yup.object().shape({
     title: yup.string().required("Title is required"),

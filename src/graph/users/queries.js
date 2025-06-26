@@ -32,3 +32,18 @@ export const READ_ADMINS = gql`
     }
   }
 `;
+
+
+export const GET_ALL_USERS_QUERY = gql`
+  query {
+    readAllUsers {
+      id
+      firstName
+      lastName
+      email
+      role
+    }
+  }
+`;
+
+

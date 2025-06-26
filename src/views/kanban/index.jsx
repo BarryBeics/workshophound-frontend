@@ -24,39 +24,11 @@ import Header from "../../components/Header";
 import AdminUserSelect from "../../components/AdminUserSelect";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
+import { READ_ALL_TASKS_QUERY } from "../../graph/tasks/queries";
+import { UPDATE_TASK_STATUS } from "../../graph/tasks/mutations";
+import { GET_SOP_PROJECT_IDS } from "../../graph/tasks/queries";
+
 const client = new GraphQLClient(graphqlEndpoint);
-
-const READ_ALL_TASKS = `
-  query {
-    readAllTasks {
-      id
-    title
-    status
-    labels
-    assignedTo
-    department
-    duration
-    projectId
-    }
-  }
-`;
-
-const UPDATE_TASK_STATUS = `
-  mutation UpdateTaskStatus($input: UpdateTaskInput!) {
-    updateTask(input: $input) {
-      id
-      status
-    }
-  }
-`;
-
-const GET_SOP_PROJECT_IDS = `
-  query {
-    readProjectsFilter(filter: { sop: true }) {
-      id
-    }
-  }
-`;
 
 const KanbanBoard = () => {
   const theme = useTheme();
@@ -160,7 +132,7 @@ const KanbanBoard = () => {
         const sopProjectIds = sopData.readProjectsFilter.map((proj) => proj.id);
 
         // 2. Fetch all tasks
-        const { readAllTasks } = await client.request(READ_ALL_TASKS);
+        const { readAllTasks } = await client.request(READ_ALL_TASKS_QUERY);
 
         // 3. Filter out tasks related to SOPs
         const filteredTasks = readAllTasks.filter(

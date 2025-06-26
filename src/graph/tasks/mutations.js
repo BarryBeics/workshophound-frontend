@@ -49,3 +49,30 @@ export const UPDATE_TASK_STATUS = gql`
 `;
 
 
+export const UPDATE_PROJECT_MUTATION = gql`
+  mutation UpdateProject($input: UpdateProjectInput!) {
+    updateProject(input: $input) {
+      id
+      title
+      description
+      labels
+      assignedTo
+      dueDate
+      status
+      sop
+    }
+  }
+`;
+
+export const DELETE_TASK_MUTATION = gql`
+  mutation DeleteTask($id: ID!) {
+    deleteTask(id: $id)
+  }
+`;
+
+
+export const DELETE_PROJECT_MUTATION = gql`
+  mutation DeleteProject($id: ID!) {
+    deleteProject(id: $id)
+  }
+`;
