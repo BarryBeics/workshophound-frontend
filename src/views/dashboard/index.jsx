@@ -17,31 +17,18 @@ import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";
 import { useActivityReports } from "../../hooks/useActivityReports";
 
-import { GraphQLClient, gql } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
+import { READ_FEAR_AND_GREED_QUERY } from "../../graph/fearAndGreed/queries";
+import { useFearAndGreedIndex } from "../../hooks/useFearAndGreedIndex";
 
-const client = new GraphQLClient(graphqlEndpoint);
-
-const fetchFearAndGreedIndex = async () => {
-  const query = gql`
-    query readFearAndGreedIndex {
-      readFearAndGreedIndex(limit: 1) {
-        Value
-        ValueClassification
-      }
-    }
-  `;
-  const res = await client.request(query);
-  return res.readFearAndGreedIndex[0];
-};
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [activityData, setActivityData] = useState([]);
+  const { data: fearAndGreed, isLoading: fgLoading, error: fgError } = useFearAndGreedIndex();
+  const { data: reports, isLoading: reportsLoading, error: reportsError } = useActivityReports();
 
-  const { data: reports, isLoading, error } = useActivityReports();
+  const [activityData, setActivityData] = useState([]);
 
   useEffect(() => {
     if (reports?.length) {
