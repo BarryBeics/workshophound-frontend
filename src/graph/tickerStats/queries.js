@@ -52,3 +52,63 @@ export const readTickerStats = async () => {
     throw error;
   }
 };
+
+  export const query = gql`
+      query readTickerStatsBySymbol($symbol: String!, $limit: Int!) {
+        readTickerStatsBySymbol(symbol: $symbol, limit: $limit) {
+          Symbol
+          TradeCount
+          LiquidityEstimate
+        }
+      }
+    `;
+
+
+export const READ_ALL_PROJECTS_QUERY = gql`
+  query ReadProjectsFilter {
+    readProjectsFilter(filter: { sop: false }) {
+      id
+      title
+      description
+      labels
+      assignedTo
+      dueDate
+      status
+      tasks {
+        id
+      }
+    }
+  }
+`;
+
+export const READ_PROJECT_QUERY = gql`
+  query ReadSingleProjectById($id: ID!) {
+    readSingleProjectById(id: $id) {
+          id
+    title
+    sop
+    description
+    labels
+    assignedTo
+    dueDate
+    status
+    createdAt
+    updatedAt
+    tasks {
+id
+    title
+    description
+    status
+    labels
+    assignedTo
+    dueDate
+    deferDate
+    department
+    projectId
+    duration
+    createdAt
+    updatedAt
+      }
+    }
+  }
+`;

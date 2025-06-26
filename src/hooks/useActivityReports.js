@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useGraphQLClient from "../hooks/useGraphQLClient";
+import useGraphQLClient from "./useGraphQLClient";
 import { READ_ACTIVITY_REPORTS_QUERY } from "../graph/reports/queries";
 
 export const useActivityReports = () => {

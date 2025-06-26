@@ -42,6 +42,8 @@ const GET_BOT_NAMES = gql`
   query {
     readAllStrategies {
       BotInstanceName
+      LongSMADuration
+      ShortSMADuration
     }
   }
 `;

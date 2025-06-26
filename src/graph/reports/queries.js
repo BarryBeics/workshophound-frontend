@@ -13,3 +13,19 @@ export const READ_ACTIVITY_REPORTS_QUERY = gql`
   }
 `;
 
+export const READ_TRADE_OUTCOME_REPORTS = gql`
+  query {
+    readAllTradeOutcomes {
+      Timestamp
+      BotName
+      Balance
+      Symbol
+      Outcome
+      Volume
+      ElapsedTime
+      PercentageChange
+       FearGreedIndex    
+      MarketStatus  
+    }
+  }
+`;

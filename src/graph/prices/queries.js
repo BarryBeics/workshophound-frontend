@@ -29,3 +29,15 @@ const client = new GraphQLClient(graphqlEndpoint);
 //   }
 // };
 
+export const query = gql`
+    query readPriceData($symbol: String!, $limit: Int!) {
+        readHistoricPrice(symbol: $symbol, limit: $limit) {
+        Pair {
+            Symbol
+            Price
+            PercentageChange
+        }
+        Timestamp
+        }
+    }
+    `;

@@ -36,3 +36,16 @@ export const CREATE_TASK_MUTATION = gql`
     }
   }
 `;
+
+
+
+export const UPDATE_TASK_STATUS = gql`
+  mutation UpdateTaskStatus($input: UpdateTaskInput!) {
+    updateTask(input: $input) {
+      id
+      status
+    }
+  }
+`;
+
+
