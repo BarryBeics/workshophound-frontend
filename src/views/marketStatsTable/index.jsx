@@ -9,7 +9,6 @@ import { readTickerStats } from "../../graph/tickerStats/queries";
 
 // Components
 import Header from "../../components/Header";
-import MarketStatsTable from "../../components/MarketStatsTable";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 
 const MarketStatsView = () => {

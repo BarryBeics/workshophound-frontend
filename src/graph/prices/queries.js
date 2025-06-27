@@ -13,3 +13,4 @@ export const  READ_HISTORIC_PRICE_QUERY  = gql`
         }
     }
     `;
+

@@ -53,15 +53,15 @@ export const readTickerStats = async () => {
   }
 };
 
-  export const query = gql`
-      query readTickerStatsBySymbol($symbol: String!, $limit: Int!) {
-        readTickerStatsBySymbol(symbol: $symbol, limit: $limit) {
-          Symbol
-          TradeCount
-          LiquidityEstimate
-        }
-      }
-    `;
+export const READ_TICKER_STATS_BY_SYMBOL = gql`
+  query readTickerStatsBySymbol($symbol: String!, $limit: Int!) {
+    readTickerStatsBySymbol(symbol: $symbol, limit: $limit) {
+      Symbol
+      TradeCount
+      LiquidityEstimate
+    }
+  }
+`;
 
 
 export const READ_ALL_PROJECTS_QUERY = gql`
