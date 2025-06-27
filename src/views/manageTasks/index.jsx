@@ -8,35 +8,11 @@ import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
 import TableActions from "../../components/TableActions";
 
+import { READ_ALL_TASKS_QUERY } from "../../graph/tasks/queries";
+import { DELETE_TASK_MUTATION } from "../../graph/tasks/mutations";
 
 const client = new GraphQLClient(graphqlEndpoint);
 
-// GraphQL queries and mutations
-const READ_ALL_TASKS_QUERY = `
-  query {
-    readAllTasks {
-    id
-    title
-    description
-    status
-    labels
-    assignedTo
-    dueDate
-    deferDate
-    department
-    projectId
-    duration
-    createdAt
-    updatedAt
-  }
-}
-`;
-
-const DELETE_TASK_MUTATION = `
-  mutation DeleteTask($id: ID!) {
-    deleteTask(id: $id)
-  }
-`;
 
 const ManageTasks = () => {
   const navigate = useNavigate();

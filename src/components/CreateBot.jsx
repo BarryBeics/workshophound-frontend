@@ -16,7 +16,7 @@ import { tokens } from "../theme";
 import Header from "./Header";
 
 // Graph
-import { createStrategy } from "../graph/strategies/createStrategy";
+import { createStrategy } from "../graph/strategies/mutations";
 
 // Static data
 import namesJson from "../data/names.json";

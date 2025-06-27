@@ -6,10 +6,6 @@ import { Box, Typography, Button } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
 
-// Graph
-import { GraphQLClient, gql } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
-
 // Theme
 import { tokens } from "../../theme";
 
@@ -19,58 +15,45 @@ import Header from "../../components/Header";
 import TimeRangeSelector from "../../components/TimeRangeSelector";
 import ViewModeToggle from "../../components/ViewModeToggle";
 
-const client = new GraphQLClient(graphqlEndpoint);
+import useGraphQLClient from "../../hooks/useGraphQLClient";
+import { fetchTickerStats } from "../../utils/fetchTickerStats";
+
 
 const LiquidityTrendChart = () => {
   const [selectedSymbols, setSelectedSymbols] = useState([]);
   const [timeFrameQty, setTimeFrameQty] = useState(12);
   const [rawSymbolStats, setRawSymbolStats] = useState({});
   const [viewMode, setViewMode] = useState("liquidity");
+  const client = useGraphQLClient();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const handleAddSymbol = async (_, newSymbol) => {
-    if (selectedSymbols.includes(newSymbol)) return;
+const handleAddSymbol = async (_, newSymbol) => {
+  
+  if (selectedSymbols.includes(newSymbol)) return;
 
-    const query = gql`
-      query readTickerStatsBySymbol($symbol: String!, $limit: Int!) {
-        readTickerStatsBySymbol(symbol: $symbol, limit: $limit) {
-          Symbol
-          TradeCount
-          LiquidityEstimate
-        }
-      }
-    `;
+  try {
+    const rawStats = await fetchTickerStats(client, newSymbol, timeFrameQty);
 
-    try {
-      const res = await client.request(query, {
-        symbol: newSymbol,
-        limit: timeFrameQty,
-      });
-
-      const rawStats = Array.isArray(res.readTickerStatsBySymbol)
-        ? res.readTickerStatsBySymbol
-        : [];
-
-      if (!rawStats.length) {
-        console.warn("Skipping symbol with no valid data:", newSymbol);
-        return;
-      }
-
-      // Reverse once and store raw data
-      const reversed = rawStats.slice().reverse();
-
-      setSelectedSymbols((prev) => [...prev, newSymbol]);
-      setRawSymbolStats((prev) => ({
-        ...prev,
-        [newSymbol]: reversed,
-      }));
-    } catch (error) {
-      console.error("Error fetching liquidity data:", error);
+    if (!rawStats.length) {
+      console.warn("Skipping symbol with no valid data:", newSymbol);
+      return;
     }
-  };
 
-  // 🔁 Recompute chartData from rawSymbolStats on viewMode or selectedSymbols change
+    const reversed = rawStats.slice().reverse();
+
+    setSelectedSymbols((prev) => [...prev, newSymbol]);
+    setRawSymbolStats((prev) => ({
+      ...prev,
+      [newSymbol]: reversed,
+    }));
+  } catch (error) {
+    console.error("Error fetching liquidity data:", error);
+  }
+};
+
+
+  // Recompute chartData from rawSymbolStats on viewMode or selectedSymbols change
   const chartData = useMemo(() => {
     return selectedSymbols.map((symbol) => {
       const stats = rawSymbolStats[symbol];

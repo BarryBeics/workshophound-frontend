@@ -48,7 +48,67 @@ export const readTickerStats = async () => {
 
     return allStats;
   } catch (error) {
-    console.error("❌ Failed to fetch ticker stats:", error.response?.errors || error.message);
+    console.error("Failed to fetch ticker stats:", error.response?.errors || error.message);
     throw error;
   }
 };
+
+export const READ_TICKER_STATS_BY_SYMBOL = gql`
+  query readTickerStatsBySymbol($symbol: String!, $limit: Int!) {
+    readTickerStatsBySymbol(symbol: $symbol, limit: $limit) {
+      Symbol
+      TradeCount
+      LiquidityEstimate
+    }
+  }
+`;
+
+
+export const READ_ALL_PROJECTS_QUERY = gql`
+  query ReadProjectsFilter {
+    readProjectsFilter(filter: { sop: false }) {
+      id
+      title
+      description
+      labels
+      assignedTo
+      dueDate
+      status
+      tasks {
+        id
+      }
+    }
+  }
+`;
+
+export const READ_PROJECT_QUERY = gql`
+  query ReadSingleProjectById($id: ID!) {
+    readSingleProjectById(id: $id) {
+          id
+    title
+    sop
+    description
+    labels
+    assignedTo
+    dueDate
+    status
+    createdAt
+    updatedAt
+    tasks {
+id
+    title
+    description
+    status
+    labels
+    assignedTo
+    dueDate
+    deferDate
+    department
+    projectId
+    duration
+    createdAt
+    updatedAt
+      }
+    }
+  }
+`;

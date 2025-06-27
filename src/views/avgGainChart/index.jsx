@@ -7,9 +7,6 @@ import { useTheme } from "@mui/material/styles";
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { mean } from "lodash";
 
-// Graph
-import { getActivityReports } from "../../graph/reports/getActivityReports";
-
 // Theme
 import { tokens } from "../../theme";
 
@@ -22,29 +19,22 @@ import TimeRangeSelector from "../../components/TimeRangeSelector";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import ViewModeToggle from "../../components/ViewModeToggle";
 
+import { useActivityReports } from "../../hooks/useActivityReports";
+
 export default function TopGainersScatterWithTrend() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const [activityData, setActivityData] = useState([]);
   const [timeFrameQty, setTimeFrameQty] = useState(12);
   const [viewMode, setViewMode] = useState("chart");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const reports = await getActivityReports();
-        setActivityData(reports);
-      } catch (err) {
-        console.error("Failed to load activity reports", err);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data: reports, isLoading, error } = useActivityReports();
+  const activityData = reports || [];
 
   const { scatterData, trendLines, numPoints, formattedTableRows } =
     useMemo(() => {
-      if (!activityData?.length)
+      console.log("💡 useMemo triggered", activityData.length);
+      if (!activityData.length)
         return { scatterData: [], trendLines: [], formattedTableRows: [] };
 
       const now = timeNow() * 1000;
@@ -62,7 +52,7 @@ export default function TopGainersScatterWithTrend() {
         { key: "TopCGain", label: "Top 10", color: "#E1A648" },
       ];
 
-      const scatter = seriesKeys.map(({ key, label, color }) => ({
+      const scatterData = seriesKeys.map(({ key, label, color }) => ({
         id: label,
         color,
         data: filtered
@@ -76,7 +66,7 @@ export default function TopGainersScatterWithTrend() {
           })),
       }));
 
-      const trends = seriesKeys.map(({ key, label, color }) => {
+      const trendLines = seriesKeys.map(({ key, label, color }) => {
         const validValues = filtered
           .map((e) => e[key])
           .filter((v) => typeof v === "number");
@@ -105,11 +95,12 @@ export default function TopGainersScatterWithTrend() {
         TopCGain: entry.TopCGain,
       }));
 
+
       return {
-        scatterData: scatter,
-        trendLines: trends,
-        numPoints: filtered.length,
+        scatterData,
+        trendLines,
         formattedTableRows,
+        numPoints: filtered.length,
       };
     }, [activityData, timeFrameQty]);
 

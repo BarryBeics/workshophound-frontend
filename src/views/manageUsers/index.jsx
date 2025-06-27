@@ -14,26 +14,11 @@ import { tokens } from "../../theme";
 
 import { UserRole } from "../../constants/userRoles.ts";
 
+import { GET_ALL_USERS_QUERY } from "../../graph/users/queries";
+import { DELETE_USER_MUTATION } from "../../graph/users/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
 
-// GraphQL queries and mutations
-const GET_ALL_USERS_QUERY = `
-  query {
-    readAllUsers {
-      id
-      firstName
-      lastName
-      email
-      role
-    }
-  }
-`;
-
-const DELETE_USER_MUTATION = `
-  mutation DeleteUser($email: String!) {
-    deleteUser(email: $email)
-  }
-`;
 
 const ManageUsers = () => {
   const theme = useTheme();

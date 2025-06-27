@@ -8,31 +8,11 @@ import TableActions from "../../components/TableActions";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
 
+import { READ_PROJECTS_FILTER_QUERY } from "../../graph/tasks/queries";
+import { DELETE_PROJECT_MUTATION } from "../../graph/tasks/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
 
-const READ_PROJECTS_FILTER_QUERY = `
-  query ReadProjectsFilter($sop: Boolean!) {
-    readProjectsFilter(filter: { sop: $sop }) {
-      id
-      title
-      description
-      labels
-      assignedTo
-      dueDate
-      status
-      tasks {
-        id
-      }
-    }
-  }
-`;
-
-
-const DELETE_PROJECT_MUTATION = `
-  mutation DeleteProject($id: ID!) {
-    deleteProject(id: $id)
-  }
-`;
 
 const ManageSOPs = () => {
   const navigate = useNavigate();

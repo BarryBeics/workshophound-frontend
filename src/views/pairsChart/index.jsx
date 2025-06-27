@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Chip } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
 import { gql, GraphQLClient } from "graphql-request";
@@ -11,7 +11,8 @@ import SymbolDropdown from "../../components/SymbolDropdown";
 import Header from "../../components/Header";
 import TimeRangeSelector from "../../components/TimeRangeSelector";
 
-const client = new GraphQLClient(graphqlEndpoint);
+import { fetchHistoricPrice } from "../../utils/fetchHistoricPrice";
+import useGraphQLClient from "../../hooks/useGraphQLClient";
 
 const PriceChart = () => {
   const [selectedSymbols, setSelectedSymbols] = useState([]);
@@ -19,29 +20,12 @@ const PriceChart = () => {
   const [priceData, setPriceData] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+const client = useGraphQLClient();
 
   useEffect(() => {
     const fetchDataForSymbol = async (symbol) => {
-      const query = gql`
-        query readPriceData($symbol: String!, $limit: Int!) {
-          readHistoricPrice(symbol: $symbol, limit: $limit) {
-            Pair {
-              Symbol
-              Price
-              PercentageChange
-            }
-            Timestamp
-          }
-        }
-      `;
-
       try {
-        const res = await client.request(query, {
-          symbol,
-          limit: timeFrameQty,
-        });
-
-        const rawData = res.readHistoricPrice || [];
+        const rawData = await fetchHistoricPrice(client, symbol, timeFrameQty);
 
         const cleanedData = rawData
           .slice()

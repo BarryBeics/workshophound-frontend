@@ -5,10 +5,8 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
 import GeographyChart from "../../components/GeographyChart";
@@ -17,45 +15,26 @@ import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
 import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";
-import { getActivityReports } from "../../graph/reports/getActivityReports";
+import { useActivityReports } from "../../hooks/useActivityReports";
 
+import { READ_FEAR_AND_GREED_QUERY } from "../../graph/fearAndGreed/queries";
+import { useFearAndGreedIndex } from "../../hooks/useFearAndGreedIndex";
 
-import { GraphQLClient, gql } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
-
-const client = new GraphQLClient(graphqlEndpoint);
-
-const fetchFearAndGreedIndex = async () => {
-  const query = gql`
-    query readFearAndGreedIndex {
-      readFearAndGreedIndex(limit: 1) {
-        Value
-        ValueClassification
-      }
-    }
-  `;
-  const res = await client.request(query);
-  return res.readFearAndGreedIndex[0];
-};
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const { data: fearAndGreed, isLoading: fgLoading, error: fgError } = useFearAndGreedIndex();
+  const { data: reports, isLoading: reportsLoading, error: reportsError } = useActivityReports();
+
   const [activityData, setActivityData] = useState([]);
 
   useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const data = await getActivityReports();
-        setActivityData(data);
-      } catch (err) {
-        console.error("Failed to fetch activity reports", err);
-      }
-    };
-
-    fetchReports();
-  }, []);
+    if (reports?.length) {
+      setActivityData(reports);
+    }
+  }, [reports]);
 
   return (
     <Box m="20px">

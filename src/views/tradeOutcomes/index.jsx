@@ -11,26 +11,10 @@ import {
   formatPercentage,
   formatTimestamp,
 } from "../../utils/formatters";
-
+import { READ_TRADE_OUTCOME_REPORTS } from "../../graph/reports/queries";
 
 const client = new GraphQLClient(graphqlEndpoint);
 
-const READ_TRADE_OUTCOME_REPORTS = `
-  query {
-    readAllTradeOutcomes {
-      Timestamp
-      BotName
-      Balance
-      Symbol
-      Outcome
-      Volume
-      ElapsedTime
-      PercentageChange
-       FearGreedIndex    
-      MarketStatus  
-    }
-  }
-`;
 
 const TradeReports = () => {
   const theme = useTheme();

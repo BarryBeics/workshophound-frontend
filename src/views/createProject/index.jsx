@@ -13,37 +13,22 @@ import {
   import * as yup from "yup";
   
   import formOptions from "../../config/formOptions.json";
-  import { GraphQLClient } from "graphql-request";
-  import { graphqlEndpoint } from "../../config";
 
   import Header from "../../components/Header";
   import AdminUserSelect from "../../components/AdminUserSelect";
   import LabelSelector from "../../components/LabelSelector";
   import DateInput from "../../components/DateInput";
   
-  // GraphQL client
-  const client = new GraphQLClient(graphqlEndpoint);
-  
-  // GraphQL mutation
-  const CREATE_PROJECT_MUTATION = `
-    mutation CreateProject($input: CreateProjectInput!) {
-      createProject(input: $input) {
-        id
-        title
-        description
-        sop
-        labels
-        assignedTo
-        dueDate
-        status
-      }
-    }
-  `;
+  // Graph
+  import { CREATE_PROJECT_MUTATION } from "../../graph/tasks/mutations";
+  import useGraphQLClient from "../../hooks/useGraphQLClient";  
+
   
   const CreateProjectForm = () => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const navigate = useNavigate();
     const { state } = useLocation();
+    const client = useGraphQLClient();
   
     const sopValue = state?.sop ?? false;
     const name = state?.name ?? "Project";

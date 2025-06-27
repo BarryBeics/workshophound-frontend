@@ -14,42 +14,22 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import formOptions from "../../config/formOptions.json";
 
-import { GraphQLClient } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
-
 import LabelSelector from "../../components/LabelSelector";
 import DateInput from "../../components/DateInput";
 import Header from "../../components/Header";
 import AdminUserSelect from "../../components/AdminUserSelect";
 
-// GraphQL client
-const client = new GraphQLClient(graphqlEndpoint);
+// Graph
+import { CREATE_TASK_MUTATION } from "../../graph/tasks/mutations";
+import useGraphQLClient from "../../hooks/useGraphQLClient";  
 
-// GraphQL mutation
-const CREATE_TASK_MUTATION = `
-  mutation CreateTask($input: CreateTaskInput!) {
-    createTask(input: $input) {
-      id
-      title
-      description
-      status
-      labels
-      assignedTo
-      dueDate
-      deferDate
-      department
-      projectId
-      duration
-      createdAt
-      updatedAt
-    }
-  }
-`;
+
 
 const CreateTaskForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const location = useLocation();
+  const client = useGraphQLClient();
   const passedProjectId = location.state?.projectId || "";
   const redirectPath = location.state?.redirectPath || "/manageTasks"; // default fallback
 
