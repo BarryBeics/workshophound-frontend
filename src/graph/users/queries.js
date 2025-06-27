@@ -7,21 +7,24 @@ export const READ_USER_BY_EMAIL = gql`
       firstName
       lastName
       email
-      mobileNumber
+      role 
+      password
       verifiedEmail
-      verifiedMobile
-      role
       openToTrade
       binanceAPI
-      preferredContactMethod
       notes
       invitedBy
-      joinedBallot
       isPaidMember
+      interestReason
+      experienceLevel
+      twitterHandle
+      referralSource
       isDeleted
     }
   }
 `;
+
+
 
 export const READ_ADMINS = gql`
   query ReadUsersByRole($role: UserRole!) {

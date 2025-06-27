@@ -1,9 +1,5 @@
 // Graph
-import { gql, GraphQLClient } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
-
-const client = new GraphQLClient(graphqlEndpoint);
-
+import { gql } from "graphql-request";
 
 export const  READ_HISTORIC_PRICE_QUERY  = gql`
     query readPriceData($symbol: String!, $limit: Int!) {

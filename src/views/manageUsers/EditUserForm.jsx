@@ -6,53 +6,32 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
 import Header from "../../components/Header";
 import { graphqlEndpoint } from "../../config";
 
+import { READ_USER_BY_EMAIL } from "../../graph/users/queries";
+import { UPDATE_USER } from "../../graph/users/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
-
-const READ_USER_BY_EMAIL = gql`
-  query ReadUserByEmail($email: String!) {
-    readUserByEmail(email: $email) {
-      id
-      firstName
-      lastName
-      email
-      mobileNumber
-      verifiedEmail
-      verifiedMobile
-      role
-      openToTrade
-      binanceAPI
-      preferredContactMethod
-      notes
-      invitedBy
-      joinedBallot
-      isPaidMember
-      isDeleted
-    }
-  }
-`;
-
-const UPDATE_USER = gql`
-  mutation UpdateUser($input: UpdateUserInput!) {
-    updateUser(input: $input) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("Required"),
   lastName: yup.string().required("Required"),
   email: yup.string().email("Invalid email").required("Required"),
-  role: yup.string().oneOf(["guest", "interested", "member", "admin"]).required("Required"),
-  mobileNumber: yup.string().notRequired(),
-  preferredContactMethod: yup.string().oneOf(["email", "whatsapp"]).notRequired(),
+  password: yup.string().notRequired(),
+  verifiedEmail: yup.boolean().required(),
+  role: yup.string().oneOf(["GUEST", "INTERESTED", "MEMBER", "ADMIN"]).required("Required"),
+  isDeleted: yup.boolean().required(),
+  openToTrade: yup.boolean().notRequired(),
+  binanceAPI: yup.string().notRequired(),
+  notes: yup.string().notRequired(),
+  invitedBy: yup.string().notRequired(),
+  isPaidMember: yup.boolean().notRequired(),
+  interestReason: yup.string().notRequired(),
+  experienceLevel: yup.string().oneOf(["BEGINNER", "INTERMEDIATE", "ADVANCED"]).notRequired(),
+  twitterHandle: yup.string().notRequired(),
+  referralSource: yup.string().notRequired(),
 });
 
 const EditUserForm = () => {
@@ -69,18 +48,19 @@ const EditUserForm = () => {
           firstName: readUserByEmail.firstName || "",
           lastName: readUserByEmail.lastName || "",
           email: readUserByEmail.email || "",
-          mobileNumber: readUserByEmail.mobileNumber || "",
-          verifiedEmail: readUserByEmail.verifiedEmail || false,
-          verifiedMobile: readUserByEmail.verifiedMobile || false,
-          role: readUserByEmail.role || "guest",
-          openToTrade: readUserByEmail.openToTrade || false,
+          password: "",
+          verifiedEmail: readUserByEmail.verifiedEmail ?? false,
+          role: readUserByEmail.role || "GUEST",
+          isDeleted: readUserByEmail.isDeleted ?? false,
+          openToTrade: readUserByEmail.openToTrade ?? false,
           binanceAPI: readUserByEmail.binanceAPI || "",
-          preferredContactMethod: readUserByEmail.preferredContactMethod || "email",
           notes: readUserByEmail.notes || "",
           invitedBy: readUserByEmail.invitedBy || "",
-          joinedBallot: readUserByEmail.joinedBallot || false,
-          isPaidMember: readUserByEmail.isPaidMember || false,
-          isDeleted: readUserByEmail.isDeleted || false,
+          isPaidMember: readUserByEmail.isPaidMember ?? false,
+          interestReason: readUserByEmail.interestReason || "",
+          experienceLevel: readUserByEmail.experienceLevel || "BEGINNER",
+          twitterHandle: readUserByEmail.twitterHandle || "",
+          referralSource: readUserByEmail.referralSource || "",
         });
       } catch (err) {
         console.error("Error fetching user:", err);
@@ -91,10 +71,7 @@ const EditUserForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      const input = {
-        ...values,
-        isDeleted: values.isDeleted ?? false,
-      };
+      const input = { ...values, isDeleted: values.isDeleted ?? false };
       await client.request(UPDATE_USER, { input });
       alert("User updated successfully.");
       navigate("/manageUsers");
@@ -131,43 +108,50 @@ const EditUserForm = () => {
                 onChange={handleChange} onBlur={handleBlur} error={!!touched.email && !!errors.email}
                 helperText={touched.email && errors.email} sx={{ gridColumn: "span 4" }} />
 
-              <TextField label="Mobile Number" name="mobileNumber" value={values.mobileNumber}
-                onChange={handleChange} sx={{ gridColumn: "span 2" }} />
+              <TextField label="Password (optional)" name="password" value={values.password}
+                onChange={handleChange} type="password" sx={{ gridColumn: "span 4" }} />
 
               <FormControl fullWidth sx={{ gridColumn: "span 2" }}>
                 <InputLabel>Role</InputLabel>
                 <Select name="role" value={values.role} onChange={handleChange}>
-                  <MenuItem value="guest">Guest</MenuItem>
-                  <MenuItem value="interested">Interested</MenuItem>
-                  <MenuItem value="member">Member</MenuItem>
-                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="GUEST">Guest</MenuItem>
+                  <MenuItem value="INTERESTED">Interested</MenuItem>
+                  <MenuItem value="MEMBER">Member</MenuItem>
+                  <MenuItem value="ADMIN">Admin</MenuItem>
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth sx={{ gridColumn: "span 2" }}>
+                <InputLabel>Experience Level</InputLabel>
+                <Select name="experienceLevel" value={values.experienceLevel} onChange={handleChange}>
+                  <MenuItem value="BEGINNER">Beginner</MenuItem>
+                  <MenuItem value="INTERMEDIATE">Intermediate</MenuItem>
+                  <MenuItem value="ADVANCED">Advanced</MenuItem>
                 </Select>
               </FormControl>
 
               <TextField label="Binance API Key" name="binanceAPI" value={values.binanceAPI}
-                onChange={handleChange} sx={{ gridColumn: "span 4" }} />
-
-              <FormControl fullWidth sx={{ gridColumn: "span 4" }}>
-                <InputLabel>Preferred Contact</InputLabel>
-                <Select name="preferredContactMethod" value={values.preferredContactMethod} onChange={handleChange}>
-                  <MenuItem value="email">Email</MenuItem>
-                  <MenuItem value="whatsapp">WhatsApp</MenuItem>
-                </Select>
-              </FormControl>
+                onChange={handleChange} sx={{ gridColumn: "span 2" }} />
 
               <TextField label="Invited By" name="invitedBy" value={values.invitedBy}
+                onChange={handleChange} sx={{ gridColumn: "span 2" }} />
+
+              <TextField label="Referral Source" name="referralSource" value={values.referralSource}
+                onChange={handleChange} sx={{ gridColumn: "span 2" }} />
+
+              <TextField label="Interest Reason" name="interestReason" value={values.interestReason}
+                onChange={handleChange} sx={{ gridColumn: "span 4" }} />
+
+              <TextField label="Twitter Handle" name="twitterHandle" value={values.twitterHandle}
                 onChange={handleChange} sx={{ gridColumn: "span 2" }} />
 
               <TextField label="Notes" name="notes" value={values.notes}
                 onChange={handleChange} multiline minRows={3} sx={{ gridColumn: "span 4" }} />
 
               <FormControlLabel control={<Switch checked={values.verifiedEmail} onChange={handleChange} name="verifiedEmail" />} label="Verified Email" />
-              <FormControlLabel control={<Switch checked={values.verifiedMobile} onChange={handleChange} name="verifiedMobile" />} label="Verified Mobile" />
               <FormControlLabel control={<Switch checked={values.openToTrade} onChange={handleChange} name="openToTrade" />} label="Open To Trade" />
-              <FormControlLabel control={<Switch checked={values.joinedBallot} onChange={handleChange} name="joinedBallot" />} label="Joined Ballot" />
               <FormControlLabel control={<Switch checked={values.isPaidMember} onChange={handleChange} name="isPaidMember" />} label="Paid Member" />
               <FormControlLabel control={<Switch checked={values.isDeleted} onChange={handleChange} name="isDeleted" />} label="Is Deleted" />
-
             </Box>
 
             <Box display="flex" justifyContent="flex-end" mt={3}>

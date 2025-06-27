@@ -10,7 +10,6 @@ import { useTheme } from "@mui/material/styles";
 import { tokens } from "../../theme";
 import { calculateSMA } from "../../utils/smaUtils";
 
-
 import { useStrategies } from "../../hooks/useStrategies";
 import { useHistoricPrice } from "../../hooks/useHistoricPrice";
 import { fetchHistoricPrice } from "../../utils/fetchHistoricPrice";
@@ -88,13 +87,15 @@ const SMAChart = () => {
       if (!strategy) return;
 
       const limit = strategy.LongSMADuration + timeFrameQty;
+
       const prices = await fetchHistoricPrice(client, symbol, limit);
+      if (!prices?.length) return;
 
       const short = calculateSMA(prices, strategy.ShortSMADuration);
       const long = calculateSMA(prices, strategy.LongSMADuration);
 
       const format = (arr) =>
-        arr
+        [...arr]
           .sort((a, b) => a.Timestamp - b.Timestamp)
           .map((d) => ({
             x: new Date(d.Timestamp * 1000).toLocaleTimeString([], {
@@ -109,7 +110,7 @@ const SMAChart = () => {
           hour: "2-digit",
           minute: "2-digit",
         }),
-        y: parseFloat(d.Pair[0].Price),
+        y: Number.parseFloat(d.Pair[0].Price),
       }));
 
       setChartData((prev) => {
