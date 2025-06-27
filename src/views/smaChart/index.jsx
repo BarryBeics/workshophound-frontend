@@ -10,18 +10,21 @@ import { useTheme } from "@mui/material/styles";
 import { tokens } from "../../theme";
 import { calculateSMA } from "../../utils/smaUtils";
 
-// Graph
-import { graphqlEndpoint } from "../../config";
-import { GraphQLClient } from "graphql-request";
+
+import { useStrategies } from "../../hooks/useStrategies";
+import { useHistoricPrice } from "../../hooks/useHistoricPrice";
+import { fetchHistoricPrice } from "../../utils/fetchHistoricPrice";
 
 // Componenets
 import SymbolDropdown from "../../components/SymbolDropdown";
 import Header from "../../components/Header";
 import TimeRangeSelector from "../../components/TimeRangeSelector";
+import useGraphQLClient from "../../hooks/useGraphQLClient";
 
-const client = new GraphQLClient(graphqlEndpoint);
+
 
 const SMAChart = () => {
+  const client = useGraphQLClient();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -66,58 +69,32 @@ const SMAChart = () => {
     },
   };
 
+  const { data: strategies, isLoading: strategiesLoading } = useStrategies();
+  const {} = useHistoricPrice();
+
   useEffect(() => {
-    async function fetchDropdowns() {
-      const res = await client.request(`{
-        readAllStrategies {
-          BotInstanceName
-        }
-      }`);
-      setStrategyOptions(res.readAllStrategies.map((s) => s.BotInstanceName));
+    if (strategies?.length) {
+      setStrategyOptions(strategies.map((s) => s.BotInstanceName));
     }
-    fetchDropdowns();
-  }, []);
+  }, [strategies]);
 
   useEffect(() => {
     if (!selectedStrategy || !selectedSymbols.length) return;
 
     const fetchDataForSymbol = async (symbol) => {
-      const smaMeta = await client.request(`{
-        readAllStrategies {
-          BotInstanceName
-          LongSMADuration
-          ShortSMADuration
-        }
-      }`);
-
-      const strategy = smaMeta.readAllStrategies.find(
+      const strategy = strategies.find(
         (s) => s.BotInstanceName === selectedStrategy
       );
       if (!strategy) return;
 
       const limit = strategy.LongSMADuration + timeFrameQty;
+      const prices = await fetchHistoricPrice(client, symbol, limit);
 
-      const res = await client.request(
-        `
-        query readPriceData($symbol: String!, $limit: Int!) {
-          readHistoricPrice(symbol: $symbol, limit: $limit) {
-            Pair {
-              Symbol
-              Price
-            }
-            Timestamp
-          }
-        }
-      `,
-        { symbol, limit }
-      );
-
-      const prices = res.readHistoricPrice;
       const short = calculateSMA(prices, strategy.ShortSMADuration);
       const long = calculateSMA(prices, strategy.LongSMADuration);
 
-      const format = (arr, label) =>
-        [...arr]
+      const format = (arr) =>
+        arr
           .sort((a, b) => a.Timestamp - b.Timestamp)
           .map((d) => ({
             x: new Date(d.Timestamp * 1000).toLocaleTimeString([], {
@@ -132,7 +109,7 @@ const SMAChart = () => {
           hour: "2-digit",
           minute: "2-digit",
         }),
-        y: Number.parseFloat(d.Pair[0].Price),
+        y: parseFloat(d.Pair[0].Price),
       }));
 
       setChartData((prev) => {
@@ -146,15 +123,7 @@ const SMAChart = () => {
       });
     };
 
-    selectedSymbols.forEach((symbol) => {
-      fetchDataForSymbol(symbol);
-    });
-
-    setChartData((prev) =>
-      prev.filter((entry) =>
-        selectedSymbols.some((s) => entry.id.startsWith(s))
-      )
-    );
+    selectedSymbols.forEach(fetchDataForSymbol);
   }, [selectedSymbols, selectedStrategy, timeFrameQty]);
 
   return (

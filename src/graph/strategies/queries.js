@@ -4,7 +4,7 @@ import { graphqlEndpoint } from "../../config";
 
 const client = new GraphQLClient(graphqlEndpoint);
 
-const GET_ALL_STRATEGIES_QUERY = gql`
+export const READ_ALL_STRATEGIES_QUERY = gql`
   query {
     readAllStrategies {
       BotInstanceName
@@ -30,7 +30,7 @@ const GET_ALL_STRATEGIES_QUERY = gql`
 
 export const readAllStrategies = async () => {
   try {
-    const data = await client.request(GET_ALL_STRATEGIES_QUERY);
+    const data = await client.request(READ_ALL_STRATEGIES_QUERY);
     return data.readAllStrategies;
   } catch (error) {
     console.error("Error fetching strategies:", error);
