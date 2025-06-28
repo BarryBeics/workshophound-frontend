@@ -20,7 +20,7 @@ const PriceChart = () => {
   const [priceData, setPriceData] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-const client = useGraphQLClient();
+  const client = useGraphQLClient();
 
   useEffect(() => {
     const fetchDataForSymbol = async (symbol) => {
@@ -34,16 +34,22 @@ const client = useGraphQLClient();
             const pricePoint = entry?.Pair?.find((p) => p?.Symbol === symbol);
             return entry?.Timestamp && pricePoint?.PercentageChange;
           })
-          .map((entry) => ({
-            x: new Date(entry.Timestamp * 1000).toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
-            y: parseFloat(
-              entry.Pair.find((p) => p.Symbol === symbol)?.PercentageChange ??
-                "0"
-            ),
-          }));
+          .map((entry) => {
+            const pricePoint = entry.Pair.find((p) => p.Symbol === symbol);
+            const rawChange = pricePoint?.PercentageChange;
+
+            const yValue = parseFloat(rawChange);
+            if (!isFinite(yValue)) return null;
+
+            return {
+              x: new Date(entry.Timestamp * 1000).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+              y: yValue,
+            };
+          })
+          .filter(Boolean); // removes any nulls
 
         if (!cleanedData.length) return;
 

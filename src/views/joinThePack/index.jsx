@@ -7,6 +7,9 @@ import {
   MenuItem,
   useMediaQuery,
   useTheme,
+  List,
+  ListItem, 
+  ListItemText,
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
@@ -54,60 +57,73 @@ const JoinThePack = () => {
   };
 
   return (
-  <Box m="20px">
-    <Header
-      title="Hear More. See More. Get In Early"
-      subtitle="Add your details to follow the journey and help shape what gets built next."
-    />
+    <Box m="20px">
+      <Header
+        title="Hear More. See More. Get In Early"
+        subtitle="Add your details to follow the journey and help shape what gets built next."
+      />
 
-    <Typography variant="h4" gutterBottom>
-      Join the Pack
-    </Typography>
-    <Typography variant="body1" gutterBottom>
-      Be part of building the trading platform you wish existed.
-    </Typography>
-    <Typography variant="body1" mb={3}>
-      As a Pack Member, you'll get:
-      <ul>
-        <li>Private dev logs and weekly build updates</li>
-        <li>Early access to paper trading + strategy builder tools</li>
-        <li>Invites to the private Forum community</li>
-        <li>Voting rights to help shape the roadmap</li>
-      </ul>
-      This isn't about signals or shortcuts — it's about building smarter tools, together.
-    </Typography>
-    <Typography variant="body2" color="textSecondary" gutterBottom>
-      We respect your inbox. No spam. Just real progress, shared openly.
-    </Typography>
+      <Typography variant="h4" gutterBottom>
+        Join the Pack
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        Be part of building the trading platform you wish existed.
+      </Typography>
+      <Typography variant="body1" mb={1}>
+        As a Pack Member, you'll get:
+      </Typography>
+      <List sx={{ paddingLeft: 2 }}>
+        <ListItem disableGutters dense>
+          <ListItemText primary="Private dev logs and weekly build updates" />
+        </ListItem>
+        <ListItem disableGutters dense>
+          <ListItemText primary="Early access to paper trading + strategy builder tools" />
+        </ListItem>
+        <ListItem disableGutters dense>
+          <ListItemText primary="Invites to the private Forum community" />
+        </ListItem>
+        <ListItem disableGutters dense>
+          <ListItemText primary="Voting rights to help shape the roadmap" />
+        </ListItem>
+      </List>
+      <Typography variant="body1" mb={3}>
+        This isn't about signals or shortcuts — it's about building smarter
+        tools, together.
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom>
+        We respect your inbox. No spam. Just real progress, shared openly.
+      </Typography>
 
-    {formSubmitted ? (
-      <Box mt={4} textAlign="center">
-        <Typography
-          variant="h4"
-          gutterBottom
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <PetsIcon
-            sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
-          />
-          Welcome to the Pack
-          <PetsIcon
-            sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
-          />
-        </Typography>
+      {formSubmitted ? (
+        <Box mt={4} textAlign="center">
+          <Typography
+            variant="h4"
+            gutterBottom
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <PetsIcon
+              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+            />
+            Welcome to the Pack
+            <PetsIcon
+              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+            />
+          </Typography>
 
-        <Typography variant="body1" mb={2}>
-          Thanks for joining the journey. You’re now part of something being built in the open.
-          <br />
-          We’ll be in touch with updates, invites, and early access.
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          In the meantime, follow the build on Twitter — or explore what’s live.
-        </Typography>
-        <Button variant="outlined" color="secondary" href="/" sx={{ mt: 3 }}>
-          Return Home
+          <Typography variant="body1" mb={2}>
+            Thanks for joining the journey. You’re now part of something being
+            built in the open.
+            <br />
+            We’ll be in touch with updates, invites, and early access.
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            In the meantime, follow the build on Twitter — or explore what’s
+            live.
+          </Typography>
+          <Button variant="outlined" color="secondary" href="/" sx={{ mt: 3 }}>
+            Return Home
           </Button>
         </Box>
       ) : (

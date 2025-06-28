@@ -126,22 +126,27 @@ const LandingPage = () => {
         >
           What I'm Building
         </Typography>
-        <Typography variant="body1">
+
+        <Typography variant="body1" mb={2}>
           <strong>Scalpel Hound</strong> is:
-          <List>
-            <ListItem disableGutters dense>
-              <ListItemText primary="A strategy builder and paper trading engine" />
-            </ListItem>
-            <ListItem disableGutters dense>
-              <ListItemText primary="Real-time data from live crypto markets" />
-            </ListItem>
-            <ListItem disableGutters dense>
-              <ListItemText primary="Transparent logs, code updates, and GitHub streaks" />
-            </ListItem>
-            <ListItem disableGutters dense>
-              <ListItemText primary="A pack of like-minded traders who shape what comes next" />
-            </ListItem>
-          </List>
+        </Typography>
+
+        <List>
+          <ListItem disableGutters dense>
+            <ListItemText primary="A strategy builder and paper trading engine" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Real-time data from live crypto markets" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Transparent logs, code updates, and GitHub streaks" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="A pack of like-minded traders who shape what comes next" />
+          </ListItem>
+        </List>
+
+        <Typography variant="body1" mt={2}>
           This could be like <em>Strava for Traders</em> — chart your progress,
           compare systems, improve together.
         </Typography>
