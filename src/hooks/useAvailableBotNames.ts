@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 // Graph
-import { getBotNames } from "../graph/strategies/queries";
+import { readAllStrategies } from "../utils/strategies";
 
 // Static data
 import namesJson from "../data/names.json";
@@ -14,7 +14,7 @@ const useAvailableBotNames = (refreshTrigger = 0) => {
   useEffect(() => {
     const fetchBotNames = async () => {
       try {
-        const usedNames = await getBotNames();
+        const usedNames = await readAllStrategies();
         const jsonNames = namesJson.bot_names || [];
         const availableNames = jsonNames.filter(
           (name) => !usedNames.includes(name)

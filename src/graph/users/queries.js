@@ -26,7 +26,6 @@ export const READ_USER_BY_EMAIL = gql`
 `;
 
 
-
 export const READ_ADMINS = gql`
   query ReadUsersByRole($role: UserRole!) {
     readUsersByRole(role: $role) {

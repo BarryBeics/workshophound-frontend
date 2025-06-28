@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 // Graph
-import { readTickerStats } from "../../graph/tickerStats/queries";
+import { fetchTickerStats } from "../../utils/tickerStats";
 
 // Components
 import Header from "../../components/Header";
@@ -16,7 +16,7 @@ const MarketStatsView = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await readTickerStats();
+      const data = await fetchTickerStats();
       setTickerStatsData(data);
     };
     getData();

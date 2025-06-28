@@ -9,6 +9,7 @@ export const GET_SOP_PROJECT_IDS = gql`
   }
 `;
 
+
 export const READ_PROJECTS_FILTER_QUERY = gql`
   query ReadProjectsFilter($sop: Boolean!) {
     readProjectsFilter(filter: { sop: $sop }) {
@@ -26,6 +27,7 @@ export const READ_PROJECTS_FILTER_QUERY = gql`
   }
 `;  
 
+
 export const READ_ALL_TASKS_QUERY = gql`
   query {
     readAllTasks {
@@ -40,6 +42,7 @@ export const READ_ALL_TASKS_QUERY = gql`
     }
   }
 `;
+
 
 export const READ_PROJECT_QUERY = gql`
   query ReadSingleProjectById($id: ID!) {

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 // Graph
-import { readAllStrategies } from "../../graph/strategies/queries";
+import { readAllStrategies } from "../../utils/strategies";
 
 // Components
 import Header from "../../components/Header";

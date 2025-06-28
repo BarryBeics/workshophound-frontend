@@ -1,10 +1,7 @@
-// Graph
-import { gql, GraphQLClient } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
+// graph/strategies/mutations.js
+import { gql } from "graphql-request";
 
-const client = new GraphQLClient(graphqlEndpoint);
-
-const CREATE_STRATEGY_MUTATION = gql`
+export const CREATE_STRATEGY_MUTATION = gql`
   mutation createStrategy(
     $BotInstanceName: String!
     $TradeDuration: Int!
@@ -56,12 +53,3 @@ const CREATE_STRATEGY_MUTATION = gql`
   }
 `;
 
-export const createStrategy = async (variables) => {
-  try {
-    const data = await client.request(CREATE_STRATEGY_MUTATION, variables);
-    return data;
-  } catch (error) {
-    console.error("Error creating strategy:", error);
-    throw error;
-  }
-};
