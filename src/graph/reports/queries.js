@@ -1,3 +1,4 @@
+// graph/reports/queries.js
 import { gql } from "graphql-request";
 
 export const READ_ACTIVITY_REPORTS_QUERY = gql`

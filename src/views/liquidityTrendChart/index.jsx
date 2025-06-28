@@ -16,7 +16,6 @@ import TimeRangeSelector from "../../components/TimeRangeSelector";
 import ViewModeToggle from "../../components/ViewModeToggle";
 
 import useGraphQLClient from "../../hooks/useGraphQLClient";
-import { fetchTickerStats } from "../../utils/fetchTickerStats";
 
 
 const LiquidityTrendChart = () => {
@@ -29,20 +28,18 @@ const LiquidityTrendChart = () => {
   const colors = tokens(theme.palette.mode);
 
 const handleAddSymbol = async (_, newSymbol) => {
-  
-  if (selectedSymbols.includes(newSymbol)) return;
+  if (!newSymbol || selectedSymbols.includes(newSymbol)) return;
 
   try {
-    const rawStats = await fetchTickerStats(client, newSymbol, timeFrameQty);
-
-    if (!rawStats.length) {
-      console.warn("Skipping symbol with no valid data:", newSymbol);
+    const rawStats = await (client, newSymbol, timeFrameQty, client);
+    if (!Array.isArray(rawStats) || rawStats.length === 0) {
+      console.warn("No valid data for:", newSymbol);
       return;
     }
 
     const reversed = rawStats.slice().reverse();
 
-    setSelectedSymbols((prev) => [...prev, newSymbol]);
+    setSelectedSymbols((prev) => [...new Set([...prev, newSymbol])]);
     setRawSymbolStats((prev) => ({
       ...prev,
       [newSymbol]: reversed,
@@ -53,28 +50,31 @@ const handleAddSymbol = async (_, newSymbol) => {
 };
 
 
+
   // Recompute chartData from rawSymbolStats on viewMode or selectedSymbols change
   const chartData = useMemo(() => {
-    return selectedSymbols.map((symbol) => {
-      const stats = rawSymbolStats[symbol];
-      if (!stats) return null;
+  return selectedSymbols.map((symbol) => {
+    const stats = rawSymbolStats[symbol];
+    if (!stats) return null;
 
-      const data = stats
-        .map((s, i) => {
-          const value =
-            viewMode === "liquidity"
-              ? parseFloat(s.LiquidityEstimate ?? "0")
-              : parseFloat(s.TradeCount ?? "0");
-          return {
-            x: `T-${stats.length - i}`,
-            y: isNaN(value) ? null : value,
-          };
-        })
-        .filter((point) => point.y !== null);
+    const data = stats.map((s, i) => {
+      const raw =
+        viewMode === "liquidity"
+          ? parseFloat(s.LiquidityEstimate ?? "NaN")
+          : parseFloat(s.TradeCount ?? "NaN");
 
-      return { id: symbol, data };
-    }).filter(Boolean);
-  }, [selectedSymbols, rawSymbolStats, viewMode]);
+      if (!isFinite(raw)) return null;
+
+      return {
+        x: `T-${stats.length - i}`,
+        y: raw,
+      };
+    }).filter(Boolean); // removes nulls
+
+    return data.length > 0 ? { id: symbol, data } : null;
+  }).filter(Boolean); // removes symbols with no valid points
+}, [selectedSymbols, rawSymbolStats, viewMode]);
+
 
   return (
     <Box m="20px">

@@ -1,3 +1,4 @@
+// graph/users/queries.js
 import { gql } from "graphql-request";
 
 export const READ_USER_BY_EMAIL = gql`
@@ -23,7 +24,6 @@ export const READ_USER_BY_EMAIL = gql`
     }
   }
 `;
-
 
 
 export const READ_ADMINS = gql`

@@ -1,8 +1,5 @@
-// Graph
-import { gql, GraphQLClient } from "graphql-request";
-import { graphqlEndpoint } from "../../config";
-
-const client = new GraphQLClient(graphqlEndpoint);
+// graph/strategies/queries.js
+import { gql } from "graphql-request";
 
 export const READ_ALL_STRATEGIES_QUERY = gql`
   query {
@@ -26,34 +23,3 @@ export const READ_ALL_STRATEGIES_QUERY = gql`
     }
   }
 `;
-
-
-export const readAllStrategies = async () => {
-  try {
-    const data = await client.request(READ_ALL_STRATEGIES_QUERY);
-    return data.readAllStrategies;
-  } catch (error) {
-    console.error("Error fetching strategies:", error);
-    throw error;
-  }
-};
-
-const GET_BOT_NAMES = gql`
-  query {
-    readAllStrategies {
-      BotInstanceName
-      LongSMADuration
-      ShortSMADuration
-    }
-  }
-`;
-
-export const getBotNames = async () => {
-  try {
-    const res = await client.request(GET_BOT_NAMES);
-    return res.readAllStrategies.map((s) => s.BotInstanceName);
-  } catch (error) {
-    console.error("Failed to fetch bot names", error);
-    throw error;
-  }
-};

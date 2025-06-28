@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 // Graph
-import { readTickerStats } from "../../graph/tickerStats/queries";
+import { fetchAvailableSymbols, fetchTickerStats } from "../../utils/tickerStats";
+import useGraphQLClient from "../../hooks/useGraphQLClient";
+import { runWithConcurrencyLimit } from "../../utils/asyncConcurrencyLimits";
 
 // Components
 import Header from "../../components/Header";
@@ -13,14 +15,29 @@ import ThemedDataGrid from "../../components/ThemedDataGrid";
 
 const MarketStatsView = () => {
   const [tickerStatsData, setTickerStatsData] = useState([]);
+  const client = useGraphQLClient();
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await readTickerStats();
-      setTickerStatsData(data);
-    };
-    getData();
-  }, []);
+useEffect(() => {
+  const getData = async () => {
+    const symbols = await fetchAvailableSymbols(client);
+    console.log("Available symbols:", symbols);
+
+    const allStats = await runWithConcurrencyLimit(symbols, 10, async (symbol) => {
+      const stats = await fetchTickerStats(client, symbol, 1);
+      console.log(`Stats for ${symbol}:`, stats);
+      return stats?.[0]; // take latest entry
+    });
+
+    const cleaned = allStats.filter(Boolean);
+    console.log("Cleaned ticker stats:", cleaned);
+
+    setTickerStatsData(cleaned);
+  };
+
+  getData();
+}, []);
+
+
 
   const columns = [
     { field: "Symbol", headerName: "Symbol", flex: 1 },

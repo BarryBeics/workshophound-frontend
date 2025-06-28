@@ -1,3 +1,4 @@
+// graph/users/mutations.js
 import { gql } from "graphql-request";
 
 export const CREATE_USER_MUTATION = gql`
@@ -14,6 +15,7 @@ export const CREATE_USER_MUTATION = gql`
   }
 `;
 
+
 export const UPDATE_USER = gql`
   mutation UpdateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
@@ -24,7 +26,6 @@ export const UPDATE_USER = gql`
     }
   }
 `;
-
 
 
 export const DELETE_USER_MUTATION = gql`
