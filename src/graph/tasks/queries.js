@@ -1,3 +1,4 @@
+// graph/tasks/queries.js
 import { gql } from "graphql-request";
 
 export const GET_SOP_PROJECT_IDS = gql`

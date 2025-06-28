@@ -1,4 +1,4 @@
-// Graph
+// graph/prices/queries.js
 import { gql } from "graphql-request";
 
 export const  READ_HISTORIC_PRICE_QUERY  = gql`
@@ -12,5 +12,5 @@ export const  READ_HISTORIC_PRICE_QUERY  = gql`
         Timestamp
         }
     }
-    `;
+`;
 

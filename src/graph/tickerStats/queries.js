@@ -1,3 +1,4 @@
+// graph/tickerStats/queries.js
 import { gql, GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
 
@@ -76,38 +77,6 @@ export const READ_ALL_PROJECTS_QUERY = gql`
       status
       tasks {
         id
-      }
-    }
-  }
-`;
-
-export const READ_PROJECT_QUERY = gql`
-  query ReadSingleProjectById($id: ID!) {
-    readSingleProjectById(id: $id) {
-          id
-    title
-    sop
-    description
-    labels
-    assignedTo
-    dueDate
-    status
-    createdAt
-    updatedAt
-    tasks {
-id
-    title
-    description
-    status
-    labels
-    assignedTo
-    dueDate
-    deferDate
-    department
-    projectId
-    duration
-    createdAt
-    updatedAt
       }
     }
   }
