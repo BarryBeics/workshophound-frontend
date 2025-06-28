@@ -1,18 +1,30 @@
-import { graphqlEndpoint } from "../config";
+// utils/tickerStats.js
+
 import { GraphQLClient } from "graphql-request";
-import { READ_TICKER_STATS_BY_SYMBOL } from "../graph/tickerStats/queries";
+import { graphqlEndpoint } from "../config";
+import {
+  READ_ALL_SYMBOLS_QUERY,
+  READ_TICKER_STATS_BY_SYMBOL,
+} from "../graph/tickerStats/queries";
 
-const client = new GraphQLClient(graphqlEndpoint);
+const defaultClient = new GraphQLClient(graphqlEndpoint);
 
-export const fetchTickerStats = async (clientInstance, symbol, limit) => {
-  const activeClient = clientInstance || client;
-
+export const fetchAvailableSymbols = async (client = defaultClient) => {
   try {
-    const { readTickerStatsBySymbol } = await activeClient.request(READ_TICKER_STATS_BY_SYMBOL, {
-      symbol,
-      limit,
-    });
+    const { readAvailableSymbols } = await client.request(READ_ALL_SYMBOLS_QUERY);
+    return readAvailableSymbols || [];
+  } catch (error) {
+    console.error("Error fetching symbols:", error);
+    return [];
+  }
+};
 
+export const fetchTickerStats = async (client = defaultClient, symbol, limit = 12) => {
+  try {
+    const { readTickerStatsBySymbol } = await client.request(
+      READ_TICKER_STATS_BY_SYMBOL,
+      { symbol, limit }
+    );
     return Array.isArray(readTickerStatsBySymbol) ? readTickerStatsBySymbol : [];
   } catch (error) {
     console.error("Error fetching ticker stats:", error);

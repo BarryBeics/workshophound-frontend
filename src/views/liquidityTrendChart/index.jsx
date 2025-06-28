@@ -16,7 +16,6 @@ import TimeRangeSelector from "../../components/TimeRangeSelector";
 import ViewModeToggle from "../../components/ViewModeToggle";
 
 import useGraphQLClient from "../../hooks/useGraphQLClient";
-import { fetchTickerStats } from "../../utils/fetchTickerStats";
 
 
 const LiquidityTrendChart = () => {
@@ -32,7 +31,7 @@ const handleAddSymbol = async (_, newSymbol) => {
   if (!newSymbol || selectedSymbols.includes(newSymbol)) return;
 
   try {
-    const rawStats = await fetchTickerStats(client, newSymbol, timeFrameQty);
+    const rawStats = await (client, newSymbol, timeFrameQty, client);
     if (!Array.isArray(rawStats) || rawStats.length === 0) {
       console.warn("No valid data for:", newSymbol);
       return;
