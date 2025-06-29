@@ -27,7 +27,7 @@ const Dashboard = () => {
   const { outcomeReports } = useTradeReports();
   const { data: reports } = useActivityReports();
   const { data: fearAndGreed } = useFearAndGreedIndex();
-
+  const latestActivity = reports?.[reports.length - 1];
   const [activityData, setActivityData] = useState([]);
 
   useEffect(() => {
@@ -62,7 +62,8 @@ const Dashboard = () => {
           Placeholder
         </Box>
         <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
-          <StatBox title="431,225" subtitle="Sales Obtained" progress="0.50" increase="+21%" icon={<TimelineOutlinedIcon sx={{ color: colors.scalpelTeal[500], fontSize: "26px" }} />} />
+          <CardTitle>Pairs on the Move</CardTitle>
+          <StatBox title={latestActivity?.Qty ?? "--"} subtitle="Sales Obtained" progress="0.50" increase="+21%" icon={<TimelineOutlinedIcon sx={{ color: colors.scalpelTeal[500], fontSize: "26px" }} />} />
         </Box>
         <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
           <StatBox title="32,441" subtitle="New Clients" progress="0.30" increase="+5%" icon={<PersonAddIcon sx={{ color: colors.scalpelTeal[600], fontSize: "26px" }} />} />

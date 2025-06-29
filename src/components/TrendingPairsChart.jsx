@@ -13,6 +13,8 @@ const TrendingPairsChart = () => {
   const [priceData, setPriceData] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const nivoTheme = colors.nivoTheme;
+  const nivoColors = colors.nivoColorScheme;
   const client = useGraphQLClient();
 
   const fixedSymbols = ["BTCUSDT", "ETHUSDT", "XRPUSDT"];
@@ -70,24 +72,8 @@ const TrendingPairsChart = () => {
       {priceData.length > 0 ? (
         <ResponsiveLine
           data={priceData}
-          theme={{
-            axis: {
-              domain: { line: { stroke: colors.grey[100] } },
-              legend: { text: { fill: colors.grey[100] } },
-              ticks: {
-                line: { stroke: colors.grey[100], strokeWidth: 1 },
-                text: { fill: colors.grey[100] },
-              },
-            },
-            legends: { text: { fill: colors.grey[100] } },
-            tooltip: {
-              container: {
-                background: colors.grey[800],
-                color: colors.houndGold[500],
-              },
-            },
-          }}
-          colors={{ scheme: "category10" }}
+          theme={nivoTheme}
+          colors={nivoColors}
           margin={{ top: 50, right: 50, bottom: 100, left: 60 }}
           xScale={{ type: "point" }}
           yScale={{ type: "linear", min: "auto", max: "auto", stacked: false }}

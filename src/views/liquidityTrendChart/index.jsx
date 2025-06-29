@@ -147,7 +147,7 @@ const handleAddSymbol = async (_, newSymbol) => {
                 },
               },
             }}
-            colors={{ scheme: "nivo" }}
+            colors={tokens(theme.palette.mode).nivoColorScheme}
             margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
             xScale={{ type: "point" }}
             yScale={{

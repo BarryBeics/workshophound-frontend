@@ -45,7 +45,7 @@ const TradeOutcomePieChart = ({ summary }) => {
         innerRadius={0.5}
         padAngle={1}
         cornerRadius={3}
-        colors={({ data }) => data.color}
+        colors={tokens(theme.palette.mode).nivoColorScheme}
         borderWidth={1}
         borderColor={{ from: "color", modifiers: [["darker", 0.2]] }}
         arcLinkLabelsSkipAngle={10}

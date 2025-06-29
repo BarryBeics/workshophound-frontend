@@ -48,6 +48,16 @@ export const tokens = (mode) => {
       800: "#542929",
       900: "#251b1b",
     },
+  // Add default Nivo scheme for consistency
+    nivoColorScheme: [
+      "#e8c1a0",
+      "#f47560",
+      "#f1e15b",
+      "#e8a838",
+      "#61cdbb",
+      "#97e3d5",
+      "#f1c0e8",
+    ],
   };
 
   const light = {
