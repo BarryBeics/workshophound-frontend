@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
-import { gql, GraphQLClient } from "graphql-request";
-
-import { graphqlEndpoint } from "../../config";
 import { tokens } from "../../theme";
 
 import SymbolDropdown from "../../components/SymbolDropdown";
