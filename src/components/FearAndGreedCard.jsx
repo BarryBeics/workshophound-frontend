@@ -76,12 +76,8 @@ const FearAndGreedCard = () => {
       flexDirection="column"
       alignItems="center"
       justifyContent="center"
-      backgroundColor={colors.grey[800]}
-      borderRadius="5px"
     >
-      <Typography variant="h6" color={colors.grey[100]} gutterBottom>
-        Fear & Greed Index
-      </Typography>
+      
       <Typography variant="h3" color={colors.scalpelTeal[400]}>
         {value}
       </Typography>

@@ -26,7 +26,6 @@ const SidebarNav = () => {
   const role = user?.role || UserRole.GUEST;
 
   useEffect(() => {
-    console.log("Sidebar re-rendered — role:", role);
   }, [role]);
 
   const theme = useTheme();
@@ -56,7 +55,6 @@ const SidebarNav = () => {
   };
 
   useEffect(() => {
-    console.log("Topbar re-rendered - role:", role);
   }, [role]);
 
   return (

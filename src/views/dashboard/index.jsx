@@ -1,263 +1,107 @@
-// React
-import React, { useEffect, useState } from "react";
-
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+// src/views/dashboard/index.jsx
+import React, { useEffect, useMemo, useState } from "react";
+import { Box, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+
 import Header from "../../components/Header";
-import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
+import CardTitle from "../../components/CardTitle";
 import StatBox from "../../components/StatBox";
+import BarChart from "../../components/BarChart";
 import ProgressCircle from "../../components/ProgressCircle";
+import TrendingPairsChart from "../../components/TrendingPairsChart";
 import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";
-import { useActivityReports } from "../../hooks/useActivityReports";
+import RecentTrades from "../../components/RecentTrades";
+import TradeOutcomePieChart from "../../components/TradeOutcomePieChart";
 
-import { READ_FEAR_AND_GREED_QUERY } from "../../graph/fearAndGreed/queries";
+import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+
+import useTradeReports from "../../hooks/useTradeReports";
 import { useFearAndGreedIndex } from "../../hooks/useFearAndGreedIndex";
-
+import { useActivityReports } from "../../hooks/useActivityReports";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  const { data: fearAndGreed, isLoading: fgLoading, error: fgError } = useFearAndGreedIndex();
-  const { data: reports, isLoading: reportsLoading, error: reportsError } = useActivityReports();
-
+  const { outcomeReports } = useTradeReports();
+  const { data: reports } = useActivityReports();
+  const { data: fearAndGreed } = useFearAndGreedIndex();
+  const latestActivity = reports?.[reports.length - 1];
   const [activityData, setActivityData] = useState([]);
 
   useEffect(() => {
-    if (reports?.length) {
-      setActivityData(reports);
-    }
+    if (reports?.length) setActivityData(reports);
   }, [reports]);
+
+  const outcomeSummary = useMemo(() => {
+    if (!outcomeReports?.length) return null;
+
+    return outcomeReports.reduce(
+      (acc, trade) => {
+        const outcome = trade.Outcome?.toUpperCase();
+        if (outcome === "WIN") acc.WIN += 1;
+        else if (outcome === "LOSS") acc.LOSS += 1;
+        else acc.TIMEOUT += 1;
+        return acc;
+      },
+      { WIN: 0, LOSS: 0, TIMEOUT: 0 }
+    );
+  }, [outcomeReports]);
 
   return (
     <Box m="20px">
-      {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
       </Box>
 
-      {/* GRID & CHARTS */}
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        gap="20px"
-      >
-        {/* ROW 1 */}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.grey[800]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <TopGainersSnapshot activityData={activityData} />
+      <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
+        {/* Cards Row */}
+        <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
+          <CardTitle>Total Trades</CardTitle>
+          Placeholder
         </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.grey[800]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.scalpelTeal[500], fontSize: "26px" }}
-              />
-            }
-          />
+        <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
+          <CardTitle>Pairs on the Move</CardTitle>
+          <StatBox title={latestActivity?.Qty ?? "--"} subtitle="Sales Obtained" progress="0.50" increase="+21%" icon={<TimelineOutlinedIcon sx={{ color: colors.scalpelTeal[500], fontSize: "26px" }} />} />
         </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.grey[800]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="32,441"
-            subtitle="New Clients"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.scalpelTeal[600], fontSize: "26px" }}
-              />
-            }
-          />
+        <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
+          <StatBox title="32,441" subtitle="New Clients" progress="0.30" increase="+5%" icon={<PersonAddIcon sx={{ color: colors.scalpelTeal[600], fontSize: "26px" }} />} />
         </Box>
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.grey[800]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
+        <Box gridColumn="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" display="flex" alignItems="center" justifyContent="center">
+          <CardTitle>Fear & Greed Index</CardTitle>
           <FearAndGreedCard />
         </Box>
 
-        {/* ROW 2 */}
-        <Box
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.grey[800]}
-        >
-          <Box
-            mt="25px"
-            p="0 30px"
-            display="flex "
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box>
-              <Typography
-                variant="h5"
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.scalpelTeal[500]}
-              >
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box>
-              <IconButton>
-                <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.scalpelTeal[500] }}
-                />
-              </IconButton>
-            </Box>
+        {/* Charts Row */}
+        <Box gridColumn="span 8" gridRow="span 3" backgroundColor={colors.grey[700]} borderRadius="5px">
+          <Box mt="25px" p="0 30px" display="flex" justifyContent="space-between" alignItems="center">
+            <CardTitle>Trending Pairs</CardTitle>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
-            <LineChart isDashboard={true} />
-          </Box>
+          <TrendingPairsChart />
         </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.grey[800]}
-          overflow="auto"
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`4px solid ${colors.houndGold[500]}`}
-            colors={colors.grey[100]}
-            p="15px"
-          >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
-              Recent Transactions
-            </Typography>
-          </Box>
-          {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`4px solid ${colors.houndGold[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.scalpelTeal[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
-              <Box
-                backgroundColor={colors.scalpelTeal[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
-            </Box>
-          ))}
+        <Box gridColumn="span 4" gridRow="span 3" backgroundColor={colors.grey[700]} borderRadius="5px" overflow="auto">
+          <CardTitle>Recent Trades</CardTitle>
+          <RecentTrades trades={outcomeReports} />
         </Box>
 
-        {/* ROW 3 */}
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.grey[800]}
-          p="30px"
-        >
-          <Typography variant="h5" fontWeight="600">
-            Campaign
-          </Typography>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
-          >
-            <ProgressCircle size="125" />
-            <Typography
-              variant="h5"
-              color={colors.scalpelTeal[500]}
-              sx={{ mt: "15px" }}
-            >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+        {/* Lower Stats Row */}
+        <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.grey[700]} borderRadius="5px" p="30px">
+          <CardTitle>Trade Outcome Ratio</CardTitle>
+          <Box height="200px" mt="15px">
+            <TradeOutcomePieChart summary={outcomeSummary} />
           </Box>
         </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.grey[800]}
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ padding: "30px 30px 0 30px" }}
-          >
-            Sales Quantity
-          </Typography>
+        <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.grey[700]} borderRadius="5px">
+          <CardTitle>Sales Quantity</CardTitle>
           <Box height="250px" mt="-20px">
-            <BarChart isDashboard={true} />
+            <BarChart />
           </Box>
         </Box>
-        <Box
-          gridColumn="span 4"
-          gridRow="span 2"
-          backgroundColor={colors.grey[800]}
-          padding="30px"
-        >
-          <Typography
-            variant="h5"
-            fontWeight="600"
-            sx={{ marginBottom: "15px" }}
-          >
-            Geography Based Traffic
-          </Typography>
+        <Box gridColumn="span 4" gridRow="span 2" backgroundColor={colors.grey[700]} borderRadius="5px" padding="30px">
+          <CardTitle>Average Gainers Snapshot</CardTitle>
           <Box height="200px">
-            <GeographyChart isDashboard={true} />
+            <TopGainersSnapshot activityData={activityData} />
           </Box>
         </Box>
       </Box>

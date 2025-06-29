@@ -50,16 +50,7 @@ const TopGainersSnapshot = ({ activityData }) => {
   }, [activityData]);
 
   return (
-    <Box
-      p={2}
-      backgroundColor={colors.grey[800]}
-      borderRadius="8px"
-      width="100%"
-      boxShadow={2}
-    >
-      <Typography variant="h6" gutterBottom>
-        Avg Gainers Snapshot
-      </Typography>
+    <Box p={2} width="100%">
       <Box display="grid" gridTemplateColumns="1fr 1fr 1fr" gap={2}>
         <Typography variant="subtitle2">Top N</Typography>
         <Typography variant="subtitle2">Current %</Typography>
