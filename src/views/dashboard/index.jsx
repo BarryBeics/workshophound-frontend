@@ -9,7 +9,6 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
@@ -254,10 +253,10 @@ const Dashboard = () => {
             fontWeight="600"
             sx={{ marginBottom: "15px" }}
           >
-            Geography Based Traffic
+            Placeholder
           </Typography>
           <Box height="200px">
-            <GeographyChart isDashboard={true} />
+            Placeholder
           </Box>
         </Box>
       </Box>
