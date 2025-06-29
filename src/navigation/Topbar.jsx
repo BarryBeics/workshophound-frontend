@@ -53,7 +53,6 @@ const Topbar = () => {
   const showPrivateIcons = role === UserRole.MEMBER || role === UserRole.ADMIN;
 
   useEffect(() => {
-    console.log("Topbar re-rendered - role:", role, "| logged in:", isLoggedIn);
   }, [role, isLoggedIn]);
 
   return (
