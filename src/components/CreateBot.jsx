@@ -102,7 +102,7 @@ const CreateBot = ({ onCreated }) => {
   
 
   return (
-    <Box m="20px">
+    <Box>
       <Box 
       display="flex" 
       justifyContent="space-between" 
@@ -116,7 +116,7 @@ const CreateBot = ({ onCreated }) => {
   {/* Bot Name Dropdown */}
   <Grid item xs={12} sm={6} md={4}>
     <Box
-      backgroundColor={colors.grey[700]}
+      backgroundColor="background.paper"
       borderRadius="5px"
       boxShadow={1}
       p={2}
@@ -162,7 +162,7 @@ const CreateBot = ({ onCreated }) => {
   ].map(([field, label, min, max, step]) => (
     <Grid item xs={12} sm={6} md={4} key={field}>
       <Box
-        backgroundColor={colors.grey[700]}
+        backgroundColor="background.paper"
         borderRadius="5px"
         boxShadow={1}
         p={2}
@@ -188,7 +188,7 @@ const CreateBot = ({ onCreated }) => {
               backgroundColor: colors.scalpelTeal[500],
             },
             "& .MuiSlider-rail": {
-              backgroundColor: colors.grey[700],
+              backgroundColor: "background.paper",
             },
           }}
         />
@@ -199,7 +199,7 @@ const CreateBot = ({ onCreated }) => {
   {/* Submit Button */}
   <Grid item xs={12}>
     <Box
-      backgroundColor={colors.grey[700]}
+      backgroundColor="background.paper"
       borderRadius="5px"
       boxShadow={1}
       p={2}

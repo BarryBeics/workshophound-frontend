@@ -84,7 +84,7 @@ const EditUserForm = () => {
   if (!initialValues) return <div>Loading...</div>;
 
   return (
-    <Box m="20px">
+    <Box>
       <Header title="EDIT USER" subtitle={`Edit ${initialValues.firstName} ${initialValues.lastName}`} />
 
       <Formik

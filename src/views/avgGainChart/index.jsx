@@ -151,7 +151,7 @@ export default function TopGainersScatterWithTrend() {
   };
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="TOP GAINERS"
         subtitle="Toggle between a scatter chart and a table of recent activity"
@@ -159,7 +159,7 @@ export default function TopGainersScatterWithTrend() {
 
       <Box mb={2} display="flex" justifyContent="space-between">
         <Box
-          backgroundColor={colors.grey[800]}
+          backgroundColor="background.paper"
           borderRadius="5px"
           boxShadow={1}
           p={2}

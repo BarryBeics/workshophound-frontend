@@ -148,7 +148,7 @@ const ManageUsers = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="USERS" subtitle="Managing the Users" />
         <Button

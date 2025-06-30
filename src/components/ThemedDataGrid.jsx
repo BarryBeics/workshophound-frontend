@@ -2,7 +2,14 @@ import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../theme";
 
-const ThemedDataGrid = ({ rows, columns, height = "75vh", sx = {}, ...props }) => {
+const ThemedDataGrid = ({
+  rows,
+  columns,
+  height = "75vh",
+  width = "100%", // <- added default width
+  sx = {},
+  ...props
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -10,6 +17,7 @@ const ThemedDataGrid = ({ rows, columns, height = "75vh", sx = {}, ...props }) =
     <Box
       m="40px 0 0 0"
       height={height}
+      width={width} // <- now applies width
       sx={{
         "& .MuiDataGrid-root": { border: "none" },
         "& .MuiDataGrid-cell": { borderBottom: "none" },
@@ -18,7 +26,7 @@ const ThemedDataGrid = ({ rows, columns, height = "75vh", sx = {}, ...props }) =
           borderBottom: "none",
         },
         "& .MuiDataGrid-virtualScroller": {
-          backgroundColor: colors.grey[700],
+          backgroundColor: "background.paper",
         },
         "& .MuiDataGrid-footerContainer": {
           borderTop: "none",

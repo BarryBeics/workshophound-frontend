@@ -89,7 +89,7 @@ const ManageTasks = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
       <Header title="TASKS" subtitle="View and Manage Tasks" />
       <Button

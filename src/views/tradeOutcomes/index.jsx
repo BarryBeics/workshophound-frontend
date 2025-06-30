@@ -101,7 +101,7 @@ const TradeReports = () => {
 
 
   return (
-    <Box m="20px">
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="TRADE REPORTS" subtitle="Bot Outcome History" />
       </Box>

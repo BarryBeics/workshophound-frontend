@@ -66,7 +66,7 @@ import {
     };
   
     return (
-      <Box m="20px">
+      <Box>
         <Header title={`CREATE ${name}`} subtitle={`Create a New ${name}`} />  
         <Formik
           onSubmit={handleFormSubmit}

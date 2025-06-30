@@ -55,7 +55,7 @@ const Roadmap = () => {
   const colors = tokens(theme.palette.mode);
 
   return (
-    <Box m={2} p={3} borderRadius="8px" bgcolor={colors.grey[800]}>
+    <Box m={2} p={3} borderRadius="8px" bgcolor="background.paper">
       <Typography
         variant="h2"
         sx={{ color: colors.houndGold[500], mb: 4, fontWeight: "bold" }}

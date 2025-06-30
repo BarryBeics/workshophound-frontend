@@ -29,7 +29,7 @@ const TimeRangeSelector = ({ value, onChange, colorMode }) => {
               value === intervals
                 ? colorMode.houndGold[500]
                 : colorMode.scalpelTeal[500],
-            color: colorMode.grey[100],
+            color: "background.paper",
             fontWeight: "bold",
             padding: "6px 12px",
             fontSize: "13px",

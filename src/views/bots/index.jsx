@@ -42,7 +42,7 @@ const Bots = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <CreateBot onCreated={() => {
         readAllStrategies().then(setBotData);
       }} />

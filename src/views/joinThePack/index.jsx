@@ -57,7 +57,7 @@ const JoinThePack = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="Hear More. See More. Get In Early"
         subtitle="Add your details to follow the journey and help shape what gets built next."

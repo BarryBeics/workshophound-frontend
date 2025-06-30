@@ -67,8 +67,8 @@ const TrendingPairsChart = () => {
     );
   }, [client]);
 
-  return (
-    <Box height="450px">
+return (
+    <Box height="100%" width="700px">
       {priceData.length > 0 ? (
         <ResponsiveLine
           data={priceData}

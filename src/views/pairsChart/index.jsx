@@ -75,7 +75,7 @@ const PriceChart = () => {
   };
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="PRICE CHART"
         subtitle="Compare recent price trends across pairs"
@@ -92,8 +92,7 @@ const PriceChart = () => {
         </Box>
 
         <Box
-          backgroundColor={colors.grey[800]}
-          borderRadius="5px"
+          backgroundColor="background.paper"
           boxShadow={1}
           p={2}
           minHeight="100px"
