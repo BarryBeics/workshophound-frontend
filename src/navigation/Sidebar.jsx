@@ -66,7 +66,7 @@ const SidebarNav = () => {
         "& .MuiDrawer-paper": {
           width: isCollapsed ? 80 : 250,
           boxSizing: "border-box",
-          backgroundColor: colors.grey[800],
+          backgroundColor: "background.paper",
           color: colors.grey[100],
         },
       }}

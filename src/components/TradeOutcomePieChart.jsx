@@ -38,8 +38,8 @@ const TradeOutcomePieChart = ({ summary }) => {
   ];
 
   return (
-    <Box height="100%" display="flex" justifyContent="center" alignItems="center">
-      <ResponsivePie
+     <Box height="100%" width="300px">
+    <ResponsivePie
         data={pieData}
         margin={{ top: 40, right: 60, bottom: 60, left: 60 }}
         innerRadius={0.5}

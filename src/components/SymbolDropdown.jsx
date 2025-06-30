@@ -53,7 +53,7 @@ const SymbolDropdown = ({
 }, []);
 
   return (
-    <Box backgroundColor={colors.grey[800]} borderRadius="5px" boxShadow={1} p={2} minHeight="100px">
+    <Box backgroundColor="background.paper" borderRadius="5px" boxShadow={1} p={2} minHeight="100px">
       <FormControl sx={{ width: "250px" }}>
         <Typography variant="subtitle1" sx={{ mb: 1, color: colors.grey[100] }}>
           Select Symbol

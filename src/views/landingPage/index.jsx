@@ -15,13 +15,13 @@ const LandingPage = () => {
   const colors = tokens(theme.palette.mode);
 
   const Section = ({ children }) => (
-    <Box my={6} p={4} backgroundColor={colors.grey[700]} borderRadius="5px">
+    <Box my={6} p={4} backgroundColor="background.paper" borderRadius="5px">
       {children}
     </Box>
   );
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="SCALPEL HOUND"
         subtitle="An indie trader's journey. Built in public. Sharpened by the Pack."

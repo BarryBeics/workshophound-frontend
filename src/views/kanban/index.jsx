@@ -168,7 +168,7 @@ const KanbanBoard = () => {
   }, []);
 
   return (
-    <Box m="20px">
+    <Box>
       {/* Page Header and +Task Button */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="KANBAN" subtitle="View and organise tasks" />
@@ -235,7 +235,7 @@ const KanbanBoard = () => {
           gap={2}
           p={2}
           overflow="auto"
-          backgroundColor={colors.grey[600]}
+          backgroundColor="background.paper"
           borderRadius="5px"
           boxShadow={1}
           minHeight="60vh"
@@ -261,7 +261,7 @@ const KanbanBoard = () => {
                     flex={1}
                     minWidth={200}
                     maxWidth="100%"
-                    backgroundColor={colors.grey[700]}
+                    backgroundColor="background.paper"
                     borderRadius="5px"
                     boxShadow={2}
                     p={2}

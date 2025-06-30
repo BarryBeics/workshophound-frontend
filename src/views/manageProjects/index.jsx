@@ -98,7 +98,7 @@ const ManageProjects = () => {
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
       <Header title="PROJECTS" subtitle="Manage All Projects" />
       <Button

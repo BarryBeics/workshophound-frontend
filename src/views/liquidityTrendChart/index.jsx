@@ -77,7 +77,7 @@ const handleAddSymbol = async (_, newSymbol) => {
 
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="LIQUIDITY TREND"
         subtitle="Visualizing average liquidity over time for better trade execution confidence"
@@ -95,7 +95,7 @@ const handleAddSymbol = async (_, newSymbol) => {
         </Box>
 
         <Box
-          backgroundColor={colors.grey[800]}
+          backgroundColor="background.paper"
           borderRadius="5px"
           boxShadow={1}
           p={2}

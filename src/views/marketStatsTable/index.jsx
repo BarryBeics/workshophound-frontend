@@ -53,7 +53,7 @@ useEffect(() => {
   ];
 
   return (
-    <Box m="20px">
+    <Box>
       <Header title="MARKET SNAPSHOT" subtitle="Current symbol metrics at a glance" />
       <ThemedDataGrid
         rows={tickerStatsData}

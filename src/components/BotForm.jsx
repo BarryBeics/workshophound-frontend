@@ -40,7 +40,7 @@ const BotForm = ({ title, subtitle, icon, progress, increase, children }) => {
         </Typography>
       )}
 
-      {/* 🧩 Inject your form elements or sliders here */}
+      {/* Inject your form elements or sliders here */}
       {children}
     </Box>
   );

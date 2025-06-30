@@ -174,7 +174,7 @@ const validationSchema = yup.object().shape({
   if (!initialValues) return <div>Loading...</div>;
 
   return (
-    <Box m="20px">
+    <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header title="EDIT TASK" subtitle={`Edit task: ${initialValues.title}`} />
         <Tooltip title="Delete">

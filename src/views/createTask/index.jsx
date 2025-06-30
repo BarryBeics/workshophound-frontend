@@ -68,7 +68,7 @@ for (const key of Object.keys(cleanedValues)) {
 };
 
   return (
-    <Box m="20px">
+    <Box>
       <Header title="CREATE TASK" subtitle="Create a New Task" />
 
       <Formik

@@ -121,7 +121,7 @@ const validationSchema = yup.object().shape({
     if (!initialValues) return <div>Loading...</div>;
   
     return (
-      <Box m="20px">
+      <Box>
         <Header title="EDIT PROJECT" subtitle="Modify project details" />
         <Formik
           initialValues={initialValues}

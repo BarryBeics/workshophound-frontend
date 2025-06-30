@@ -36,12 +36,12 @@ const RecentTrades = () => {
   }, []);
 
   const columns = [
-    { field: "Bot", headerName: "Bot", flex: 1.2 },
-    { field: "Result", headerName: "Result", flex: 0.8 },
+    { field: "Bot", headerName: "Bot", flex: 1.5 },
+    { field: "Result", headerName: "Result", flex: 1 },
     {
       field: "PercentageChange",
       headerName: "% Change",
-      flex: 0.8,
+      flex: 1,
       type: "number",
     },
     {
@@ -57,6 +57,7 @@ const RecentTrades = () => {
       rows={rows}
       columns={columns}
       height="500px"
+      width="500px"
       hideFooter
       disableRowSelectionOnClick
     />

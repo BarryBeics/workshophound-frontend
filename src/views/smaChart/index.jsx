@@ -128,7 +128,7 @@ const SMAChart = () => {
   }, [selectedSymbols, selectedStrategy, timeFrameQty]);
 
   return (
-    <Box m="20px">
+    <Box>
       <Header
         title="SMA PRICE CHART"
         subtitle="Here you will see the price data we hold for selected pairs"
@@ -141,7 +141,7 @@ const SMAChart = () => {
         />
 
         <Box
-          backgroundColor={colors.grey[800]}
+          backgroundColor="background.paper"
           borderRadius="5px"
           p={2}
           width={300}
@@ -154,7 +154,7 @@ const SMAChart = () => {
         </Box>
 
         <Box
-          backgroundColor={colors.grey[800]}
+          backgroundColor="background.paper"
           borderRadius="5px"
           p={2}
           minHeight="100px"
