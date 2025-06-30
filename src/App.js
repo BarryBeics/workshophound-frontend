@@ -19,6 +19,7 @@ import EditUserForm from "./views/manageUsers/EditUserForm";
 import Login from "./auth/LoginPanel";
 import LandingPage from "./views/landingPage";
 import FAQ from "./views/faq";
+import Roadmap from "./views/roadmap";
 import JoinThePack from "./views/joinThePack";
 
 // Views - Strategy
@@ -65,6 +66,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<LandingPage />} />
             <Route path="/faq" element={<FAQ />} />
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/joinThePack" element={<JoinThePack />} />
           </Route>
 
