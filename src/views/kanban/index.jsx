@@ -16,7 +16,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
+import LabelSelector from "../../components/LabelSelector";
+
 import { useSettings } from "../../context/SettingsProvider";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -185,40 +187,15 @@ const KanbanBoard = () => {
           + Task
         </Button>
         {/* Pill Filter */}
-        <Box
-          mb={2}
-          sx={{ width: "40%" }}
-          display="flex"
-          alignItems="center"
-          flexWrap="wrap"
-          gap={1}
-        >
-          {formOptions.labelOptions.map((label) => {
-            const isSelected = selectedLabels.includes(label.value);
-            return (
-              <Chip
-                key={label.value}
-                label={label.value}
-                clickable
-                onClick={() => {
-                  setSelectedLabels((prev) =>
-                    isSelected
-                      ? prev.filter((l) => l !== label.value)
-                      : [...prev, label.value]
-                  );
-                }}
-                sx={{
-                  backgroundColor: isSelected ? label.color : colors.grey[600],
-                  color: isSelected ? "#333" : colors.grey[200],
-                  border: isSelected
-                    ? `2px solid ${label.color}`
-                    : "1px solid #555",
-                  fontWeight: isSelected ? "bold" : "normal",
-                }}
-              />
-            );
-          })}
+        <Box width={"50%"} mb={2}>
+        <LabelSelector
+          selectedLabels={selectedLabels}
+          setFieldValue={(field, value) => setSelectedLabels(value)}
+          error={null} // or pass real error if validating
+          touched={false} // or true if touched logic applies
+        />
         </Box>
+
         {/* User Filter */}
         <Box width="20%" mb={2}>
           <AdminUserSelect
@@ -304,7 +281,7 @@ const KanbanBoard = () => {
                               borderRadius: "8px",
                               backgroundColor: colors.grey[800],
                               color: colors.grey[100],
-                              border: `1px solid ${colors.scalpelTeal[500]}`,
+                              border: `1px solid ${colors.scalpelTeal[400]}`,
                               transition:
                                 "transform 0.1s ease-in-out, box-shadow 0.2s",
                               "&:hover": {
@@ -335,7 +312,7 @@ const KanbanBoard = () => {
                                     sx={{
                                       color: colors.scalpelTeal[300],
                                       "&.Mui-checked": {
-                                        color: colors.scalpelTeal[500],
+                                        color: colors.scalpelTeal[400],
                                       },
                                       p: 0.5,
                                     }}

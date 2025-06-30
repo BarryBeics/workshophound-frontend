@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 // Static data
 import { mockBarData as data } from "../data/mockData";

@@ -2,7 +2,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const BotForm = ({ title, subtitle, icon, progress, increase, children }) => {
   const theme = useTheme();
@@ -35,7 +35,7 @@ const BotForm = ({ title, subtitle, icon, progress, increase, children }) => {
       )}
 
       {subtitle && (
-        <Typography variant="h5" sx={{ color: colors.scalpelTeal[500], mb: 2 }}>
+        <Typography variant="h5" sx={{ color: colors.scalpelTeal[400], mb: 2 }}>
           {subtitle}
         </Typography>
       )}

@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
+import { Card, CardContent, Box, Grid } from "@mui/material";
+import CardTitle from "../components/CardTitle";
 
 const DashboardCard = ({ cardTitle, children, height = "300px", xs = 12, md = 6 }) => {
   return (
@@ -15,9 +16,8 @@ const DashboardCard = ({ cardTitle, children, height = "300px", xs = 12, md = 6 
       >
          <CardContent sx={{ flexGrow: 1, height: "100%", boxSizing: "border-box" }}>
           {cardTitle && (
-            <Typography variant="h6" fontWeight="bold" mb={2}>
-              {cardTitle}
-            </Typography>
+            <CardTitle>{cardTitle}</CardTitle>
+
           )}
           <Box sx={{ height: "100%" }}>
             {children}

@@ -2,7 +2,7 @@
 import { Box, useTheme } from "@mui/material";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const ProgressCircle = ({ progress = "0.75", size = "40" }) => {
   const theme = useTheme();
@@ -12,8 +12,8 @@ const ProgressCircle = ({ progress = "0.75", size = "40" }) => {
     <Box
       sx={{
         background: `radial-gradient(${colors.houndGold[400]} 55%, transparent 56%),
-            conic-gradient(transparent 0deg ${angle}deg, ${colors.scalpelTeal[500]} ${angle}deg 360deg),
-            ${colors.scalpelTeal[500]}`,
+            conic-gradient(transparent 0deg ${angle}deg, ${colors.scalpelTeal[400]} ${angle}deg 360deg),
+            ${colors.scalpelTeal[400]}`,
         borderRadius: "50%",
         width: `${size}px`,
         height: `${size}px`,

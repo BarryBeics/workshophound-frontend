@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Typography, Checkbox, List, ListItem, ListItemIcon, ListItemText, Divider, useTheme } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 const roadmapData = [
   {
@@ -77,7 +77,7 @@ const Roadmap = () => {
               <ListItem key={i}>
                 <ListItemIcon>
                   {item.done ? (
-                    <CheckCircleIcon sx={{ color: colors.scalpelTeal[500] }} />
+                    <CheckCircleIcon sx={{ color: colors.scalpelTeal[400] }} />
                   ) : (
                     <RadioButtonUncheckedIcon sx={{ color: colors.scalpelTeal[200] }} />
                   )}

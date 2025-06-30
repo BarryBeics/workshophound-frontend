@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Typography, CircularProgress, Chip } from "@mui/material";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";

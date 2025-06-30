@@ -10,7 +10,7 @@ import DeleteUserModal from "../../components/DeleteUserModal";
 import TableActions from "../../components/TableActions";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 import { UserRole } from "../../constants/userRoles.ts";
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Dialog, DialogTitle, DialogContent, Box, Typography } from "@mui/material";
 import StartMeetingForm from "./StartMeetingForm";
 import CompleteMeetingButton from "./CompleteMeetingButton";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const MeetingModal = ({ open, onClose, setSnackbar }) => {
   const [isMeetingActive, setIsMeetingActive] = useState(false);

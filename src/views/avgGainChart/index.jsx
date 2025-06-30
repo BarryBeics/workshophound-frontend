@@ -2,13 +2,14 @@
 import { useEffect, useState, useMemo } from "react";
 
 // Third-party libraries
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { generateNivoTheme } from "../../theme/nivoTheme";
 import { ResponsiveScatterPlot } from "@nivo/scatterplot";
 import { mean } from "lodash";
 
 // Theme
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 // Utils
 import { timeNow } from "../../utils/timeNow";
@@ -22,8 +23,9 @@ import ViewModeToggle from "../../components/ViewModeToggle";
 import { useActivityReports } from "../../hooks/useActivityReports";
 
 export default function TopGainersScatterWithTrend() {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const muiTheme = useTheme();
+  const nivoTheme = generateNivoTheme(muiTheme);
+  const colors = tokens(muiTheme.palette.mode);
 
   const [timeFrameQty, setTimeFrameQty] = useState(12);
   const [viewMode, setViewMode] = useState("chart");
@@ -33,7 +35,7 @@ export default function TopGainersScatterWithTrend() {
 
   const { scatterData, trendLines, numPoints, formattedTableRows } =
     useMemo(() => {
-      console.log("💡 useMemo triggered", activityData.length);
+      console.log("useMemo triggered", activityData.length);
       if (!activityData.length)
         return { scatterData: [], trendLines: [], formattedTableRows: [] };
 
@@ -190,6 +192,7 @@ export default function TopGainersScatterWithTrend() {
             Showing {numPoints} data points
           </Typography>
           <ResponsiveScatterPlot
+          theme={nivoTheme}
             data={scatterData}
             margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
             xScale={{ type: "linear", min: "auto", max: "auto" }}
@@ -245,7 +248,6 @@ export default function TopGainersScatterWithTrend() {
               "mesh",
               "legends",
             ]}
-            theme={themeSettings}
           />
         </Box>
       ) : (

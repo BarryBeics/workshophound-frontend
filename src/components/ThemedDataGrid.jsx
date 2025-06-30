@@ -1,6 +1,6 @@
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const ThemedDataGrid = ({
   rows,
@@ -22,15 +22,15 @@ const ThemedDataGrid = ({
         "& .MuiDataGrid-root": { border: "none" },
         "& .MuiDataGrid-cell": { borderBottom: "none" },
         "& .MuiDataGrid-columnHeaders": {
-          backgroundColor: colors.scalpelTeal[700],
-          borderBottom: "none",
+          backgroundColor: `${colors.scalpelTeal[700]} !important`,
+          
         },
         "& .MuiDataGrid-virtualScroller": {
           backgroundColor: "background.paper",
         },
         "& .MuiDataGrid-footerContainer": {
           borderTop: "none",
-          backgroundColor: colors.scalpelTeal[500],
+          backgroundColor: colors.scalpelTeal[400],
         },
         ...sx,
       }}

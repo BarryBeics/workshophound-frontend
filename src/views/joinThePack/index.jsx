@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import PetsIcon from "@mui/icons-material/Pets";
 
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Header from "../../components/Header";
@@ -104,11 +104,11 @@ const JoinThePack = () => {
             justifyContent="center"
           >
             <PetsIcon
-              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+              sx={{ color: colors.scalpelTeal[400], fontSize: "1.6rem", mx: 1 }}
             />
             Welcome to the Pack
             <PetsIcon
-              sx={{ color: colors.scalpelTeal[500], fontSize: "1.6rem", mx: 1 }}
+              sx={{ color: colors.scalpelTeal[400], fontSize: "1.6rem", mx: 1 }}
             />
           </Typography>
 

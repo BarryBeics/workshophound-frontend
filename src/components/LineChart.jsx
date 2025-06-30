@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 // Static data
 import { mockLineData as data } from "../data/mockData";

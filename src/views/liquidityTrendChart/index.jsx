@@ -7,7 +7,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
 
 // Theme
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 // Components
 import SymbolDropdown from "../../components/SymbolDropdown";

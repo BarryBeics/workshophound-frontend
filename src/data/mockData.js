@@ -1,5 +1,5 @@
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 export const mockDataTeam = [
   {

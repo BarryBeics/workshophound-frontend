@@ -30,17 +30,17 @@
     { "label": "Design", "value": "design" }
   ],
   "labelOptions": [
-    { "value": "Compliance", "color": "#FFD8BE" },
-    { "value": "Training", "color": "#AEDFF7" },
-    { "value":"safety", "color": "#E0C3FC" },
-    { "value":"High Priority", "color": "#E0C3FC" },
-    { "value":"Meeting", "color": "#E0C3FC" },
-    { "value": "Call", "color": "#FCE1E4" },
-    { "value":"Programming", "color": "#E0C3FC" },
-    { "value": "Design", "color": "#E0C3FC" },
-    { "value":"Follow-up", "color": "#E0C3FC" },
-    { "value":"Internal", "color": "#E0C3FC" },
-    { "value":"External", "color": "#E0C3FC" }
+    { "value": "Compliance", "color": "#e8c1a0" },
+    { "value": "Training", "color": "#f47560" },
+    { "value":"safety", "color": "#f1e15b" },
+    { "value":"High Priority", "color": "#e8a838" },
+    { "value":"Meeting", "color": "#61cdbb" },
+    { "value": "Call", "color": "#97e3d5" },
+    { "value":"Programming", "color": "#f1c0e8" },
+    { "value": "Design", "color": "#f47560" },
+    { "value":"Follow-up", "color": "#f1e15b" },
+    { "value":"Internal", "color": "#e8a838" },
+    { "value":"External", "color": "#61cdbb" }
   ]
 }
 

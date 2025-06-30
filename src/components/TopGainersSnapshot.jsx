@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 import { mean } from "lodash";
 
 const gainKeys = [

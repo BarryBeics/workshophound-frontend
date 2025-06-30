@@ -8,7 +8,7 @@ import { graphqlEndpoint } from "../config";
 import logo from "../assets/logo.png";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../../src/theme/tokens";
 
 const LOGIN_MUTATION = gql`
   mutation Login($input: LoginInput!) {
@@ -65,7 +65,7 @@ const Login = () => {
     >
       <Paper elevation={3} sx={{ p: 4, width: "350px", textAlign: "center" }}>
         
-        <Typography variant="h3" fontWeight="bold" color={colors.houndGold[500]} mb={2}>
+        <Typography variant="h3" fontWeight="bold" color={colors.houndGold[400]} mb={2}>
           Welcome to Scalpel Hound
         </Typography>
         <img src={logo} alt="Scalpel Hound Logo" style={{ width: 220, marginBottom: "1rem" }} />

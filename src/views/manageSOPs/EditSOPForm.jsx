@@ -235,7 +235,7 @@ const validationSchema = yup.object().shape({
     <Header title="RELATED TASKS" subtitle="Tasks linked to this SOP" />
     <Button
       variant="contained"
-      color="success"
+      color="secondary"
       size="small"
       onClick={() =>
         navigate("/createTask", {

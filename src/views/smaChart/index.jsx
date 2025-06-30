@@ -5,9 +5,10 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, MenuItem, Select, FormControl } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
+import { generateNivoTheme } from "../../theme/nivoTheme";
 
 // Theme and Utils
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 import { calculateSMA } from "../../utils/smaUtils";
 
 import { useStrategies } from "../../hooks/useStrategies";
@@ -25,6 +26,7 @@ import useGraphQLClient from "../../hooks/useGraphQLClient";
 const SMAChart = () => {
   const client = useGraphQLClient();
   const theme = useTheme();
+  const nivoTheme = generateNivoTheme(theme);
   const colors = tokens(theme.palette.mode);
 
   const [selectedSymbols, setSelectedSymbols] = useState([]);
@@ -184,7 +186,7 @@ const SMAChart = () => {
         <Box height="500px">
           <ResponsiveLine
             data={chartData}
-            theme={themeSettings}
+            theme={nivoTheme}
             margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
             xScale={{ type: "point" }}
             yScale={{ type: "linear", min: "auto", max: "auto" }}
