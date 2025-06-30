@@ -1,4 +1,12 @@
-import { Box, IconButton, useTheme, Tooltip, Snackbar, Alert, Button } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  useTheme,
+  Tooltip,
+  Snackbar,
+  Alert,
+  Button,
+} from "@mui/material";
 import { useContext, useEffect } from "react";
 import { useSettings } from "../context/SettingsProvider";
 import SettingsModal from "../components/SettingsModal";
@@ -23,7 +31,7 @@ import LogoutButton from "../auth/LogoutButton";
 import MeetingModal from "../components/MeetingModal";
 
 import { UserRole } from "../constants/userRoles.ts";
-
+import SuggestionModal from "../components/SuggestionModal";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -31,6 +39,7 @@ const Topbar = () => {
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showSuggestionModal, setShowSuggestionModal] = useState(false);
   const {
     showComplete,
     setShowComplete,
@@ -52,8 +61,7 @@ const Topbar = () => {
 
   const showPrivateIcons = role === UserRole.MEMBER || role === UserRole.ADMIN;
 
-  useEffect(() => {
-  }, [role, isLoggedIn]);
+  useEffect(() => {}, [role, isLoggedIn]);
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -62,6 +70,21 @@ const Topbar = () => {
 
       {/* RIGHT */}
       <Box display="flex" alignItems="center">
+        <Tooltip title="Suggestions" color="secondary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setShowSuggestionModal(true)}
+          >
+            Add Your Suggestions
+          </Button>
+        </Tooltip>
+
+        <SuggestionModal
+          open={showSuggestionModal}
+          onClose={() => setShowSuggestionModal(false)}
+        />
+
         <Tooltip title="Toggle theme" color="secondary">
           <IconButton onClick={colorMode.toggleColorMode}>
             {theme.palette.mode === "dark" ? (
@@ -138,11 +161,11 @@ const Topbar = () => {
               ml: 2,
               boxShadow: 2,
               textTransform: "uppercase",
-    '&:hover': {
-      background: colors.houndGold[600],
-    },
-  }}
-  onClick={() => navigate("/login")}
+              "&:hover": {
+                background: colors.houndGold[600],
+              },
+            }}
+            onClick={() => navigate("/login")}
           >
             Login
           </Button>
