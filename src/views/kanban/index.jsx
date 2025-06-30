@@ -16,7 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 import { useSettings } from "../../context/SettingsProvider";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -304,7 +304,7 @@ const KanbanBoard = () => {
                               borderRadius: "8px",
                               backgroundColor: colors.grey[800],
                               color: colors.grey[100],
-                              border: `1px solid ${colors.scalpelTeal[500]}`,
+                              border: `1px solid ${colors.scalpelTeal[400]}`,
                               transition:
                                 "transform 0.1s ease-in-out, box-shadow 0.2s",
                               "&:hover": {
@@ -335,7 +335,7 @@ const KanbanBoard = () => {
                                     sx={{
                                       color: colors.scalpelTeal[300],
                                       "&.Mui-checked": {
-                                        color: colors.scalpelTeal[500],
+                                        color: colors.scalpelTeal[400],
                                       },
                                       p: 0.5,
                                     }}

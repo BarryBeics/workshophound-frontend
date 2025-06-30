@@ -8,7 +8,7 @@ import {
   FormControl,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 // Graph
 import { GraphQLClient, gql } from "graphql-request";
@@ -94,10 +94,10 @@ const SymbolDropdown = ({
           )}
           sx={{
             "& .MuiInputBase-root": {
-              color: colors.scalpelTeal[500],
+              color: colors.scalpelTeal[400],
             },
             "& .MuiSvgIcon-root": {
-              color: colors.scalpelTeal[500],
+              color: colors.scalpelTeal[400],
             },
           }}
         />

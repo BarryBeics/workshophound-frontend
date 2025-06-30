@@ -1,10 +1,9 @@
 // src/views/dashboard/index.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { Box, useTheme, Grid } from "@mui/material";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 import Header from "../../components/Header";
-import CardTitle from "../../components/CardTitle";
 import TrendingPairsChart from "../../components/TrendingPairsChart";
 import FearAndGreedCard from "../../components/FearAndGreedCard";
 import TopGainersSnapshot from "../../components/TopGainersSnapshot";

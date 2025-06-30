@@ -2,7 +2,7 @@
 import { Box, Typography, useTheme } from "@mui/material";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 // Components
 import ProgressCircle from "./ProgressCircle";

@@ -10,7 +10,7 @@ import { GraphQLClient } from "graphql-request";
 import { graphqlEndpoint } from "../config";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 // Components
 import Header from "./Header";
@@ -134,9 +134,9 @@ const CreateBot = ({ onCreated }) => {
           }
           label="Bot Name"
           sx={{
-            color: colors.scalpelTeal[500],
+            color: colors.scalpelTeal[400],
             "& .MuiSvgIcon-root": {
-              color: colors.scalpelTeal[500],
+              color: colors.scalpelTeal[400],
             },
           }}
         >
@@ -179,13 +179,13 @@ const CreateBot = ({ onCreated }) => {
           onChange={handleSliderChange(field)}
           valueLabelDisplay="auto"
           sx={{
-            color: colors.scalpelTeal[500],
+            color: colors.scalpelTeal[400],
             "& .MuiSlider-thumb": {
               borderRadius: "50%",
-              backgroundColor: colors.scalpelTeal[500],
+              backgroundColor: colors.scalpelTeal[400],
             },
             "& .MuiSlider-track": {
-              backgroundColor: colors.scalpelTeal[500],
+              backgroundColor: colors.scalpelTeal[400],
             },
             "& .MuiSlider-rail": {
               backgroundColor: "background.paper",
@@ -210,7 +210,7 @@ const CreateBot = ({ onCreated }) => {
       <Button
         variant="contained"
         sx={{
-          backgroundColor: colors.scalpelTeal[500],
+          backgroundColor: colors.scalpelTeal[400],
           color: "#fff",
           "&:hover": {
             backgroundColor: colors.scalpelTeal[700],

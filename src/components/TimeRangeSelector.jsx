@@ -28,7 +28,7 @@ const TimeRangeSelector = ({ value, onChange, colorMode }) => {
             backgroundColor:
               value === intervals
                 ? colorMode.houndGold[500]
-                : colorMode.scalpelTeal[500],
+                : colorMode.scalpelTeal[400],
             color: "background.paper",
             fontWeight: "bold",
             padding: "6px 12px",

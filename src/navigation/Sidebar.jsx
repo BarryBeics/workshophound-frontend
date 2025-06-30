@@ -15,11 +15,12 @@ import {
 import { useAuth } from "../auth/AuthContext";
 import { navItems } from "./navItems";
 import { useLocation, Link } from "react-router-dom";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 import UserAvatar from "../components/UserAvatar";
 
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { UserRole } from "../constants/userRoles.ts";
+import logo from "../assets/logo.png";
 
 const SidebarNav = () => {
   const { user } = useAuth() || {};
@@ -79,7 +80,7 @@ const SidebarNav = () => {
           alignItems="center"
         >
           <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-            <MenuOutlinedIcon sx={{ color: colors.scalpelTeal[500] }} />
+            <MenuOutlinedIcon sx={{ color: colors.scalpelTeal[400] }} />
           </IconButton>
         </Box>
 
@@ -96,10 +97,11 @@ const SidebarNav = () => {
                 firstName={user?.firstName}
                 lastName={user?.lastName}
                 size={120}
+                src={logo}
               />
             </Box>
 
-            <Typography variant="h3" color={colors.scalpelTeal[500]} mt={1}>
+            <Typography variant="h3" color={colors.scalpelTeal[400]} mt={1}>
               {userName}
             </Typography>
             <Typography variant="body2" color={colors.houndGold[500]}>
@@ -142,17 +144,17 @@ const SidebarNav = () => {
                   sx={{
                     mb: 1,
                     bgcolor: isActive
-                      ? colors.scalpelTeal?.[600]
+                      ? colors.scalpelTeal?.[400]
                       : "transparent",
                     "&:hover": {
-                      bgcolor: colors.scalpelTeal?.[400],
+                      bgcolor: colors.scalpelTeal?.[300],
                     },
                     borderRadius: 1,
                     color: colors.grey?.[100],
                   }}
                 >
                   <ListItemIcon
-                    sx={{ color: colors.scalpelTeal?.[300], minWidth: 36 }}
+                    sx={{ color: colors.scalpelTeal?.[400], minWidth: 36 }}
                   >
                     {item.icon}
                   </ListItemIcon>

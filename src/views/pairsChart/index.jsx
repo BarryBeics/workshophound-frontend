@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material/styles";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 
 import SymbolDropdown from "../../components/SymbolDropdown";
 import Header from "../../components/Header";

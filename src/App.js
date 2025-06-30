@@ -3,7 +3,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 // Theme
-import { ColorModeContext, useMode } from "./theme";
+import { ColorModeContext, useMode } from "../src/theme/index";
 
 // Navigation
 import Layout from "./navigation/Layout";

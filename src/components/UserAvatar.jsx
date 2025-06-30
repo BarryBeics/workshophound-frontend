@@ -1,6 +1,6 @@
 import { Avatar } from "@mui/material";
 
-const UserAvatar = ({ fullName = "", size = 32 }) => {
+const UserAvatar = ({ fullName = "", size = 32, src }) => {
     const [firstName = "", lastName = ""] = fullName.split(" ");
     const initials =
       firstName.charAt(0).toUpperCase() +
@@ -10,14 +10,12 @@ const UserAvatar = ({ fullName = "", size = 32 }) => {
 
     return (
       <Avatar
+      src={src}
         sx={{
           width: size,
           height: size,
-          bgcolor: color,
-          color: "#333",
-          fontWeight: "bold",
           fontSize: size / 2.5,
-          border: "2px solid white",
+           bgcolor: src ? "transparent" : "primary.main", // transparent if logo
         }}
       >
         {initials}

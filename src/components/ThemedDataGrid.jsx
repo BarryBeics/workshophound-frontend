@@ -1,6 +1,6 @@
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const ThemedDataGrid = ({
   rows,
@@ -30,7 +30,7 @@ const ThemedDataGrid = ({
         },
         "& .MuiDataGrid-footerContainer": {
           borderTop: "none",
-          backgroundColor: colors.scalpelTeal[500],
+          backgroundColor: colors.scalpelTeal[400],
         },
         ...sx,
       }}

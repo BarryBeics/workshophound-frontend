@@ -4,7 +4,7 @@ import { GraphQLClient } from "graphql-request";
 import Header from "../../components/Header";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 import { graphqlEndpoint } from "../../config";
-import { tokens } from "../../theme";
+import { tokens } from "../../theme/tokens";
 import {
   formatElapsedTime,
   formatFloat,

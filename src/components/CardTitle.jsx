@@ -1,5 +1,5 @@
 import { Typography, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 export const CardTitle = ({ children }) => {
   const theme = useTheme();
@@ -7,10 +7,9 @@ export const CardTitle = ({ children }) => {
 
   return (
     <Typography
-      color={colors.grey[100]}
+      color={colors.scalpelTeal[400]}
       variant="h5"
       fontWeight="600"
-      sx={{ padding: "25px 30px 0 30px" }}
     >
       {children}
     </Typography>

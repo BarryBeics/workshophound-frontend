@@ -16,7 +16,7 @@ import {
 } from "@mui/icons-material";
 
 // Theme
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 import { useAuth } from "../auth/AuthContext";
 import LogoutButton from "../auth/LogoutButton";

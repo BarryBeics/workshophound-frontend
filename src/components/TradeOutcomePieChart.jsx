@@ -2,7 +2,7 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { ResponsivePie } from "@nivo/pie";
-import { tokens } from "../theme";
+import { tokens } from "../theme/tokens";
 
 const TradeOutcomePieChart = ({ summary }) => {
   const theme = useTheme();
