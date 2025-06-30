@@ -19,7 +19,7 @@ const initialValues = {
   title: "",
   description: "",
   status: "inbox",
-  labels: ["Suggestions"],
+  labels: ["Suggestion"],
   assignedTo: "",
   dueDate: "",
   deferDate: "",
