@@ -3,6 +3,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import RouteIcon from '@mui/icons-material/Route';
 import CodeOffOutlinedIcon from "@mui/icons-material/CodeOffOutlined";
 
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
@@ -24,6 +25,7 @@ export const navItems = [
   { section: "Public" },
   { text: "Landing",   icon: <HomeOutlinedIcon />, path: "/",          roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "FAQ",       icon: <HelpOutlineOutlinedIcon />, path: "/faq", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "Roadmap",       icon: <RouteIcon />, path: "/roadmap", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "Join The Pack",  icon: <PersonOutlinedIcon />, path: "/joinThePack", roles: [UserRole.GUEST, UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
   /* ---------- Strategy (needs login) ---------- */
