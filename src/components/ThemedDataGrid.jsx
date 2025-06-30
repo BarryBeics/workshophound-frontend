@@ -22,8 +22,8 @@ const ThemedDataGrid = ({
         "& .MuiDataGrid-root": { border: "none" },
         "& .MuiDataGrid-cell": { borderBottom: "none" },
         "& .MuiDataGrid-columnHeaders": {
-          backgroundColor: colors.scalpelTeal[700],
-          borderBottom: "none",
+          backgroundColor: `${colors.scalpelTeal[700]} !important`,
+          
         },
         "& .MuiDataGrid-virtualScroller": {
           backgroundColor: "background.paper",
