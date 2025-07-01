@@ -96,7 +96,7 @@ const LandingPage = () => {
           Why Share It?
         </Typography>
         <Typography variant="body1">
-          A friend (ex-engineer) looked at the system and said:
+          A friend (excellent-engineer) looked at the system and said:
           <br />
           <em>
             “This isn’t a side project anymore. People would love to be part of
@@ -104,17 +104,27 @@ const LandingPage = () => {
           </em>
           <br />
           <br />
-          And that hit me. There’s no shortage of gurus and noisy Discords.
+          And that hit me. There’s no shortage of gurus making grand claim and noisy Discords.
           <br />
           But what if you had front-row seats to something real? A project you
           could nudge. A builder you could root for?
           <br />
-          <br />I love this saying{" "}
+          <br />I love this Welsh saying{" "}
           <strong>
             “Gorau Chwarae Cyd Chwarae” — best played when played together.
           </strong>
           <br />
           That’s what I want this to be.
+          <em>
+            I need the input of independent traders who want to shape the features
+            of Scalpel Hound.
+            <br /> 
+            I dont need to have endless nuanced discussions with fellow developers about
+            the best tech stack or the latest framework. <br />
+            (we can get really boring with that stuff and end up chasing our own tails)
+          </em>
+          <br />
+          <br />
         </Typography>
       </Section>
 
@@ -139,17 +149,13 @@ const LandingPage = () => {
             <ListItemText primary="Real-time data from live crypto markets" />
           </ListItem>
           <ListItem disableGutters dense>
-            <ListItemText primary="Transparent logs, code updates, and GitHub streaks" />
+            <ListItemText primary="Made up of transparent logs, code updates, and GitHub streaks" />
           </ListItem>
           <ListItem disableGutters dense>
-            <ListItemText primary="A pack of like-minded traders who shape what comes next" />
+            <ListItemText primary="A pack of like-minded traders who shape what could be" />
           </ListItem>
         </List>
 
-        <Typography variant="body1" mt={2}>
-          This could be like <em>Strava for Traders</em> — chart your progress,
-          compare systems, improve together.
-        </Typography>
       </Section>
 
       <Section>
@@ -186,7 +192,7 @@ const LandingPage = () => {
           Join the Pack
         </Button>
         <Typography variant="caption" display="block" mt={2}>
-          No ads. No promises. Just progress.
+          No ads. No promises. Just progress. (Worts and all.)
         </Typography>
       </Section>
 
