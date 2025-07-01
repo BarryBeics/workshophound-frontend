@@ -25,7 +25,7 @@ const initialValues = {
   deferDate: "",
   department: "",
   duration: "",
-  projectId: "", // optional if suggestions are uncategorized
+  projectId: "Suggestions", // optional if suggestions are uncategorized
 };
 
 const SuggestionForm = ({ onSuccess }) => {

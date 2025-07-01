@@ -70,7 +70,20 @@ const Topbar = () => {
 
       {/* RIGHT */}
       <Box display="flex" alignItems="center">
-        <Tooltip title="Suggestions" color="secondary">
+      
+        <Tooltip title="Toggle theme" color="secondary">
+          <IconButton onClick={colorMode.toggleColorMode}>
+            {theme.palette.mode === "dark" ? (
+              <DarkModeOutlinedIcon />
+            ) : (
+              <LightModeOutlinedIcon />
+            )}
+          </IconButton>
+        </Tooltip>
+
+        {showPrivateIcons && (
+          <>
+          <Tooltip title="Suggestions" color="secondary">
           <Button
             variant="contained"
             color="primary"
@@ -84,19 +97,6 @@ const Topbar = () => {
           open={showSuggestionModal}
           onClose={() => setShowSuggestionModal(false)}
         />
-
-        <Tooltip title="Toggle theme" color="secondary">
-          <IconButton onClick={colorMode.toggleColorMode}>
-            {theme.palette.mode === "dark" ? (
-              <DarkModeOutlinedIcon />
-            ) : (
-              <LightModeOutlinedIcon />
-            )}
-          </IconButton>
-        </Tooltip>
-
-        {showPrivateIcons && (
-          <>
             <Tooltip title="Notifications" color="secondary">
               <IconButton>
                 <NotificationsOutlinedIcon />
