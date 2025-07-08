@@ -11,6 +11,7 @@ import { readAllStrategies } from "../../utils/strategies";
 import Header from "../../components/Header";
 import CreateBot from "../../components/CreateBot";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
+import SymbolDropdown from "../../components/SymbolDropdown";
 
 const Bots = () => {
   const [botData, setBotData] = useState([]);
@@ -25,6 +26,14 @@ const Bots = () => {
 
   const columns = [
     { field: "BotInstanceName", headerName: "Bot Name", flex: 1 },
+    { field: "Pairs", headerName: "Pairs", flex: 1.5,
+  valueGetter: (params) => {
+    console.log("ValueGetter params:", params);
+    const pairs = params?.row?.Pairs;
+    if (!Array.isArray(pairs) || pairs.length === 0) return "All";
+    return pairs.join(", ");
+  },
+},
     { field: "TakeProfitPercentage", headerName: "Take Profit %", flex: 1 },
     { field: "StopLossPercentage", headerName: "Stop Loss %", flex: 1 },
     { field: "IncrementsATR", headerName: "ATR Increments", flex: 1 },

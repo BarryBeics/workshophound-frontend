@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 
 // Third-party libraries
-import { Grid, Box, Button, Slider, Typography, MenuItem, Select, InputLabel, FormControl } from "@mui/material";
+import {
+  Grid, Box, Button, Slider, Typography, TextField
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 // Graph
@@ -14,13 +16,10 @@ import { tokens } from "../theme/tokens";
 
 // Components
 import Header from "./Header";
+import SymbolDropdown from "./SymbolDropdown"; // <== Make sure path is correct
 
 // Graph
 import { createStrategy } from "../utils/strategies";
-
-// Static data
-import namesJson from "../data/names.json";
- 
 
 const client = new GraphQLClient(graphqlEndpoint);
 
@@ -46,189 +45,144 @@ const CreateBot = ({ onCreated }) => {
     Tested: false,
     Owner: "Barry Marples",
     CreatedOn: Math.floor(Date.now() / 1000),
+    Pairs: [], // <== New field
   });
 
-  const [botNames, setBotNames] = useState([]);
-  const [options, setOptions] = useState([]);
   const [submitting, setSubmitting] = useState(false);
-  const theme = useTheme(); // Use the useTheme hook
+  const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
-  useEffect(() => {
-    const fetchBotNames = async () => {
-      try {
-        const query = `{
-          readAllStrategies {
-            BotInstanceName
-          }
-        }`;
-
-        const res = await client.request(query);
-        const usedNames = res.readAllStrategies.map((s) => s.BotInstanceName);
-
-        // All names from JSON
-        const jsonNames = namesJson.bot_names || [];
-
-        // Filter out used names
-      const availableNames = jsonNames.filter((name) => !usedNames.includes(name));
-
-      setBotNames(usedNames);
-      setOptions(availableNames);
-    } catch (err) {
-      console.error("Failed to load bot names", err);
-    }
-  };
-
-  fetchBotNames();
-}, []);
 
   const handleSliderChange = (name) => (event, newValue) => {
     setFormValues((prev) => ({ ...prev, [name]: newValue }));
   };
 
+  const handleSymbolSelect = (_, symbol) => {
+    // optional: log or update if needed
+    console.log("Symbol selected:", symbol);
+  };
+
   const handleSubmit = async () => {
     if (submitting || !formValues.BotInstanceName) return;
-  
+
     try {
       setSubmitting(true);
-      await createStrategy(formValues); 
-      onCreated?.(); 
+      await createStrategy(formValues);
+      onCreated?.();
     } catch (err) {
       console.error("Error creating bot:", err);
     } finally {
       setSubmitting(false);
     }
   };
-  
 
   return (
     <Box>
-      <Box 
-      display="flex" 
-      justifyContent="space-between" 
-      alignItems="center">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
         <Header
           title="CREATE A NEW BOT STRATEGY"
           subtitle="Choose the combination of parameters that you would like"
         />
-        
+
         <Grid container spacing={2} mt={2}>
-  {/* Bot Name Dropdown */}
-  <Grid item xs={12} sm={6} md={4}>
-    <Box
-      backgroundColor="background.paper"
-      borderRadius="5px"
-      boxShadow={1}
-      p={2}
-       minHeight="100px"
-    >
-      <FormControl sx={{ width: "250px" }}>
-        <InputLabel>Select Bot Name</InputLabel>
-        <Select
-          value={formValues.BotInstanceName}
-          onChange={(e) =>
-            setFormValues((prev) => ({
-              ...prev,
-              BotInstanceName: e.target.value,
-            }))
-          }
-          label="Bot Name"
-          sx={{
-            color: colors.scalpelTeal[400],
-            "& .MuiSvgIcon-root": {
-              color: colors.scalpelTeal[400],
-            },
-          }}
-        >
-          {options.map((name) => (
-            <MenuItem key={name} value={name}>
-              {name}
-            </MenuItem>
+          {/* Bot Name - TEXT FIELD instead of Dropdown */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Box backgroundColor="background.paper" borderRadius="5px" boxShadow={1} p={2} minHeight="100px">
+              <TextField
+                label="Bot Name"
+                fullWidth
+                value={formValues.BotInstanceName}
+                onChange={(e) =>
+                  setFormValues((prev) => ({
+                    ...prev,
+                    BotInstanceName: e.target.value,
+                  }))
+                }
+              />
+            </Box>
+          </Grid>
+
+          {/* Pairs Selector */}
+          <Grid item xs={12} sm={6} md={4}>
+            <SymbolDropdown
+              selectedSymbols={formValues.Pairs}
+              setSelectedSymbols={(pairs) =>
+                setFormValues((prev) => ({ ...prev, Pairs: pairs }))
+              }
+              onSelectSymbol={handleSymbolSelect}
+            />
+          </Grid>
+
+          {/* Sliders */}
+          {[
+            ["TakeProfitPercentage", "Take Profit %", 1, 8, 0.1],
+            ["StopLossPercentage", "Stop Loss %", -6, -1, 0.1],
+            ["IncrementsATR", "ATR Increments", 2, 10, 2],
+            ["MovingAveMomentum", "Momentum %", 0.5, 8, 0.5],
+            ["TradeDuration", "Trade Duration (mins)", 5, 60, 5],
+            ["ShortSMADuration", "Short SMA (mins)", 5, 150, 5],
+            ["LongSMADuration", "Long SMA (mins)", 5, 180, 5],
+          ].map(([field, label, min, max, step]) => (
+            <Grid item xs={12} sm={6} md={4} key={field}>
+              <Box backgroundColor="background.paper" borderRadius="5px" boxShadow={1} p={2} minHeight="100px">
+                <Typography gutterBottom>
+                  {label}: <strong>{formValues[field]}</strong>
+                </Typography>
+                <Slider
+                  value={formValues[field]}
+                  min={min}
+                  max={max}
+                  step={step}
+                  onChange={handleSliderChange(field)}
+                  valueLabelDisplay="auto"
+                  sx={{
+                    color: colors.scalpelTeal[400],
+                    "& .MuiSlider-thumb": {
+                      borderRadius: "50%",
+                      backgroundColor: colors.scalpelTeal[400],
+                    },
+                    "& .MuiSlider-track": {
+                      backgroundColor: colors.scalpelTeal[400],
+                    },
+                    "& .MuiSlider-rail": {
+                      backgroundColor: "background.paper",
+                    },
+                  }}
+                />
+              </Box>
+            </Grid>
           ))}
-        </Select>
-      </FormControl>
+
+          {/* Submit Button */}
+          <Grid item xs={12}>
+            <Box
+              backgroundColor="background.paper"
+              borderRadius="5px"
+              boxShadow={1}
+              p={2}
+              minHeight="100px"
+              display="flex"
+              justifyContent="center"
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: colors.scalpelTeal[400],
+                  color: "#fff",
+                  "&:hover": {
+                    backgroundColor: colors.scalpelTeal[700],
+                  },
+                  width: "150px",
+                }}
+                onClick={handleSubmit}
+                disabled={submitting}
+              >
+                {submitting ? "Submitting..." : "Submit"}
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </Box>
-  </Grid>
-
-  {/* Sliders */}
-  {[
-    ["TakeProfitPercentage", "Take Profit %", 1, 8, 0.1],
-    ["StopLossPercentage", "Stop Loss %", -6, -1, 0.1],
-    ["IncrementsATR", "ATR Increments", 2, 10, 2],
-    ["MovingAveMomentum", "Momentum %", 0.5, 8, 0.5],
-    ["TradeDuration", "Trade Duration (mins)", 5, 60, 5],
-    ["ShortSMADuration", "Short SMA (mins)", 5, 150, 5],
-    ["LongSMADuration", "Long SMA (mins)", 5, 180, 5],
-  ].map(([field, label, min, max, step]) => (
-    <Grid item xs={12} sm={6} md={4} key={field}>
-      <Box
-        backgroundColor="background.paper"
-        borderRadius="5px"
-        boxShadow={1}
-        p={2}
-        minHeight="100px"
-      >
-        <Typography gutterBottom>
-          {label}: <strong>{formValues[field]}</strong>
-        </Typography>
-        <Slider
-          value={formValues[field]}
-          min={min}
-          max={max}
-          step={step}
-          onChange={handleSliderChange(field)}
-          valueLabelDisplay="auto"
-          sx={{
-            color: colors.scalpelTeal[400],
-            "& .MuiSlider-thumb": {
-              borderRadius: "50%",
-              backgroundColor: colors.scalpelTeal[400],
-            },
-            "& .MuiSlider-track": {
-              backgroundColor: colors.scalpelTeal[400],
-            },
-            "& .MuiSlider-rail": {
-              backgroundColor: "background.paper",
-            },
-          }}
-        />
-      </Box>
-    </Grid>
-  ))}
-
-  {/* Submit Button */}
-  <Grid item xs={12}>
-    <Box
-      backgroundColor="background.paper"
-      borderRadius="5px"
-      boxShadow={1}
-      p={2}
-       minHeight="100px"
-      display="flex"
-      justifyContent="center"
-    >
-      <Button
-        variant="contained"
-        sx={{
-          backgroundColor: colors.scalpelTeal[400],
-          color: "#fff",
-          "&:hover": {
-            backgroundColor: colors.scalpelTeal[700],
-          },
-          width: "150px",
-        }}
-        onClick={handleSubmit}
-        disabled={submitting}
-      >
-        {submitting ? "Submitting..." : "Submit"}
-      </Button>
-    </Box>
-  </Grid>
-</Grid>
-
-      </Box>
-      </Box>
-    
   );
 };
 
