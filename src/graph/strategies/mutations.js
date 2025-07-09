@@ -23,6 +23,7 @@ export const CREATE_STRATEGY_MUTATION = gql`
     $Tested: Boolean!
     $Owner: String!
     $CreatedOn: Int!
+    $Pairs: [String!]!  # New field for pairs
   ) {
     createStrategy(
       input: {
@@ -46,6 +47,7 @@ export const CREATE_STRATEGY_MUTATION = gql`
         Tested: $Tested
         Owner: $Owner
         CreatedOn: $CreatedOn
+        Pairs: $Pairs  # Pass pairs to the mutation
       }
     ) {
       BotInstanceName
