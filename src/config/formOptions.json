@@ -27,7 +27,9 @@
     { "label": "Accounts", "value": "accounts" },
     { "label": "Admin", "value": "admin" },
     { "label": "Programing", "value": "programing" },
-    { "label": "Design", "value": "design" }
+    { "label": "Design", "value": "design" },
+    { "label": "Admin", "value": "admin" }
+
   ],
   "labelOptions": [
     { "value": "Compliance", "color": "#e8c1a0" },
@@ -41,7 +43,9 @@
     { "value":"Follow-up", "color": "#f1e15b" },
     { "value":"Internal", "color": "#e8a838" },
     { "value":"External", "color": "#61cdbb" },
-    { "value":"Suggestion", "color": "#97e3d5" }
+    { "value":"Suggestion", "color": "#97e3d5" },
+    { "label": "User Verification", "value": "user-verification" },
+    { "label": "Public Form", "value": "public-form" }
   ]
 }
 
