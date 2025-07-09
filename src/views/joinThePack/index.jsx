@@ -22,6 +22,8 @@ import { graphqlEndpoint } from "../../config";
 
 // Graph
 import { CREATE_USER_MUTATION } from "../../graph/users/mutations";
+import { CREATE_TASK_MUTATION } from "../../graph/tasks/mutations";
+import useGraphQLClient from "../../hooks/useGraphQLClient";
 
 const JoinThePack = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -29,6 +31,8 @@ const JoinThePack = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const gqlClient = useGraphQLClient();
+
 
   const handleFormSubmit = async (values, { resetForm }) => {
     const client = new GraphQLClient(graphqlEndpoint);
@@ -47,13 +51,31 @@ const JoinThePack = () => {
     };
 
     try {
-      const data = await client.request(CREATE_USER_MUTATION, { input });
-      console.log("Registration successful:", data.createUser);
-      resetForm();
-      setFormSubmitted(true);
-    } catch (error) {
-      console.error("Registration error", error);
-    }
+  const data = await client.request(CREATE_USER_MUTATION, { input });
+  console.log("Registration successful:", data.createUser);
+  resetForm();
+  setFormSubmitted(true);
+
+  // Auto-create verification task
+  const taskInput = {
+    title: `Verify user: ${input.firstName} ${input.lastName}`,
+    description: `Check and verify the legitimacy of this newly interested user submission.\n\nDetails:\nEmail: ${input.email}\nInterest: ${input.interestReason}`,
+    status: "inbox",
+    labels: ["user-verification", "public-form"],
+    department: "admin",
+    assignedTo: null, // optionally assign
+    dueDate: null,
+    deferDate: null,
+    duration: null,
+    projectId: null,
+  };
+
+  await gqlClient.request(CREATE_TASK_MUTATION, { input: taskInput });
+  console.log("Auto-verification task created");
+} catch (error) {
+  console.error("Registration or task creation error", error);
+}
+
   };
 
   return (
