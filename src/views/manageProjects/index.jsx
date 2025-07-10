@@ -25,7 +25,7 @@ const ManageProjects = () => {
 
   const fetchProjects = useCallback(async () => {
     try {
-      const data = await client.request(READ_PROJECTS_FILTER_QUERY);
+      const data = await client.request(READ_PROJECTS_FILTER_QUERY, { sop });
       const formattedProjects = data.readProjectsFilter.map((project) => ({
         ...project,
         labels: project.labels?.join(", ") || "",
