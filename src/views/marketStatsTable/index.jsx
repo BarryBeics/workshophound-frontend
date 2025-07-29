@@ -2,7 +2,10 @@
 import { useEffect, useState } from "react";
 
 // Third-party libraries
-import { Box } from "@mui/material";
+import {
+  CircularProgress,
+  Box,
+} from "@mui/material";
 
 // Graph
 import { fetchAvailableSymbols, fetchTickerStats } from "../../utils/tickerStats";
@@ -22,16 +25,26 @@ useEffect(() => {
     const symbols = await fetchAvailableSymbols(client);
     console.log("Available symbols:", symbols);
 
-    const allStats = await runWithConcurrencyLimit(symbols, 10, async (symbol) => {
+    let accumulatedStats = [];
+
+    await runWithConcurrencyLimit(symbols, 10, async (symbol) => {
       const stats = await fetchTickerStats(client, symbol, 1);
-      console.log(`Stats for ${symbol}:`, stats);
-      return stats?.[0]; // take latest entry
+      const stat = stats?.[0];
+      if (stat) {
+        accumulatedStats.push(stat);
+
+        // Flush every 5 items
+        if (accumulatedStats.length >= 5) {
+          setTickerStatsData((prev) => [...prev, ...accumulatedStats]);
+          accumulatedStats = [];
+        }
+      }
     });
 
-    const cleaned = allStats.filter(Boolean);
-    console.log("Cleaned ticker stats:", cleaned);
-
-    setTickerStatsData(cleaned);
+    // Flush any remaining
+    if (accumulatedStats.length > 0) {
+      setTickerStatsData((prev) => [...prev, ...accumulatedStats]);
+    }
   };
 
   getData();
@@ -55,11 +68,17 @@ useEffect(() => {
   return (
     <Box>
       <Header title="MARKET SNAPSHOT" subtitle="Current symbol metrics at a glance" />
-      <ThemedDataGrid
-        rows={tickerStatsData}
-        columns={columns}
-        getRowId={(row) => row.Symbol}
-      />
+      {tickerStatsData.length === 0 ? (
+  <Box display="flex" justifyContent="center" mt={4}>
+    <CircularProgress />
+  </Box>
+) : (
+  <ThemedDataGrid
+    rows={tickerStatsData}
+    columns={columns}
+    getRowId={(row) => row.Symbol}
+  />
+)}
     </Box>
   );
 };
