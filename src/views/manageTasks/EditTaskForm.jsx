@@ -8,17 +8,15 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
-import {
-  Delete as DeleteIcon,
-} from "@mui/icons-material";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { GraphQLClient } from "graphql-request";
 import formOptions from "../../config/formOptions.json";
 import { graphqlEndpoint } from "../../config";
-import { parseUKDate } from "../../utils/dateUtiles"; 
+import { parseUKDate } from "../../utils/dateUtiles";
 import { parse, isValid } from "date-fns";
 
 import Header from "../../components/Header";
@@ -27,78 +25,44 @@ import LabelSelector from "../../components/LabelSelector";
 import DateInput from "../../components/DateInput";
 
 
+import { READ_TASK_QUERY, READ_ALL_PROJECTS_QUERY } from "../../graph/tasks/queries";
+
+import { DELETE_TASK_MUTATION, UPDATE_TASK_MUTATION } from "../../graph/tasks/mutations";
+
 const client = new GraphQLClient(graphqlEndpoint);
 
-const READ_TASK_QUERY = `
-  query ReadTaskById($id: ID!) {
-    readTaskById(id: $id) {
-      id
-    title
-    description
-    status
-    labels
-    assignedTo
-    dueDate
-    deferDate
-    department
-    projectId
-    duration
-    }
-  }
-`;
-
-const UPDATE_TASK_MUTATION = `
-  mutation UpdateTask($input: UpdateTaskInput!) {
-    updateTask(input: $input) {
-      id
-    title
-    description
-    status
-    labels
-    assignedTo
-    dueDate
-    deferDate
-    department
-    projectId
-    duration
-    }
-  }
-`;
-
-const DELETE_TASK_MUTATION = `
-  mutation DeleteTask($id: ID!) {
-    deleteTask(id: $id)
-  }
-`;
 
 const EditTaskForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [initialValues, setInitialValues] = useState(null);
+  const [projects, setProjects] = useState([]);
   const location = useLocation();
   const passedProjectId = location.state?.projectId || "";
-  const redirectPath = location.state?.redirectPath || "/manageTasks"; // default fallback
-
-  console.log("Received location state:", location.state);
-  console.log("Parsed projectId from location state:", passedProjectId);
+  const redirectPath = location.state?.redirectPath || "/manageTasks";
 
   const handleDelete = async () => {
-  if (!window.confirm("Are you sure you want to delete this task?")) return;
-  try {
-    console.log("Deleting task with id:", id);
-await client.request(DELETE_TASK_MUTATION, { id: String(id) });
-    alert("Task deleted!");
-    navigate(redirectPath);
-  } catch (err) {
-    console.error("Delete failed:", err);
-    alert("Failed to delete task.");
-  }
-};
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
+    try {
+      await client.request(DELETE_TASK_MUTATION, { id: String(id) });
+      alert("Task deleted!");
+      navigate(redirectPath);
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete task.");
+    }
+  };
 
   useEffect(() => {
-    const fetchTask = async () => {
+    const fetchData = async () => {
       try {
-        const { readTaskById } = await client.request(READ_TASK_QUERY, { id });
+        const [{ readTaskById }, { readProjectsFilter }] = await Promise.all([
+        client.request(READ_TASK_QUERY, { id }),
+        client.request(READ_ALL_PROJECTS_QUERY),
+      ]);
+
+      setProjects(readProjectsFilter);
+
 
         setInitialValues({
           title: readTaskById.title || "",
@@ -106,38 +70,41 @@ await client.request(DELETE_TASK_MUTATION, { id: String(id) });
           status: readTaskById.status || "",
           labels: readTaskById.labels || [],
           assignedTo: readTaskById.assignedTo || "",
-          dueDate: readTaskById.dueDate && isValid(parse(readTaskById.dueDate, "dd-MM-yyyy", new Date()))
-          ? readTaskById.dueDate
-          : "",
-          deferDate: readTaskById.deferDate && isValid(parse(readTaskById.deferDate, "dd-MM-yyyy", new Date()))
-          ? readTaskById.deferDate
-          : "",
+          dueDate:
+            readTaskById.dueDate &&
+            isValid(parse(readTaskById.dueDate, "dd-MM-yyyy", new Date()))
+              ? readTaskById.dueDate
+              : "",
+          deferDate:
+            readTaskById.deferDate &&
+            isValid(parse(readTaskById.deferDate, "dd-MM-yyyy", new Date()))
+              ? readTaskById.deferDate
+              : "",
           department: readTaskById.department || "",
           projectId: readTaskById.projectId || "",
           duration: readTaskById.duration || "",
         });
       } catch (err) {
-        console.error("Error fetching task:", err);
+        console.error("Error fetching data:", err);
       }
     };
 
-    fetchTask();
+    fetchData();
   }, [id]);
 
   const allowedLabels = formOptions?.labelOptions.map((l) => l.value) || [];
 
-const validationSchema = yup.object().shape({
+  const validationSchema = yup.object().shape({
     title: yup.string().required("required"),
     description: yup.string(),
     status: yup.string().required("required"),
     priority: yup.string(),
     type: yup.string(),
     labels: yup
-    .array()
-    .of(yup.string().oneOf(allowedLabels, "Invalid label"))
-    .min(1, "Select at least one label")
-    .required("Select at least one label"),
-
+      .array()
+      .of(yup.string().oneOf(allowedLabels, "Invalid label"))
+      .min(1, "Select at least one label")
+      .required("Select at least one label"),
     assignedTo: yup.string(),
     dueDate: yup.string(),
     category: yup.string(),
@@ -145,7 +112,6 @@ const validationSchema = yup.object().shape({
   });
 
   const handleFormSubmit = async (values) => {
-    // Clean up values: convert empty strings to null
     const cleanedValues = { ...values };
     for (const key of Object.keys(cleanedValues)) {
       if (cleanedValues[key] === "") {
@@ -153,18 +119,20 @@ const validationSchema = yup.object().shape({
       }
     }
 
-    // Format dates if not null
-    cleanedValues.dueDate = cleanedValues.dueDate ? parseUKDate(cleanedValues.dueDate) : null;
-    cleanedValues.deferDate = cleanedValues.deferDate ? parseUKDate(cleanedValues.deferDate) : null;
+    cleanedValues.dueDate = cleanedValues.dueDate
+      ? parseUKDate(cleanedValues.dueDate)
+      : null;
+    cleanedValues.deferDate = cleanedValues.deferDate
+      ? parseUKDate(cleanedValues.deferDate)
+      : null;
     cleanedValues.id = id;
 
     try {
-      const response = await client.request(UPDATE_TASK_MUTATION, {
+      await client.request(UPDATE_TASK_MUTATION, {
         input: cleanedValues,
       });
-      console.log("Update response:", response);
       alert("Task updated!");
-      navigate(redirectPath); 
+      navigate(redirectPath);
     } catch (err) {
       console.error("Update failed:", err.response?.errors || err);
       alert("Failed to update task.");
@@ -176,7 +144,10 @@ const validationSchema = yup.object().shape({
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="EDIT TASK" subtitle={`Edit task: ${initialValues.title}`} />
+        <Header
+          title="EDIT TASK"
+          subtitle={`Edit task: ${initialValues.title}`}
+        />
         <Tooltip title="Delete">
           <Button
             variant="contained"
@@ -189,7 +160,7 @@ const validationSchema = yup.object().shape({
           </Button>
         </Tooltip>
       </Box>
-          
+
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -206,106 +177,116 @@ const validationSchema = yup.object().shape({
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Box display="grid" gap="20px" gridTemplateColumns="repeat(4, minmax(0, 1fr))">
-            <TextField
-  label="Title"
-  name="title"
-  value={values.title}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  error={!!touched.title && !!errors.title}
-  helperText={touched.title && errors.title}
-  sx={{ gridColumn: "span 4" }}
-/>
+            <Box
+              display="grid"
+              gap="20px"
+              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            >
+              <TextField
+                label="Title"
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={!!touched.title && !!errors.title}
+                helperText={touched.title && errors.title}
+                sx={{ gridColumn: "span 4" }}
+              />
 
-<TextField
-  label="Description"
-  name="description"
-  value={values.description}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  multiline
-  rows={3}
-  error={!!touched.description && !!errors.description}
-  helperText={touched.description && errors.description}
-  sx={{ gridColumn: "span 4" }}
-/>
+              <TextField
+                label="Description"
+                name="description"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                multiline
+                rows={3}
+                error={!!touched.description && !!errors.description}
+                helperText={touched.description && errors.description}
+                sx={{ gridColumn: "span 4" }}
+              />
 
-<LabelSelector
-  selectedLabels={values.labels}
-  setFieldValue={setFieldValue}
-  error={errors.labels}
-  touched={touched.labels}
-/>
+              <LabelSelector
+                selectedLabels={values.labels}
+                setFieldValue={setFieldValue}
+                error={errors.labels}
+                touched={touched.labels}
+              />
 
-<FormControl fullWidth sx={{ gridColumn: "span 2" }}>
-  <InputLabel>Status</InputLabel>
-  <Select
-    name="status"
-    value={values.status}
-    onChange={handleChange}
-    onBlur={handleBlur}
-  >
-    {formOptions.taskStatusOptions.map((opt) => (
-      <MenuItem key={opt.value} value={opt.value}>
-        {opt.label}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+              <FormControl fullWidth sx={{ gridColumn: "span 2" }}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  name="status"
+                  value={values.status}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  {formOptions.taskStatusOptions.map((opt) => (
+                    <MenuItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-
-<AdminUserSelect
+              <AdminUserSelect
                 selectedAdmin={values.assignedTo}
                 setFieldValue={setFieldValue}
               />
 
-<DateInput
-                  label="Due Date"
-                  name="dueDate"
-                  value={values.dueDate}
-                  onChange={setFieldValue}
+              <DateInput
+                label="Due Date"
+                name="dueDate"
+                value={values.dueDate}
+                onChange={setFieldValue}
+                onBlur={handleBlur}
+                setFieldValue={setFieldValue}
+                error={errors.dueDate}
+                touched={touched.dueDate}
+              />
+
+              <DateInput
+                label="Defer Until"
+                name="deferDate"
+                value={values.deferDate}
+                onChange={setFieldValue}
+                onBlur={handleBlur}
+                setFieldValue={setFieldValue}
+                error={errors.deferDate}
+                touched={touched.deferDate}
+              />
+
+              <FormControl fullWidth sx={{ gridColumn: "span 2" }}>
+                <InputLabel>Department</InputLabel>
+                <Select
+                  name="department"
+                  value={values.department}
+                  onChange={handleChange}
+                >
+                  {formOptions.departmentOptions?.map((opt) => (
+                    <MenuItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth sx={{ gridColumn: "span 2" }}>
+                <InputLabel>Project</InputLabel>
+                <Select
+                  name="projectId"
+                  value={values.projectId}
+                  onChange={handleChange}
                   onBlur={handleBlur}
-                  setFieldValue={setFieldValue}
-                  error={errors.dueDate}
-                  touched={touched.dueDate}
-                />
-
-<DateInput
-  label="Defer Until"
-  name="deferDate"
-  value={values.deferDate}
-  onChange={setFieldValue}
-  onBlur={handleBlur}
-  setFieldValue={setFieldValue}
-  error={errors.deferDate}
-  touched={touched.deferDate}
-/>
-
-
-<FormControl fullWidth sx={{ gridColumn: "span 2" }}>
-  <InputLabel>Department</InputLabel>
-  <Select
-    name="department"
-    value={values.department}
-    onChange={handleChange}
-  >
-    {formOptions.departmentOptions?.map((opt) => (
-      <MenuItem key={opt.value} value={opt.value}>
-        {opt.label}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
-
-<TextField
-  label="Project ID"
-  name="projectId"
-  value={values.projectId}
-  onChange={handleChange}
-  sx={{ gridColumn: "span 2" }}
-/>
-
+                  error={!!touched.projectId && !!errors.projectId}
+                >
+                  {projects.map((project) => (
+                    <MenuItem key={project.id} value={project.id}>
+                      {project.title}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
 
             <Box display="flex" justifyContent="flex-end" mt="20px">
