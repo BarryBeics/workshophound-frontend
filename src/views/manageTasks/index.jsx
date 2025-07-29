@@ -91,7 +91,7 @@ const ManageTasks = () => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-      <Header title="TASKS" subtitle="View and Manage Tasks" />
+      <Header title="MANAGE TASKS" subtitle="View and Manage Tasks not linked to a Project" />
       <Button
                   variant="contained"
                   color="secondary"

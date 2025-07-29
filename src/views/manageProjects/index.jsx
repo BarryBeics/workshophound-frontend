@@ -100,7 +100,7 @@ const ManageProjects = () => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-      <Header title="PROJECTS" subtitle="Manage All Projects" />
+      <Header title="MANAGE PROJECTS" subtitle="Manage All Projects" />
       <Button
             variant="contained"
             color="secondary"
