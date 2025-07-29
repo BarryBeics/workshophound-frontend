@@ -101,7 +101,7 @@ const ManageSOPs = () => {
   return (
     <Box>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-      <Header title="SOPs (Standard Operating Proceedures)" subtitle="Manage SOP these are template from which you can create instances" />
+      <Header title="MANAGE SOPs (Standard Operating Proceedures)" subtitle="Manage SOP these are template from which you can create instances" />
       <Button
           variant="contained"
           color="secondary"

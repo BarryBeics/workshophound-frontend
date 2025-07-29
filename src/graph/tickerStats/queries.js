@@ -50,21 +50,3 @@ export const READ_TICKER_STATS_BY_SYMBOL = gql`
     }
   }
 `;
-
-
-export const READ_ALL_PROJECTS_QUERY = gql`
-  query ReadProjectsFilter {
-    readProjectsFilter(filter: { sop: false }) {
-      id
-      title
-      description
-      labels
-      assignedTo
-      dueDate
-      status
-      tasks {
-        id
-      }
-    }
-  }
-`;

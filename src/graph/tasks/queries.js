@@ -43,6 +43,41 @@ export const READ_ALL_TASKS_QUERY = gql`
   }
 `;
 
+export const READ_TASK_QUERY = gql`
+  query ReadTaskById($id: ID!) {
+    readTaskById(id: $id) {
+      id
+      title
+      description
+      status
+      labels
+      assignedTo
+      dueDate
+      deferDate
+      department
+      projectId
+      duration
+    }
+  }
+`;
+
+export const READ_ALL_PROJECTS_QUERY = gql`
+  query ReadProjectsFilter {
+    readProjectsFilter(filter: { sop: false }) {
+      id
+      title
+      description
+      labels
+      assignedTo
+      dueDate
+      status
+      tasks {
+        id
+      }
+    }
+  }
+`;
+
 
 export const READ_PROJECT_QUERY = gql`
   query ReadSingleProjectById($id: ID!) {
