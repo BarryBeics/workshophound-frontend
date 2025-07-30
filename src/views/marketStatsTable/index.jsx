@@ -11,44 +11,49 @@ import {
 import { fetchAvailableSymbols, fetchTickerStats } from "../../utils/tickerStats";
 import useGraphQLClient from "../../hooks/useGraphQLClient";
 import { runWithConcurrencyLimit } from "../../utils/asyncConcurrencyLimits";
+import { LATEST_TIMESTAMP_QUERY, READ_TICKER_STATS_BY_TIMESTAMP } from "../../graph/tickerStats/queries";
 
 // Components
 import Header from "../../components/Header";
 import ThemedDataGrid from "../../components/ThemedDataGrid";
 
+
+
+
 const MarketStatsView = () => {
   const [tickerStatsData, setTickerStatsData] = useState([]);
   const client = useGraphQLClient();
 
+  useEffect(() => {
+  console.log("tickerStatsData updated:", tickerStatsData);
+}, [tickerStatsData]);
+
+
 useEffect(() => {
   const getData = async () => {
-    const symbols = await fetchAvailableSymbols(client);
-    console.log("Available symbols:", symbols);
+    const { readLatestHistoricTickerStatsTimestamp: ts } = await client.request(
+      LATEST_TIMESTAMP_QUERY
+    );
 
-    let accumulatedStats = [];
+    const { readHistoricTickerStatsAtTimestamp } = await client.request(
+      READ_TICKER_STATS_BY_TIMESTAMP,
+      { timestamp: ts }
+    );
 
-    await runWithConcurrencyLimit(symbols, 10, async (symbol) => {
-      const stats = await fetchTickerStats(client, symbol, 1);
-      const stat = stats?.[0];
-      if (stat) {
-        accumulatedStats.push(stat);
+    console.log("GraphQL response:", readHistoricTickerStatsAtTimestamp);
 
-        // Flush every 5 items
-        if (accumulatedStats.length >= 5) {
-          setTickerStatsData((prev) => [...prev, ...accumulatedStats]);
-          accumulatedStats = [];
-        }
-      }
-    });
+   // Combine all .Stats arrays from all returned entries
+const allStats = (readHistoricTickerStatsAtTimestamp || [])
+  .flatMap((entry) => entry.Stats || []);
 
-    // Flush any remaining
-    if (accumulatedStats.length > 0) {
-      setTickerStatsData((prev) => [...prev, ...accumulatedStats]);
-    }
+setTickerStatsData(allStats);
   };
 
   getData();
 }, []);
+
+
+
 
 
 

@@ -50,3 +50,23 @@ export const READ_TICKER_STATS_BY_SYMBOL = gql`
     }
   }
 `;
+
+export const READ_TICKER_STATS_BY_TIMESTAMP = gql`
+query readHistoricTickerStatsAtTimestamp($timestamp: Int!) {
+  readHistoricTickerStatsAtTimestamp(Timestamp: $timestamp) {
+    Timestamp
+    Stats {
+      Symbol
+      PriceChange
+      PriceChangePct
+      QuoteVolume
+      Volume
+      TradeCount
+      HighPrice
+      LowPrice
+      LastPrice
+      LiquidityEstimate
+    }
+  }
+  }
+`;
