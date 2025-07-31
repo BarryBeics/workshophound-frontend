@@ -50,6 +50,7 @@ import TradeOutcomes from "./views/tradeOutcomes";
 import MarketStats from "./views/marketStatsTable";
 
 import { UserRole } from "./constants/userRoles.ts";
+import { SnackbarProvider } from "./components/snackbarProvider.jsx";
 
 function App() {
   const [theme, colourMode] = useMode();
@@ -58,6 +59,7 @@ function App() {
     <ColorModeContext.Provider value={colourMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <SnackbarProvider>
         <Routes>
           {/* Topbar link */}
           <Route path="/trackMeeting" element={<ManageMeeting />} />
@@ -242,6 +244,7 @@ function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        </SnackbarProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

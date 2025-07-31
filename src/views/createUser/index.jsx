@@ -13,6 +13,7 @@ import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { UserRole } from "../../constants/userRoles.ts";
+import { useSnackbar } from "../../components/snackbarProvider.jsx"
 
 // Graph
 import { CREATE_USER_MUTATION } from "../../graph/users/mutations";
@@ -22,6 +23,7 @@ const CreateUserForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
   const client = useGraphQLClient();
+  const { setSnackbar } = useSnackbar();
 
   const handleFormSubmit = async (values, { resetForm }) => {
     try {
@@ -39,13 +41,22 @@ const CreateUserForm = () => {
       };
 
       await client.request(CREATE_USER_MUTATION, { input });
-      alert("User created successfully!");
+      setSnackbar({
+        open: true,
+        message: "User created successfully!",
+        severity: "success",
+      });
       resetForm();
       navigate("/manageUsers");
+
     } catch (err) {
       const message = err?.response?.errors?.[0]?.message || "Unexpected error";
       console.error("GraphQL Error:", err);
-      alert(`Failed to create user: ${message}`);
+      setSnackbar({
+        open: true,
+        message: `Failed to create user: ${message}`,
+        severity: "error",
+      });
     }
   };
 
