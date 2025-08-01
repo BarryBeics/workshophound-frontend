@@ -18,6 +18,7 @@ import {
   import AdminUserSelect from "../../components/AdminUserSelect";
   import LabelSelector from "../../components/LabelSelector";
   import DateInput from "../../components/DateInput";
+  import { useSnackbar } from "../../components/snackbarProvider.jsx"
   
   // Graph
   import { CREATE_PROJECT_MUTATION } from "../../graph/tasks/mutations";
@@ -29,6 +30,7 @@ import {
     const navigate = useNavigate();
     const { state } = useLocation();
     const client = useGraphQLClient();
+    const { setSnackbar } = useSnackbar();
   
     const sopValue = state?.sop ?? false;
     const name = state?.name ?? "Project";
@@ -56,12 +58,21 @@ import {
         };
   
         await client.request(CREATE_PROJECT_MUTATION, { input: formattedValues });
-        alert("Project created successfully!");
+        setSnackbar({
+        open: true,
+        message: "Project created successfully!",
+        severity: "success",
+      });
         resetForm();
         navigate(redirectPath);
       } catch (err) {
+        const message = err?.response?.errors?.[0]?.message || "Unexpected error";
         console.error("Error creating project:", err);
-        alert("Failed to create project.");
+        setSnackbar({
+        open: true,
+        message: `Failed to create project: ${message}`,
+        severity: "error",
+      });
       }
     };
   
