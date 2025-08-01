@@ -18,6 +18,7 @@ import LabelSelector from "../../components/LabelSelector";
 import DateInput from "../../components/DateInput";
 import Header from "../../components/Header";
 import AdminUserSelect from "../../components/AdminUserSelect";
+import { useSnackbar } from "../../components/snackbarProvider.jsx"
 
 // Graph
 import { CREATE_TASK_MUTATION } from "../../graph/tasks/mutations";
@@ -30,6 +31,7 @@ const CreateTaskForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const client = useGraphQLClient();
+  const { setSnackbar } = useSnackbar();
   const passedProjectId = location.state?.projectId || "";
   const redirectPath = location.state?.redirectPath || "/manageTasks"; // default fallback
 
@@ -58,12 +60,21 @@ for (const key of Object.keys(cleanedValues)) {
     console.log("Submitting task with cleaned values:", cleanedValues);
 
     await client.request(CREATE_TASK_MUTATION, { input: cleanedValues });
-    alert("Task created successfully!");
+    setSnackbar({
+        open: true,
+        message: "Task created successfully!",
+        severity: "success",
+      });
     resetForm();
     navigate(redirectPath);
   } catch (err) {
+    const message = err?.response?.errors?.[0]?.message || "Unexpected error";
     console.error("Error creating task:", err);
-    alert("Failed to create task.");
+    setSnackbar({
+        open: true,
+        message: `Failed to create task: ${message}`,
+        severity: "error",
+      });
   }
 };
 
