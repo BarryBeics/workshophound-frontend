@@ -17,17 +17,21 @@ import { tokens } from "../../theme/tokens";
 import { Formik } from "formik";
 import * as yup from "yup";
 import Header from "../../components/Header";
+import SelectAvatarModal from "../../components/SelectAvatarModal";
 import { GraphQLClient, gql } from "graphql-request";
 import { graphqlEndpoint } from "../../config";
 
 // Graph
 import { CREATE_USER_MUTATION } from "../../graph/users/mutations";
 import { CREATE_TASK_MUTATION } from "../../graph/tasks/mutations";
+import { ASSIGN_AVATAR_MUTATION } from "../../graph/avatar/mutations";
 import useGraphQLClient from "../../hooks/useGraphQLClient";
 
 const JoinThePack = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -37,26 +41,35 @@ const JoinThePack = () => {
   const handleFormSubmit = async (values, { resetForm }) => {
     const client = new GraphQLClient(graphqlEndpoint);
 
+    console.log("Form values submitted:", values);
+
     const input = {
       firstName: values.firstName,
       lastName: values.lastName,
       email: values.email,
-      password: "ballot-temp-password",
+      password: "temp-password",
       role: "INTERESTED",
       invitedBy: null,
+      avatar: values.avatar,
       interestReason: values.interestReason,
       experienceLevel: values.experienceLevel,
       twitterHandle: values.twitterHandle,
       referralSource: values.referralSource,
     };
 
-    try {
-  const data = await client.request(CREATE_USER_MUTATION, { input });
-  console.log("Registration successful:", data.createUser);
-  resetForm();
-  setFormSubmitted(true);
+    console.log("GraphQL input payload:", input);
 
-  // Auto-create verification task
+    try {
+    const response = await client.request(CREATE_USER_MUTATION, { input });
+    const createdUser = response.createUser;
+    console.log("User created:", createdUser);
+
+    await client.request(ASSIGN_AVATAR_MUTATION, {
+      email: createdUser.email,
+      filename: values.avatar,
+    });
+    console.log("Avatar assigned:", values.avatar);
+
   const taskInput = {
     title: `Verify user: ${input.firstName} ${input.lastName}`,
     description: `Check and verify the legitimacy of this newly interested user submission.\n\nDetails:\nEmail: ${input.email}\nInterest: ${input.interestReason}`,
@@ -72,6 +85,9 @@ const JoinThePack = () => {
 
   await gqlClient.request(CREATE_TASK_MUTATION, { input: taskInput });
   console.log("Auto-verification task created");
+
+    resetForm();
+    setFormSubmitted(true);
 } catch (error) {
   console.error("Registration or task creation error", error);
 }
@@ -150,29 +166,31 @@ const JoinThePack = () => {
         </Box>
       ) : (
         <Formik
-          onSubmit={handleFormSubmit}
-          initialValues={initialValues}
-          validationSchema={joinThePackSchema}
+  onSubmit={handleFormSubmit}
+  initialValues={initialValues}
+  validationSchema={joinThePackSchema}
+>
+  {({
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isSubmitting,
+    setFieldValue, // 👈 required for avatar selection
+  }) => (
+    <>
+      <form onSubmit={handleSubmit}>
+        <Box
+          display="grid"
+          gap="30px"
+          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          sx={{
+            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+          }}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <Box
-                display="grid"
-                gap="30px"
-                gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                sx={{
-                  "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                }}
-              >
-                <TextField
+          <TextField
                   fullWidth
                   variant="filled"
                   label="First Name"
@@ -267,23 +285,63 @@ const JoinThePack = () => {
                   value={values.referralSource}
                   sx={{ gridColumn: "span 4" }}
                 />
-              </Box>
+        </Box>
 
-              <Box display="flex" justifyContent="end" mt="20px">
-                <Button
-                  type="submit"
-                  color="secondary"
-                  variant="contained"
-                  disabled={isSubmitting}
-                >
-                  Get Early Access
-                </Button>
-              </Box>
-            </form>
+        {/* Avatar selection UI */}
+        <Box sx={{ gridColumn: "span 4", mt: 2 }}>
+          <Typography>Select Your Avatar</Typography>
+          <Box display="flex" alignItems="center" gap={2}>
+            {values.avatar ? (
+              <img
+                src={`/assets/avatars/${values.avatar}`}
+                alt="selected avatar"
+                width={64}
+                height={64}
+                style={{ borderRadius: "8px" }}
+              />
+            ) : (
+              <Typography color="error">No avatar selected</Typography>
+            )}
+
+            <Button variant="outlined" onClick={() => setAvatarModalOpen(true)}>
+              Choose Avatar
+            </Button>
+          </Box>
+          {touched.avatar && errors.avatar && (
+            <Typography color="error" fontSize="0.8rem">
+              {errors.avatar}
+            </Typography>
           )}
-        </Formik>
+        </Box>
+
+        <Box display="flex" justifyContent="end" mt="20px">
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            disabled={isSubmitting}
+          >
+            Get Early Access
+          </Button>
+        </Box>
+      </form>
+
+      {/* Avatar selection modal — outside form, still inside Formik */}
+      <SelectAvatarModal
+        open={avatarModalOpen}
+        onClose={() => setAvatarModalOpen(false)}
+        onSelect={(filename) => {
+          setFieldValue("avatar", filename);
+          setAvatarModalOpen(false);
+        }}
+      />
+    </>
+  )}
+</Formik>
+
       )}
     </Box>
+    
   );
 };
 
@@ -299,6 +357,7 @@ const joinThePackSchema = yup.object().shape({
     .required("Select your experience level"),
   twitterHandle: yup.string(),
   referralSource: yup.string(),
+  avatar: yup.string().required("Please choose your avatar"),
 });
 
 // Default Form Values
@@ -310,6 +369,7 @@ const initialValues = {
   experienceLevel: "",
   twitterHandle: "",
   referralSource: "",
+  avatar: "",
 };
 
 export default JoinThePack;
