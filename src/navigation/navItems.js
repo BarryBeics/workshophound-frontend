@@ -37,6 +37,7 @@ export const navItems = [
   { section: "Charts" },
   { text: "Pairs Chart", icon: <TimelineOutlinedIcon />, path: "/pairsChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "SMA Chart", icon: <MultilineChartOutlinedIcon />, path: "/smaChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
+  { text: "ATR Chart", icon: <MultilineChartOutlinedIcon />, path: "/atrChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "Avg Gain Chart", icon: <TrendingUpOutlinedIcon />, path: "/avgGainChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
   { text: "Liquidity Trend Chart", icon: <TrendingUpOutlinedIcon />, path: "/liquidityTrendChart", roles: [UserRole.INTERESTED, UserRole.MEMBER, UserRole.ADMIN], adminOnly: false },
 
