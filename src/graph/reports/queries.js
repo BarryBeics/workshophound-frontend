@@ -25,8 +25,36 @@ export const READ_TRADE_OUTCOME_REPORTS = gql`
       Volume
       ElapsedTime
       PercentageChange
-       FearGreedIndex    
+      FearGreedIndex    
       MarketStatus  
+    }
+  }
+`;
+
+
+export const READ_ATR_SYMBOLS_QUERY = gql`
+  query ReadATRSymbols {
+    readATRSymbols
+  }
+`;
+
+export const READ_ATR_TIMESTAMPS_QUERY = gql`
+  query ReadATRTimestamps($symbol: String!) {
+    readATRTimestamps(symbol: $symbol)
+  }
+`;
+
+export const READ_ATR_REPORT_BY_SYMBOL_AND_TIMESTAMP_QUERY = gql`
+  query ReadATRReportBySymbolAndTimestamp($symbol: String!, $timestamp: Int!) {
+    readATRReportBySymbolAndTimestamp(symbol: $symbol, timestamp: $timestamp) {
+      _id
+      Symbol
+      Timestamp
+      Price
+      Atr
+      UpperLimit
+      LowerLimit
+      BotInstanceName
     }
   }
 `;

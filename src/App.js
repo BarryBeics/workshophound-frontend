@@ -42,6 +42,7 @@ import ManageMeeting from "./views/manageMeeting";
 // Views - Charts
 import PairsChart from "./views/pairsChart";
 import SMAChart from "./views/smaChart";
+import ATRChart from "./views/atrChart";
 import AvgGainChart from "./views/avgGainChart";
 import LiquidityChart from "./views/liquidityTrendChart";
 
@@ -106,6 +107,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <SMAChart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/atrChart"
+              element={
+                <ProtectedRoute>
+                  <ATRChart />
                 </ProtectedRoute>
               }
             />
