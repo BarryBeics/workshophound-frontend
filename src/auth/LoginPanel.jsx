@@ -5,7 +5,7 @@ import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GraphQLClient, gql } from "graphql-request";
 import { graphqlEndpoint } from "../config";
-import logo from "../assets/logo.png";
+import logo from "../assets/logowrench.png";
 
 // Theme
 import { tokens } from "../../src/theme/tokens";

@@ -20,7 +20,7 @@ import UserAvatar from "../components/UserAvatar";
 
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { UserRole } from "../constants/userRoles.ts";
-import logo from "../assets/logo.png";
+import logo from "../assets/logowrench.png";
 
 const SidebarNav = () => {
   const { user } = useAuth() || {};
