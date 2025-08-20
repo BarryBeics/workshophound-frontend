@@ -23,8 +23,8 @@ const LandingPage = () => {
   return (
     <Box>
       <Header
-        title="SCALPEL HOUND"
-        subtitle="An indie trader's journey. Built in public. Sharpened by the Pack."
+        title="WORKSHOP HOUND"
+        subtitle="Simple job tracking for busy repair shops."
       />
 
       <Section>
@@ -33,30 +33,13 @@ const LandingPage = () => {
           gutterBottom
           sx={{ color: colors.houndGold[500] }}
         >
-          Why This Matters
+          What It Is
         </Typography>
         <Typography variant="body1" mb={3}>
-          Five years ago, I discovered crypto — and I was hooked. I read
-          everything I could. Eventually, I started trading. It was chaotic,
-          messy, and addictive.
-          <br />
-          <br />
-          That experience sparked a question that changed my path:
-          <br />
-          <em>
-            “What if I could build a bot to trade for me — logically,
-            consistently, without emotion?”
-          </em>
-          <br />
-          <br />
-          That question led me to retrain as a developer. Today, I lead the
-          backend/microservices team at a company building its own patented
-          database system.
-          <br />
-          <br />
-          And through all that, my personal trading project —{" "}
-          <strong>Scalpel Hound</strong> — has evolved from late-night
-          experiments to a consistent, public, focused mission.
+          Workshop Hound helps repair shops manage customer jobs from booking
+          to hand‑over—without clogging up bench time. Log items in, move them
+          through clear stages (<em>received → on hold → in process → complete → collected</em>),
+          and give customers a self‑serve portal for status, invoices, and payment.
         </Typography>
       </Section>
 
@@ -66,24 +49,68 @@ const LandingPage = () => {
           gutterBottom
           sx={{ color: colors.houndGold[500] }}
         >
-          The Project
+          Why Shops Use It
+        </Typography>
+        <List>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Smoother workflow: standardised statuses and simple hand‑offs" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Less interruption: customers check progress themselves" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Quicker turnarounds: techs stay on the tools, not in the inbox" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Cleaner hand‑over: invoice + pay online before collection" />
+          </ListItem>
+        </List>
+      </Section>
+
+      <Section>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ color: colors.houndGold[500] }}
+        >
+          Key Capabilities
+        </Typography>
+
+        <List>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Book‑in flow with customer + item details, photos, and notes" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Drag‑drop job board: received, on hold, in process, complete, collected" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Customer portal: live status, approvals, messaging, and history" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Invoice creation: build from parts/labour, send in one click" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Online payment: customers pay securely before pickup" />
+          </ListItem>
+          <ListItem disableGutters dense>
+            <ListItemText primary="Audit trail: timestamps for every status change and note" />
+          </ListItem>
+        </List>
+      </Section>
+
+      <Section>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{ color: colors.houndGold[500] }}
+        >
+          Separation of Concerns (Less Friction)
         </Typography>
         <Typography variant="body1">
-          Since March 2025, I've committed code every single weekend. April was
-          the tipping point — progress became daily.
-          <br />
-          <br />
-          I designed the logo. Registered the company. Drew a line in the sand:
-          this is real.
-          <br />
-          <br />
-          Scalpel Hound is no longer "my bot". It’s a journey in the open. A
-          real-time log of building a smarter trading system — and learning
-          publicly along the way.
-          <br />
-          <br />
-          I’m not promising results. I’m not selling a dream. I’m showing the
-          work.
+          Your techs fix things; the system handles updates, invoices, and payment.
+          Customers log in, see status, and pay—so hand‑over is seconds, not minutes.
+          The workshop team doesn’t need to process payments at the bench, which keeps
+          the flow efficient and focused.
         </Typography>
       </Section>
 
@@ -93,115 +120,31 @@ const LandingPage = () => {
           gutterBottom
           sx={{ color: colors.houndGold[500] }}
         >
-          Why Share It?
+          Get Started
         </Typography>
-        <Typography variant="body1">
-          A friend (excellent-engineer) looked at the system and said:
-          <br />
-          <em>
-            “This isn’t a side project anymore. People would love to be part of
-            this.”
-          </em>
-          <br />
-          <br />
-          And that hit me. There’s no shortage of gurus making grand claim and noisy Discords.
-          <br />
-          But what if you had front-row seats to something real? A project you
-          could nudge. A builder you could root for?
-          <br />
-          <br />I love this Welsh saying{" "}
-          <strong>
-            “Gorau Chwarae Cyd Chwarae” — best played when played together.
-          </strong>
-          <br />
-          That’s what I want this to be.
-          <em>
-            I need the input of independent traders who want to shape the features
-            of Scalpel Hound.
-            <br /> 
-            I dont need to have endless nuanced discussions with fellow developers about
-            the best tech stack or the latest framework. <br />
-            (we can get really boring with that stuff and end up chasing our own tails)
-          </em>
-          <br />
-          <br />
-        </Typography>
-      </Section>
-
-      <Section>
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ color: colors.houndGold[500] }}
-        >
-          What I'm Building
-        </Typography>
-
         <Typography variant="body1" mb={2}>
-          <strong>Scalpel Hound</strong> is:
+          Set up your stages, invite your team, and start moving jobs today.
+          No heavy training—just a clear board and happy customers.
         </Typography>
-
-        <List>
-          <ListItem disableGutters dense>
-            <ListItemText primary="A strategy builder and paper trading engine" />
-          </ListItem>
-          <ListItem disableGutters dense>
-            <ListItemText primary="Real-time data from live crypto markets" />
-          </ListItem>
-          <ListItem disableGutters dense>
-            <ListItemText primary="Made up of transparent logs, code updates, and GitHub streaks" />
-          </ListItem>
-          <ListItem disableGutters dense>
-            <ListItemText primary="A pack of like-minded traders who shape what could be" />
-          </ListItem>
-        </List>
-
-      </Section>
-
-      <Section>
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ color: colors.houndGold[500] }}
-        >
-          Join the Pack
-        </Typography>
-        <Typography variant="body1">
-          If this speaks to you, you’re already one of us.
-          <br />
-          <br />
-          Founding Members get:
-        </Typography>
-        <List>
-          <ListItem disableGutters dense>
-            <ListItemText primary="Early access to paper trading + strategy builder features" />
-          </ListItem>
-          <ListItem disableGutters dense>
-            <ListItemText primary="A seat in the private forum: vote on what gets built next" />
-          </ListItem>
-          <ListItem disableGutters dense>
-            <ListItemText primary="Direct updates from me — no hype, just honest progress" />
-          </ListItem>
-        </List>
         <Button
           variant="contained"
           color="secondary"
           size="large"
-          href="/joinThePack"
+          href="/signup"
         >
-          Join the Pack
+          Start Free Trial
         </Button>
         <Typography variant="caption" display="block" mt={2}>
-          No ads. No promises. Just progress. (Worts and all.)
+          Prefer a tour first? <a href="/demo">Book a 10‑minute demo</a>.
         </Typography>
       </Section>
 
       <Box mt={8} textAlign="center">
         <Typography variant="body2">
-          Barry Marples — Founder of Scalpel Hound Ltd
+          Workshop Hound — Less admin. More repair time.
         </Typography>
         <Typography variant="caption" display="block" mt={2}>
-          Information provided is not financial advice. Trading involves risk.
+          Data remains yours. Payments handled securely by integrated providers.
         </Typography>
       </Box>
     </Box>
